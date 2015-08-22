@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>Mi Carpeta Personal</title>
+        <link rel="shortcut icon" href="#{request.contextPath}/recursos/imagenes/icono.ico" />
+        <link rel="stylesheet" href="#{request.contextPath}/recursos/css/portal.css"/>
+        <script type="text/javascript" src="#{request.contextPath}/recursos/js/portal.js"/>
+    </h:head>
+    <h:body>
+        <h:form id="formulario_frm">
+            <div align="center">
+                <br/>
+                <br/>
+                <span style="font-weight: bold; font-size: 26px; font-family: 'Segoe UI', Verdana, Arial, sans-serif;">Registro</span><br/>
+                <span style="font-weight: bold; font-size: 22px; font-family: 'Segoe UI', Verdana, Arial, sans-serif;">Mi Carpeta Personal</span>
+                <br/>
+                <br/>
+                <br/>
+                <p:panel style="width: 820px;" header="Información" >
+                    <ul>
+                        <li>
+                            <div align="justify">
+                                Para registrarte debes tener el archivo de tu firma digital certificada por la
+                                Cámara de Comercio, que valide la autenticidad de tu identificación, si no tienes uno puedes registrarte en cualquier punto "Vive Digital"
+                                o en los puntos especializados "Mi Carpeta Pesonal" ubicados en los principales centros comerciales.
+                            </div>
+                        </li>
+                        <li>
+                            <div align="justify">
+                                Los datos básicos serán cargados de la registraduría mediante tu documento de identidad o de la Camara de Comercio por tu NIT
+                            </div>
+                        </li>
+                    </ul>
+                </p:panel>
+                <br/>
+                <p:panel style="width: 820px;" header="Datos Personales" >
+                    <p:panelGrid style="border: 0px;" styleClass="noborder">
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel value="Tipo de Documento"/>
+                            </p:column>
+                            <p:column>
+                                <p:selectOneMenu style="width: 200px;" value="#{loginBean.seleccion}" >
+                                    <f:selectItem itemLabel="Cedula de Ciudadania" itemValue="1"/>
+                                    <f:selectItem itemLabel="Tarjeta de Identidad" itemValue="2"/>
+                                    <f:selectItem itemLabel="NIT" itemValue="3"/>
+                                </p:selectOneMenu>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel value="Identificacion"/>
+                            </p:column>
+                            <p:column>
+                                <p:inputText value="#{loginBean.usuario}" style="width: 200px;"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel value="Contraseña"/>
+                            </p:column>
+                            <p:column>
+                                <p:password value="#{loginBean.password}" style="width: 200px;"/>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel value="Contraseña Nuevamente"/>
+                            </p:column>
+                            <p:column>
+                                <p:password value="#{loginBean.password}" style="width: 200px;"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel value="Usuario"/>
+                            </p:column>
+                            <p:column>
+                                <p:inputText value="#{loginBean.usuario}" style="width: 200px;"/>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel value="Correo Electrónico"/>
+                            </p:column>
+                            <p:column>
+                                <p:inputText value="#{loginBean.usuario}" style="width: 200px;"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel value="Telefono Fijo"/>
+                            </p:column>
+                            <p:column>
+                                <p:inputText value="#{loginBean.usuario}" style="width: 200px;"/>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel value="Celular"/>
+                            </p:column>
+                            <p:column>
+                                <p:inputText value="#{loginBean.usuario}" style="width: 200px;"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel value="Dirección"/>
+                            </p:column>
+                            <p:column colspan="3">
+                                <p:inputText value="#{loginBean.usuario}" style="width: 200px;"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel value="Firma Digital"/>
+                            </p:column>
+                            <p:column colspan="3">
+                                <p:fileUpload value="#{fileUploadView.file}" mode="simple"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="4" style="text-align: center;">
+                                &nbsp;
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="4" style="text-align: center;">
+                                <p:commandButton value="Guardar" onclick="abrirPagina('#{request.contextPath}/index')" type="button" ajax="false"/>
+                                <p:commandButton value="Atras" onclick="abrirPagina('#{request.contextPath}/index')" type="button" ajax="false"/>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </p:panel>
+                <br/>
+                <br/>
+            </div>
+        </h:form>
+    </h:body>
+</html>
+

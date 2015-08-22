@@ -1,0 +1,131 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="../../WEB-INF/template/#{loginBean.template}.xhtml">
+        <ui:define name="head">
+            <title>#{mailboxBean.title}</title>
+        </ui:define>
+        <ui:define name="content">
+            <h:body>
+                <div>
+                    <p:panel>
+                        <p:breadCrumb>
+                            <p:menuitem value="Atajo" url="" />
+                            <p:menuitem value="Buzón Electrónico" url=""/>
+                        </p:breadCrumb>
+                        <br/>
+                        <p:tabView>
+                            <p:tab title="Solicitudes (4)" >
+                                <h:form>
+                                    <p:dataTable var="mail" value="#{mailboxBean.mails}" paginator="true" rows="11"
+                                                 emptyMessage="No existen datos" >
+                                        <f:facet name="header">
+                                            <h:outputText value="#{mailboxBean.title}" />
+                                        </f:facet>
+                                        <p:column style="width: 30px" headerText="Leido" sortBy="from">
+                                            <p:selectBooleanCheckbox value="true" />
+                                        </p:column>
+                                        <p:column headerText="De" sortBy="from">
+                                            #{mail.from}
+                                        </p:column>
+
+                                        <p:column headerText="Asunto" sortBy="subject">
+                                            #{mail.subject}
+                                        </p:column>
+
+                                        <p:column headerText="Fecha" sortBy="date">
+                                            #{mail.date}
+                                        </p:column>
+
+                                        <p:column headerText="Adjunto">
+                                            <p:selectBooleanButton id="value1" value="#{true}" onLabel="si" offLabel="No" style="width:60px" disabled="true" />
+                                        </p:column>
+
+                                        <p:column>
+                                            <p:commandButton update=":mailViewer" icon="ui-icon-search" title="View" oncomplete="PF('editDlg').show()">
+                                                <f:setPropertyActionListener value="#{mail }" target="#{mailboxBean.mail}" />
+                                            </p:commandButton>
+                                        </p:column>
+                                    </p:dataTable>
+                                </h:form>
+                            </p:tab>
+
+                            <p:tab title="Notificaciones (4)">
+                                <h:form>
+                                    <p:dataTable var="mail" value="#{mailboxBean.mails2}" paginator="true" rows="11"
+                                                 emptyMessage="No existen datos">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{mailboxBean.title}" />
+                                        </f:facet>
+                                        <p:column style="width: 30px" headerText="Leido" sortBy="from">
+                                            <p:selectBooleanCheckbox value="true" />
+                                        </p:column>
+                                        <p:column headerText="From" sortBy="from">
+                                            #{mail.from}
+                                        </p:column>
+                                        <p:column headerText="Subject" sortBy="subject">
+                                            #{mail.subject}
+                                        </p:column>
+                                        <p:column headerText="Date" sortBy="date">
+                                            #{mail.date}
+                                        </p:column>
+                                        <p:column>
+                                            <p:commandButton update=":mailViewer" icon="ui-icon-search" title="View" oncomplete="PF('editDlg').show()">
+                                                <f:setPropertyActionListener value="#{mail }" target="#{mailboxBean.mail}" />
+                                            </p:commandButton>
+                                        </p:column>
+                                    </p:dataTable>
+                                </h:form>
+                            </p:tab>
+
+                            <p:tab title="Alertas (4)">
+                                <h:form>
+                                    <p:dataTable var="mail" value="#{mailboxBean.mails3}" paginator="true" rows="11"
+                                                 emptyMessage="No existen datos">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{mailboxBean.title}" />
+                                        </f:facet>
+                                        <p:column style="width: 30px" headerText="Leido" sortBy="from">
+                                            <p:selectBooleanCheckbox value="true" />
+                                        </p:column>
+                                        <p:column headerText="From" sortBy="from">
+                                            #{mail.from}
+                                        </p:column>
+                                        <p:column headerText="Subject" sortBy="subject">
+                                            #{mail.subject}
+                                        </p:column>
+                                        <p:column headerText="Date" sortBy="date">
+                                            #{mail.date}
+                                        </p:column>
+                                        <p:column headerText="Mensaje">
+                                            <p:commandButton update=":mailViewer" icon="ui-icon-search" title="View" oncomplete="PF('editDlg').show()">
+                                                <f:setPropertyActionListener value="#{mail}" target="#{mailboxBean.mail}" />
+                                            </p:commandButton>
+                                        </p:column>
+                                    </p:dataTable>
+                                </h:form>
+                            </p:tab>
+                        </p:tabView>
+                    </p:panel>
+                </div>
+                <div style="border: 1px;width: 25%" >
+                    <p:dialog header="#{mailboxBean.title}" appendTo="@(body)"
+                              widgetVar="editDlg" modal="true" width="450" height="180"
+                              resizable="false">
+                        <p:outputPanel id="mailViewer">
+                            <p:panel header="Mensaje" >
+                                <h:outputText value="#{mailboxBean.mail.body}"  rendered="#{not empty mailboxBean.mail}"/>
+                            </p:panel>
+                            <h:outputText value="El adjunto de correo lo puede ver en su administracion de archivos en la ruta xxx" />
+                            <p:commandButton icon="ui-icon-circle-arrow-s" label="Descargar"></p:commandButton>
+                        </p:outputPanel>
+                    </p:dialog>
+                </div>
+            </h:body>
+        </ui:define>
+    </ui:composition>
+</html>

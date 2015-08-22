@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:body>
+        <ui:composition template="../WEB-INF/template/master-page2.xhtml" >
+            <ui:define name="head">
+                <title>Busqueda de Documentos de Usuarios</title>
+            </ui:define>
+            <ui:define name="content">
+                <h:form id="form" prependId="false">
+                    <p:panel id="panel_principal" toggleOrientation="horizontal">
+                        <p:breadCrumb>
+                            <p:menuitem value="Inicio" url="" />
+                            <p:menuitem value="Entidad" url=""/>
+                            <p:menuitem value="Buscar Documentos" url=""/>
+                        </p:breadCrumb>
+                        <br/>
+                        <p:panelGrid styleClass="noborder nopadding">
+                            <p:row>
+                                <p:column style="width: 200px;" rowspan="2">
+                                    <p:panel id="panel1" style="height: 405px;">
+                                    </p:panel>
+                                </p:column>
+                                <p:column>
+                                    <p:panel id="panel2">
+                                        <table>
+                                            <tr>
+                                                <td><p:outputLabel value="Digite el Documento/NIT de la persona &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;"/></td>
+                                                <td><p:inputText readonly="true" value="#{entidadDocumentosBean.busqueda}" style="width: 200px;"/></td>
+                                                <td><p:commandButton value="Buscar Documentos" action="#"/></td>
+                                            </tr>
+                                        </table>
+                                    </p:panel>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column>
+                                    <p:panel id="panel3">
+                                        <p:panel id="panel4" header="Datos Básicos" style="width: 643px;">
+                                            <p:panelGrid>
+                                                <p:row>
+                                                    <p:column>
+                                                        <p:outputLabel value="Nombre Completo"/>
+                                                    </p:column>
+                                                    <p:column colspan="3">
+                                                        <p:inputText value="Carlos Andres Perez Rodriguez" readonly="true" style="width: 470px; background-color: #eeeeee;"/>
+                                                    </p:column>
+                                                </p:row>
+                                                <p:row>
+                                                    <p:column>
+                                                        <p:outputLabel value="Tipo de Identificación"/>
+                                                    </p:column>
+                                                    <p:column>
+                                                        <p:inputText value="Cedula de Ciudadanía" readonly="true" style="width: 180px; background-color: #eeeeee;"/>
+                                                    </p:column>
+                                                    <p:column>
+                                                        <p:outputLabel value="Identificación"/>
+                                                    </p:column>
+                                                    <p:column>
+                                                        <p:inputText value="12345657" readonly="true" style="width: 180px; background-color: #eeeeee;"/>
+                                                    </p:column>
+                                                </p:row>
+                                                <p:row>
+                                                    <p:column>
+                                                        <p:outputLabel value="Tipo de Usuario"/>
+                                                    </p:column>
+                                                    <p:column>
+                                                        <p:inputText value="Ciudadano" readonly="true" style="width: 180px; background-color: #eeeeee;"/>
+                                                    </p:column>
+                                                    <p:column>
+                                                        <p:outputLabel value="Activo"/>
+                                                    </p:column>
+                                                    <p:column>
+                                                        <p:inputText value="SI" readonly="true" style="width: 180px; background-color: #eeeeee;"/>
+                                                    </p:column>
+                                                </p:row>
+                                            </p:panelGrid>
+                                        </p:panel>
+                                        <br/>
+                                        <p:dataTable value="#{entidadDocumentosBean.documentos}" var="documento" emptyMessage="Ninguno" style="width: 650px;">
+                                            <f:facet name="header">
+                                                <h:outputText value="Documentos compartidos con la entidad" />
+                                            </f:facet>
+                                            <p:column headerText="Nombre">
+                                                <h:outputText value="#{documento.nombre}" />
+                                            </p:column>
+                                            <p:column headerText="Tipo">
+                                                <h:outputText value="#{documento.tipo}" />
+                                            </p:column>
+                                            <p:column headerText="Formato">
+                                                <h:outputText value="#{documento.formato}" />
+                                            </p:column>
+                                            <p:column headerText="Tamaño">
+                                                <h:outputText value="#{documento.size}" />
+                                            </p:column>
+                                            <p:column headerText="Acciones" style="width: 60px;">
+                                                <p:commandButton icon="ui-icon-search" action="#" title="Ver"/>
+                                                <p:commandButton icon="ui-icon-disk" action="#" title="Descargar"/>
+                                            </p:column>
+                                        </p:dataTable>
+                                    </p:panel>
+                                </p:column>
+                            </p:row>
+                        </p:panelGrid>
+                    </p:panel>
+                </h:form>
+                <h:form id="form_message" prependId="false">
+                    <p:growl id="growl" showDetail="true" />
+                    <p:messages id="messages" showDetail="true"/>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>

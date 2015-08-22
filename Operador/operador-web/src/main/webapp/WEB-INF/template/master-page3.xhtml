@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link rel="shortcut icon" href="#{request.contextPath}/recursos/imagenes/icono.ico" />
+        <link rel="stylesheet" href="#{request.contextPath}/recursos/css/portal.css"/>
+        <script type="text/javascript" href="#{request.contextPath}/recursos/js/portal.js"/>
+        <ui:insert name="head"/>
+    </h:head>
+    <h:body  rendered="#{loginBean.renderPortal}">
+        <p:layout fullPage="true" >
+
+            <p:layoutUnit position="north" resizable="false" style="border: 0px;text-align: center">
+                <ui:insert name="top">
+                    <p:panel style="padding: 0px">
+                        <h:panelGrid columns="2" style="font-size: 30px; font-weight: bold; color: #ffcc33; padding: 0px;width: 100%;">
+                            <h:panelGrid columns="2">
+                                <p:graphicImage value="/recursos/imagenes/logo.png" style="padding: 0px; margin: 0px; width: 75%;height: 75%"/>
+                                <h:outputText style="padding-left: 10px; text-align: left;">Sistema Carpeta Personal</h:outputText>
+                            </h:panelGrid>
+                            <p:panel>
+                                <h:panelGrid columns="2" style="font-size: 10px; font-family: arial;">
+                                    <h:outputText style="text-align: right;">Usuario:</h:outputText>
+                                    <h:outputText value="Ecos StatusQuo" />
+                                    <h:outputText style="text-align: right;">Rol:</h:outputText>
+                                    <h:outputText value="#{loginBean.usuario}"></h:outputText>
+                                    <h:outputText style="text-align: right;">Fecha:</h:outputText>
+                                    <h:outputText value="#{utilBean.currentTime}">
+                                        <f:convertDateTime pattern="EEEE dd 'de' MMM 'de' yyyy" />
+                                    </h:outputText>
+                                    <h:outputText style="text-align: right;">Logon Time:</h:outputText>
+                                    <h:outputText value="#{utilBean.currentTime}">
+                                        <f:convertDateTime pattern="HH:mm" />
+                                    </h:outputText>
+                                </h:panelGrid>
+                            </p:panel>
+                        </h:panelGrid>
+                    </p:panel>
+
+                </ui:insert>
+                <ui:insert name="atajo"/>
+            </p:layoutUnit>
+
+            <p:layoutUnit position="south" resizable="false" style="border: 0px;">
+                <ui:insert name="bottom">
+                    <p:panel style="text-align: center;">
+                        Powered by StatusQuo - Bogot&aacute; - Colombia - Todos los Derechos Reservados.
+                        <h:outputText value="Versión 1.0"/>
+                    </p:panel>
+                </ui:insert>
+            </p:layoutUnit>
+
+            <p:layoutUnit position="west" resizable="true" style="border: 0px;">
+                <ui:insert name="left">
+                    <h:form id="menuForm">
+                        <p:slideMenu style="width:220px">
+                            <p:menuitem icon="ui-icon-home" value="Inicio" action="/portal.jsf?faces-redirect=true" />
+                            <!--<p:menuitem icon="ui-icon-check" value="Crud" action="/crud.jsf?faces-redirect=true" />-->
+                            <p:submenu icon="ui-icon-info" label="Parametrización">
+                                <p:menuitem style="color:black" value="Entidades Prestadoras de Servicio" url="/centralizador/entidades.jsf" />
+                                <p:menuitem style="color:black" value="Documentos Principales" url="/centralizador/tiposArchivos.jsf"  />
+                            </p:submenu>
+                            <p:menuitem icon="ui-icon-person" value="Perfil" action="/perfil/configuracion-usuario.jsf?faces-redirect=true" />
+                            <p:separator />
+                            <p:menuitem icon="ui-icon-close" value="Cerrar Sesión" actionListener="#{loginBean.logoutAction}"/>
+                        </p:slideMenu>
+                    </h:form>
+                </ui:insert>
+            </p:layoutUnit>
+
+            <p:layoutUnit position="center" >
+                <ui:insert name="content"/>
+            </p:layoutUnit>
+
+        </p:layout>
+        <ui:insert name="overlay"/>
+    </h:body>
+
+</html>

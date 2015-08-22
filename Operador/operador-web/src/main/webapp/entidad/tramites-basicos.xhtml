@@ -1,0 +1,227 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:body>
+        <ui:composition template="../WEB-INF/template/master-page2.xhtml" >
+            <ui:define name="head">
+                <title>Tramites Básicos</title>
+            </ui:define>
+            <ui:define name="content">
+                <h:form id="form" prependId="false">
+                    <p:panel id="panel_principal" style="min-height: 10px;">
+                        <p:breadCrumb id="bread">
+                            <p:menuitem value="Inicio" url="#" />
+                            <p:menuitem value="Entidad" url="#"/>
+                            <p:menuitem value="Tramites Básicos" url="#"/>
+                        </p:breadCrumb>
+                        <br/>
+                        <p:panel>
+                            <p:panelGrid styleClass="noborder nopadding">
+                                <p:row>
+                                    <p:column>
+                                        <p:outputLabel value="Documento de Persona Asociada"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:outputLabel value="Estado"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:selectOneMenu>
+                                            <f:selectItem itemLabel="Pendiente de Documentos" itemValue="1"/>
+                                            <f:selectItem itemLabel="Finalizada" itemValue="2"/>
+                                        </p:selectOneMenu>
+                                    </p:column>
+                                    <p:column>
+                                        <p:outputLabel value="Tramite"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:selectOneMenu>
+                                            <f:selectItem itemLabel="---" itemValue="1"/>
+                                            <f:selectItem itemLabel="Tramite 1" itemValue="1"/>
+                                            <f:selectItem itemLabel="Tramite 2" itemValue="2"/>
+                                            <f:selectItem itemLabel="Tramite 3" itemValue="3"/>
+                                        </p:selectOneMenu>
+                                    </p:column>
+                                    <p:column>
+                                        <p:outputLabel value="Usuario Responsable"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:commandButton value="Filtrar" />
+                                    </p:column>
+                                </p:row>
+                            </p:panelGrid>
+                        </p:panel>
+                        <br/>
+                        <div id="tableDiv">
+                            <p:dataTable id="recordsDT" var="record"
+                                         value="#{entidadTramitesBean.lista}" paginator="true" rows="10"
+                                         emptyMessage="No existen datos" paginatorPosition="bottom"
+                                         selection="#{entidadTramitesBean.seleccionado}"
+                                         selectionMode="single" rowKey="#{record}"
+                                         sortBy="#{record.fecha}" sortOrder="descending">
+                                <p:ajax event="rowSelect"
+                                        listener="#{entidadTramitesBean.onRowSelect}" />
+                                <p:ajax event="rowUnselect"
+                                        listener="#{entidadTramitesBean.onRowUnselect}" />
+                                <f:facet name="header">
+                                    <h:outputText value="Tramites" />
+                                </f:facet>}
+                                <p:column headerText="Documento Persona" sortBy="#{record.documentoPersona}" styleClass="dataTableText">
+                                    <h:outputText value="#{record.documentoPersona}"/>
+                                </p:column>
+                                <p:column headerText="Nombre Persona" sortBy="#{record.nombrePersona}" styleClass="dataTableText">
+                                    <h:outputText value="#{record.nombrePersona}"/>
+                                </p:column>
+                                <p:column headerText="Tipo Tramite" sortBy="#{record.tipo}" styleClass="dataTableText" >
+                                    <h:outputText value="#{record.tipo}"/>
+                                </p:column>
+                                <p:column headerText="Estado" sortBy="#{record.estado}" styleClass="dataTableText">
+                                    <h:outputText value="#{record.estado}"/>
+                                </p:column>
+                                <p:column headerText="Fecha Inicio" sortBy="#{record.fecha}" styleClass="dataTableText">
+                                    <h:outputText value="#{record.fecha}"/>
+                                </p:column>
+                            </p:dataTable>
+                        </div>
+                        <br/>
+                        <div align="center">
+                            <p:commandButton title="Nuevo" icon="ui-icon-document" value="Nuevo Tramite"
+                                             onclick="PF('editDlg').show()" />
+                            <p:commandButton title="Ver" icon="ui-icon-pencil" value="Ver Tramite"
+                                             onclick="PF('editDlg').show()"
+                                             disabled="#{!entidadTramitesBean.selected}" />
+                            <p:commandButton type="button" title="Imprimir" value="Imprimir"
+                                             icon="ui-icon-print">
+                                <p:printer target="recordsDT" />
+                            </p:commandButton>
+                        </div>
+                        <p:confirmDialog appendTo="@(body)" header="Alerta - Confirmar operacion."
+                                         severity="alert" widgetVar="deleteCfmDlg"
+                                         closable="false"
+                                         message="Esta apunto de eliminar un registro de la tabla. ¿Confirmar operacion?">
+                            <p:commandButton value="Si"
+                                             actionListener="#{entidadTramitesBean.remove}"
+                                             onsuccess="PF('deleteCfmDlg').hide();"/>
+                            <p:commandButton value="No" onclick="PF('deleteCfmDlg').hide();"
+                                             type="button" />
+                        </p:confirmDialog>
+                    </p:panel>
+                    <p:growl id="growl" showDetail="true"/>
+                    <p:messages id="messages" showDetail="true"/>
+                    <p:dialog header="Trámite"
+                              widgetVar="editDlg"
+                              resizable="false">
+                        <table>
+                            <tr>
+                                <td><p:outputLabel value="Documento/NIT de la persona &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;"/></td>
+                                <td><p:inputText readonly="true" value="4564542"/></td>
+                                <td><p:commandButton value="Buscar Persona" action="#"/></td>
+                            </tr>
+                        </table>
+                        <br/>
+                        <p:panelGrid styleClass="noborder nopadding">
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel value="Nombre Completo"/>
+                                </p:column>
+                                <p:column colspan="3">
+                                    <p:inputText value="Carlos Andres Perez Rodriguez" readonly="true" style="width: 370px; background-color: #eeeeee;"/>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel value="Tipo de Identificación"/>
+                                </p:column>
+                                <p:column>
+                                    <p:inputText value="Cedula de Ciudadanía" readonly="true" style="width: 100px; background-color: #eeeeee;"/>
+                                </p:column>
+                                <p:column>
+                                    <p:outputLabel value="Identificación"/>
+                                </p:column>
+                                <p:column>
+                                    <p:inputText value="12345657" readonly="true" style="width: 100px;background-color: #eeeeee;"/>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel value="Tipo de Usuario"/>
+                                </p:column>
+                                <p:column>
+                                    <p:inputText value="Ciudadano" readonly="true" style="width: 100px;background-color: #eeeeee;"/>
+                                </p:column>
+                                <p:column>
+                                    <p:outputLabel value="Acceso a Documentos"/>
+                                </p:column>
+                                <p:column>
+                                    <p:inputText value="NO" readonly="true" style="width: 100px; background-color: #eeeeee;"/>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column colspan="4">
+                                    <p:outputLabel value="&nbsp;"/>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel value="Tipo Tramite"/>
+                                </p:column>
+                                <p:column>
+                                    <p:selectOneMenu>
+                                        <f:selectItem itemLabel="Tramite 1" itemValue="1"/>
+                                        <f:selectItem itemLabel="Tramite 2" itemValue="2"/>
+                                        <f:selectItem itemLabel="Tramite 3" itemValue="3"/>
+                                    </p:selectOneMenu>
+                                </p:column>
+                                <p:column>
+                                    <p:outputLabel value="Fecha"/>
+                                </p:column>
+                                <p:column>
+                                    <p:inputText value="#{utilBean.currentTime}" readonly="true" style="width: 100px; background-color: #eeeeee;">
+                                        <f:convertDateTime pattern="yyyy-MM-dd" />
+                                    </p:inputText>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column colspan="4">
+                                    <p:outputLabel value="&nbsp;"/>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column colspan="4">
+                                    <p:panel header="Documentos Requeridos">
+                                        <div align="justify">
+                                            - Cedula de Ciudadania<br/>
+                                            - RUT<br/>
+                                            - Libreta Militar<br/><br/>
+                                            Nota: Existen documentos de la persona aún no compartidos con la entidad<br/>
+                                            al guardar se enviará la solicitud de los documentos faltantes a la persona.
+                                        </div>
+                                    </p:panel>
+                                </p:column>
+                            </p:row>
+                        </p:panelGrid>
+                        <br/>
+                        <div align="center">
+                            <p:commandButton value="Guardar" icon="ui-icon-circle-check"
+                                             actionListener="#{entidadTramitesBean.save}"
+                                             update="growl messages"
+                                             oncomplete="PF('editDlg').hide();"/>
+                            <p:commandButton value="Cancelar"
+                                             icon="ui-icon-circle-close" onclick="PF('editDlg').hide();" />
+                        </div>
+                    </p:dialog>
+
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>

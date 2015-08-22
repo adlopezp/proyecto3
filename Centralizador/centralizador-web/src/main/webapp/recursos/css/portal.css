@@ -1,0 +1,51 @@
+.ui-expand { width: 100%; }
+.ui-widget,
+.ui-widget .ui-widget {
+    font-size: 12px !important;
+}
+
+.dcjq-mega-menu ul.menu li a {
+    border: 1px solid #77D5F7;
+    background: #0078AE;
+    font-weight: normal;
+    color:black;
+}
+
+tr.inactive {
+    background-image: none;
+    background-color: #CCCCCC;
+    color: #3D3D3D;
+}
+tr.amarillo {
+    background-image: none;
+    background-color: #F3F781;
+    color: #3D3D3D;
+}
+tr.rojo {
+    background-image: none;
+    background-color: #FA5858;
+    color: #3D3D3D;
+}
+
+/*
+ * Clase para que no aparezca borde en los panelGrid
+ */
+.panelGridNoBorder  {
+    border: none !important;
+}
+
+.ui-panelgrid .ui-panelgrid-cell{
+    border-width: 0px;
+}
+
+.noborder tr.ui-widget-content {
+    border: 0px;
+}
+
+.nopadding td.ui-panelgrid-cell {
+    padding: 2px 4px;
+}
+
+.paneltotal {
+    width: 100%! important;
+}

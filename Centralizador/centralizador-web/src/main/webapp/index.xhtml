@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Centralizador</title>
+        <link rel="stylesheet" href="#{request.contextPath}/recursos/css/portal.css"/>
+        <link rel="shortcut icon" href="#{request.contextPath}/recursos/imagenes/icono.ico" />
+    </h:head>
+    <h:body>
+        <h:form id="formulario_frm">
+            <div align="center">
+                <br/>
+                <br/>
+                <span style="font-weight: bold; font-size: 26px; font-family: 'Segoe UI', Verdana, Arial, sans-serif;">Centralizador</span><br/>
+                <br/>
+                <br/>
+                <h:form id="headerForm" prependId="false">
+                    <p:growl id="growl" showDetail="true" />
+                    <p:messages id="messages" showDetail="true"/>
+                </h:form>
+                <br/>
+                <br/>
+                <p:panel style="width: 520px" header="Registro" >
+                    <p:panelGrid >
+                        <p:row style="border: 0px">
+                            <p:column>
+                                <span style="font-weight: bold; font-size: 18px;">Indentificación</span><br/>
+                                <span style="font-weight: bold; font-size: 9px;">(Código Acceso/Doc. Identidad/NIT)</span>
+                            </p:column>
+                            <p:column>
+                                <p:inputText value="#{loginBean.usuario}" style="width: 200px; font-size: 20px;"/>
+                            </p:column>
+                        </p:row>
+                        <p:row style="border: 0px">
+                            <p:column>
+                                <p:outputLabel value="Contraseña" style="font-weight: bold; font-size: 18px;"/>
+                            </p:column>
+                            <p:column>
+                                <p:password value="#{loginBean.password}" style="width: 200px; font-size: 20px;" />
+                            </p:column>
+                        </p:row>
+                        <p:row style="border: 0px">
+                            <!--<p:column colspan="2" style="text-align: center;">
+                                <p:commandButton id="themeButton" value="Themes: #{loginBean.theme}" type="button" style="width:90%"/>
+                                <p:menu widgetVar="themeMenu" overlay="true"  trigger="themeButton" my="left top" at="left bottom">
+                                    <p:submenu label="Themes">
+                                        <p:menuitem value="Aristo" ajax="false"><f:setPropertyActionListener value="aristo" target="#{loginBean.theme}" /></p:menuitem>
+                                        <p:menuitem value="Black-Tie" ajax="false"><f:setPropertyActionListener value="black-tie" target="#{loginBean.theme}" /></p:menuitem>
+                                        <p:menuitem value="Blitzer" ajax="false"><f:setPropertyActionListener value="blitzer" target="#{loginBean.theme}" /></p:menuitem>
+                                        <p:menuitem value="BlueSky (RichFaces)" ajax="false"><f:setPropertyActionListener value="bluesky" target="#{loginBean.theme}" /></p:menuitem>
+                                        <p:menuitem value="Casablanca (Trinidad)" ajax="false"><f:setPropertyActionListener value="casablanca" target="#{loginBean.theme}" /></p:menuitem>
+                                        <p:menuitem value="Cupertino" ajax="false"><f:setPropertyActionListener value="cupertino" target="#{loginBean.theme}" /></p:menuitem>
+                                        <p:menuitem value="Dark-Hive" ajax="false"><f:setPropertyActionListener value="dark-hive" target="#{loginBean.theme}" /></p:menuitem>
+                                        <p:menuitem value="Dot-Luv" ajax="false"><f:setPropertyActionListener value="dot-luv" target="#{loginBean.theme}" /></p:menuitem>
+                                        <p:menuitem value="Eggplant" ajax="false"><f:setPropertyActionListener value="eggplant" target="#{loginBean.theme}" /></p:menuitem>
+                                        <p:menuitem value="Excite-Bike" ajax="false"><f:setPropertyActionListener value="excite-bike" target="#{loginBean.theme}" /></p:menuitem>
+                                        <p:menuitem value="Flick" ajax="false"><f:setPropertyActionListener value="flick" target="#{loginBean.theme}" /></p:menuitem>
+                                        <p:menuitem value="Glass-X (RichFaces)" ajax="false"><f:setPropertyActionListener value="glass-x" target="#{loginBean.theme}" /></p:menuitem>
+                                        <p:menuitem value="Hot-Sneaks" ajax="false"><f:setPropertyActionListener value="hot-sneaks" target="#{loginBean.theme}" /></p:menuitem>
+                                        <p:menuitem value="Humanity" ajax="false"><f:setPropertyActionListener value="humanity" target="#{loginBean.theme}" /></p:menuitem>
+                                        <p:menuitem value="Le-Frog" ajax="false"><f:setPropertyActionListener value="le-frog" target="#{loginBean.theme}" /></p:menuitem>
+                                        <p:menuitem value="Midnight (Wijmo)" ajax="false"><f:setPropertyActionListener value="midnight" target="#{loginBean.theme}" /></p:menuitem>
+                                        <p:menuitem value="Mint-Choc" ajax="false"><f:setPropertyActionListener value="mint-choc" target="#{loginBean.theme}" /></p:menuitem>
+                                        <p:menuitem value="Overcast" ajax="false"><f:setPropertyActionListener value="overcast" target="#{loginBean.theme}" /></p:menuitem>
+                                        <p:menuitem value="Pepper-Grinder" ajax="false"><f:setPropertyActionListener value="pepper-grinder" target="#{loginBean.theme}" /></p:menuitem>
+                                        <p:menuitem value="Redmond" ajax="false"><f:setPropertyActionListener value="redmond" target="#{loginBean.theme}" /></p:menuitem>
+                                        <p:menuitem value="Rocket (Wijmo)" ajax="false"><f:setPropertyActionListener value="rocket" target="#{loginBean.theme}" /></p:menuitem>
+                                        <p:menuitem value="Sam" ajax="false"><f:setPropertyActionListener value="sam" target="#{loginBean.theme}" /></p:menuitem>
+                                        <p:menuitem value="Smoothness" ajax="false"><f:setPropertyActionListener value="smoothness" target="#{loginBean.theme}" /></p:menuitem>
+                                        <p:menuitem value="South-Street" ajax="false"><f:setPropertyActionListener value="south-street" target="#{loginBean.theme}" /></p:menuitem>
+                                        <p:menuitem value="Start" ajax="false"><f:setPropertyActionListener value="start" target="#{loginBean.theme}" /></p:menuitem>
+                                        <p:menuitem value="Sunny" ajax="false"><f:setPropertyActionListener value="sunny" target="#{loginBean.theme}" /></p:menuitem>
+                                        <p:menuitem value="Swanky-Purse" ajax="false"><f:setPropertyActionListener value="swanky-purse" target="#{loginBean.theme}" /></p:menuitem>
+                                        <p:menuitem value="Trontastic" ajax="false"><f:setPropertyActionListener value="trontastic" target="#{loginBean.theme}" /></p:menuitem>
+                                        <p:menuitem value="UI-Lightness" ajax="false"><f:setPropertyActionListener value="ui-lightness" target="#{loginBean.theme}" /></p:menuitem>
+                                        <p:menuitem value="UI-Darkness" ajax="false"><f:setPropertyActionListener value="ui-darkness" target="#{loginBean.theme}" /></p:menuitem>
+                                        <p:menuitem value="Vader" ajax="false"><f:setPropertyActionListener value="vader" target="#{loginBean.theme}" /></p:menuitem>
+                                    </p:submenu>
+                                </p:menu>
+                            </p:column>-->
+                        </p:row>
+                        <p:row style="border: 0px">
+                            <p:column colspan="2" style="text-align: center;">
+                                <p:commandButton value="Entrar" actionListener="#{loginBean.loginAction}" update="#{p:component('messages')}" />
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </p:panel>
+            </div>
+        </h:form>
+    </h:body>
+</html>
+

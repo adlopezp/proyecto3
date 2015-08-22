@@ -1,0 +1,15 @@
+.ui-breadcrumb{
+    background: none! important;
+    border: none;
+    color: #222222;
+}
+
+.ui-breadcrumb .ui-icon{
+    background-image: url("/proyecto2/javax.faces.resource/images/ui-icons_0078ae_256x240.png.jsf?ln=primefaces-start");
+}
+
+.ui-breadcrumb .ui-menuitem-link{
+    color: #222222;
+    text-decoration: none;
+}
+
