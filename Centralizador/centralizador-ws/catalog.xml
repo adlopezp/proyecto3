@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <system systemId="file:/C:/Users/Dev/Documents/NetBeansProjects/proyecto3/Centralizador/centralizador-ws/../../../ugppproyecto2012gitr22____/src/main/resources/jaxb/bndSrvAplPlantillasHttp/ErrorTipo.xsd" uri="src/main/resources/jaxb/ErrorTipo/ErrorTipo.xsd"/>
+    <system systemId="file:/C:/Users/Dev/Documents/NetBeansProjects/proyecto3/Centralizador/centralizador-ws/../../../ugppproyecto2012gitr22____/src/main/resources/jaxb/bndSrvAplPlantillasHttp/ContextoRespuestaTipo.xsd" uri="src/main/resources/jaxb/UsuarioWS/ContextoRespuestaTipo.xsd"/>
+</catalog>

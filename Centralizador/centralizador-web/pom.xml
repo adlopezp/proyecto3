@@ -87,5 +87,13 @@
             </plugin>
         </plugins>
     </reporting>
-
+    
+    <repositories>
+        <repository>
+            <url>http://repository.primefaces.org/</url>
+            <id>primefaces</id>
+            <layout>default</layout>
+            <name>Repository for library PrimeFaces 3.4</name>
+        </repository>
+    </repositories>
 </project>

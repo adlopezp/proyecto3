@@ -11,5 +11,6 @@
         <module>centralizador-web</module>
         <module>centralizador-ejb</module>
         <module>centralizador-ws</module>
+        <module>centralizador-jar</module>
     </modules>
 </project>
