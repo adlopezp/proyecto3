@@ -14,7 +14,7 @@
         <script type="text/javascript" href="#{request.contextPath}/recursos/js/portal.js"/>
         <ui:insert name="head"/>
     </h:head>
-    <h:body rendered="#{loginBean.renderPortal}">
+    <h:body>
         <div id="wrap" style="height: 100%;">
             <div id="top">
                 <ui:insert name="top">
@@ -27,9 +27,9 @@
                             <p:panel>
                                 <h:panelGrid columns="2" style="font-size: 10px; font-family: arial;">
                                     <h:outputText style="text-align: right;">Usuario:</h:outputText>
-                                    <h:outputText value="Ecos StatusQuo" />
+                                    <h:outputText value="#{sesionBean.usuario.nombre}" />
                                     <h:outputText style="text-align: right;">Rol:</h:outputText>
-                                    <h:outputText value="#{loginBean.usuario}"></h:outputText>
+                                    <h:outputText value="#{sesionBean.usuario.tipo.nombre}"></h:outputText>
                                     <h:outputText style="text-align: right;">Fecha:</h:outputText>
                                     <h:outputText value="#{utilBean.currentTime}">
                                         <f:convertDateTime pattern="EEEE dd 'de' MMM 'de' yyyy" />
@@ -74,7 +74,7 @@
                                 </p:submenu>
                                 <!-- Para todos -->
                                 <p:menuitem icon="ui-icon-person" value="Perfil" action="/perfil/configuracion-usuario.jsf?faces-redirect=true" />
-                                <p:menuitem icon="ui-icon-close" value="Cerrar Sesión" actionListener="#{loginBean.logoutAction}" />
+                                <p:menuitem icon="ui-icon-close" value="Cerrar Sesión" actionListener="#{sesionBean.cerrarCesion}" />
                             </p:megaMenu>
                         </h:form>
                     </p:panel>

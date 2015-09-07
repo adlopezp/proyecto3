@@ -9,7 +9,7 @@ import javax.ejb.Stateless;
  */
 @Stateless
 @LocalBean
-public class DocumentoBean {
+public class DocumentoEJB {
 
     public void businessMethod() {
     }

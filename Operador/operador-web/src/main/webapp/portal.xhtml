@@ -6,13 +6,28 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:body>
-        <ui:composition template="./WEB-INF/template/#{loginBean.template}.xhtml">
+        <ui:composition template="./WEB-INF/template/master-page.xhtml">
             <ui:define name="head">
                 <title>Bienvenido</title>
             </ui:define>
             <ui:define name="content">
-                <p:outputLabel value="Acá va el dashboard"/>
-
+                <div align="center">
+                    <span style="font-weight: bold; font-size: 18px;">Bienvenido</span><br/>
+                    <span style="font-weight: bold; font-size: 22px;">Carpeta Personal</span><br/>
+                    <span style="font-weight: bold; font-size: 22px;">STATUS-QUO</span><br/>
+                    <br/>
+                    <br/>
+                    <h:panelGrid columns="2">
+                        <h:outputText value="Usuario: " style="font-weight: bold;"/>
+                        <h:outputText value="#{sesionBean.usuario.nombre}"/>
+                        <h:outputText value="Documento: " style="font-weight: bold;"/>
+                        <h:outputText value="#{sesionBean.usuario.documento}"/>
+                        <h:outputText value="Rol: " style="font-weight: bold;"/>
+                        <h:outputText value="#{sesionBean.usuario.tipo.nombre}"/>
+                    </h:panelGrid>
+                    <br/>
+                    <br/>
+                </div>
             </ui:define>
         </ui:composition>
     </h:body>
