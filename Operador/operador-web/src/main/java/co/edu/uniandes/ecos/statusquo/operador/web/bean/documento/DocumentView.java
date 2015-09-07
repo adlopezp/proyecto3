@@ -1,6 +1,7 @@
 package co.edu.uniandes.ecos.statusquo.operador.web.bean.documento;
 
 import co.edu.uniandes.ecos.statusquo.operador.ejb.DocumentoEJB;
+import co.edu.uniandes.ecos.statusquo.operador.entity.Archivo;
 import co.edu.uniandes.ecos.statusquo.operador.entity.Carpeta;
 import co.edu.uniandes.ecos.statusquo.operador.entity.Usuario;
 import co.edu.uniandes.ecos.statusquo.operador.web.bean.UtilBean;
@@ -25,6 +26,12 @@ public class DocumentView implements Serializable {
     private TreeNode root;
 
     private List<Carpeta> carpetasUsuario;
+    
+    private List<Archivo> archivosUsuario;
+    
+    private Archivo selectedDocument;
+
+    
 
     @EJB
     private DocumentoEJB documentoEJB;
@@ -41,12 +48,32 @@ public class DocumentView implements Serializable {
         return root;
     }
 
+    public Archivo getSelectedDocument() {
+        return selectedDocument;
+    }
+
+    public void setSelectedDocument(Archivo selectedDocument) {
+        this.selectedDocument = selectedDocument;
+    }
+
+    public List<Archivo> getArchivosUsuario() {
+        return archivosUsuario;
+    }
+
+    public void setArchivosUsuario(List<Archivo> archivosUsuario) {
+        this.archivosUsuario = archivosUsuario;
+    }
+
     public void onNodeSelect(NodeSelectEvent event) {
-        System.out.println("Node select");
+        Carpeta carpeta = (Carpeta) event.getTreeNode().getData();
+        archivosUsuario = carpeta.getArchivos();
+        System.out.println(carpeta.getNombre());
     }
 
     public void onRowSelect(SelectEvent event) {
         System.out.println("Row select");
     }
+    
+    
 
 }

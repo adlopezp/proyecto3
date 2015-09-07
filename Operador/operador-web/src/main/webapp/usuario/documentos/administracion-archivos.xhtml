@@ -29,16 +29,17 @@
                         <p:tree value="#{documentView.root}" var="carpeta" selectionMode="single"
                                 style="height: 400px; overflow: auto;display: block">
 
-                           <!-- <p:ajax event="select"  update=":documentTable"
-                                    listener="#{documentView.onNodeSelect}" /> -->
-
-                            <p:treeNode expandedIcon="ui-icon-folder-open"
-                                        collapsedIcon="ui-icon-folder-collapsed">
-                                <h:outputText value="#{carpeta.name}" />
+                            <p:ajax event="select"  update="documentForm"
+                                    listener="#{documentView.onNodeSelect}" />
+                           
+                           <p:treeNode>
+                                <h:outputText value="#{carpeta.nombre}" />
                             </p:treeNode>
-
-                            <p:treeNode type="document" icon="ui-icon-document">
-                                <h:outputText value="#{carpeta.name}" />
+                           
+                           
+                           
+                           <p:treeNode type="document" icon="ui-icon-document">
+                                <h:outputText value="#{carpeta.nombre}" />
                             </p:treeNode>
 
                         </p:tree>
@@ -46,8 +47,9 @@
 
                         <h:panelGrid columns="1">
                             <!-- Barra de menú -->
-                            <!--
+                           
                             <p:panel id="buttonPanel">
+                                <h:form>
                                 <p:commandButton value="Cargar archivo"
                                                  icon="fa fa-upload"
                                                  oncomplete="PF('loadDialog').show()">
@@ -80,30 +82,43 @@
                                     <ui:include src="dialogos/dialogo-descarga.xhtml" />
                                 </p:dialog>
 
-
+                                </h:form>
                             </p:panel>
-                            -->
+                            
                             
                             <!-- Tabla con detalles de archivo -->
-                            <!--
                             <p:panel>
-                                <p:dataTable id="documentTable" var="file" rowKey="#{file.id}"
-                                             value="#{documentView.currentDocuments}"
-                                             selectionMode="single" selection="#{documentView.selectedDocument}"
-                                             style="height: 335px;" paginator="true" rows="10">
-                                    <p:column headerText="Id">
-                                        <h:outputText value="#{file.id}" />
-                                    </p:column>
+                                <h:form id="documentForm" prependId="false">
+                                    <p:dataTable id="documentTable" var="file" rowKey="#{file.id}"
+                                                 value="#{documentView.archivosUsuario}"
+                                                 selectionMode="single" selection="#{documentView.selectedDocument}"
+                                                 style="height: 335px;" paginator="true" rows="10">
+                                        <p:column headerText="Id">
+                                            <h:outputText value="#{file.id}" />
+                                        </p:column>
 
-                                    <p:column headerText="Nombre de archivo">
-                                        <h:outputText value="#{file.name}" />
-                                    </p:column>
+                                        <p:column headerText="Nombre de archivo">
+                                            <h:outputText value="#{file.nombre}" />
+                                        </p:column>
+                                        
+                                        <p:column headerText="Tamaño">
+                                            <h:outputText value="#{file.sizeArchivo}" />
+                                        </p:column>
+                                        
+                                        <p:column headerText="Firmado">
+                                            <h:outputText value="#{file.firmado}" />
+                                        </p:column>
+                                        
+                                        <p:column headerText="Formato">
+                                            <h:outputText value="#{file.formato.nombre}" />
+                                        </p:column>
 
-                                    <p:ajax event="rowSelect"  update=":buttonPanel"
-                                            listener="#{documentView.onRowSelect}" />
+                                        <p:ajax event="rowSelect"  update=":buttonPanel"
+                                                listener="#{documentView.onRowSelect}" />
 
-                                </p:dataTable>
-                            </p:panel> -->
+                                    </p:dataTable>
+                                </h:form>
+                            </p:panel>
                         </h:panelGrid>
                     </h:panelGrid>
 
