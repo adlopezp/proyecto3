@@ -9,6 +9,7 @@ import java.util.List;
  * @author Zamir
  * @version 1.0
  */
+@Deprecated
 public class Document {
 	
 	public enum Type {

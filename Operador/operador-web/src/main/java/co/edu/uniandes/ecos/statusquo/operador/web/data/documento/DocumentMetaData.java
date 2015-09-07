@@ -11,6 +11,7 @@ import java.util.Map;
  * @author Zamir
  * @version 1.0
  */
+@Deprecated
 public class DocumentMetaData {
 	
 	/**

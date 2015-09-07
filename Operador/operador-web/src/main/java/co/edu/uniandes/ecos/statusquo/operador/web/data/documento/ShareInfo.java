@@ -1,6 +1,6 @@
 package co.edu.uniandes.ecos.statusquo.operador.web.data.documento;
 
-import co.edu.uniandes.ecos.statusquo.operador.web.data.documento.Document;
+
 import java.util.Date;
 
 
@@ -11,6 +11,7 @@ import java.util.Date;
  * @author Zamir
  * @version 1.0
  */
+@Deprecated
 public class ShareInfo {
 
 	/**

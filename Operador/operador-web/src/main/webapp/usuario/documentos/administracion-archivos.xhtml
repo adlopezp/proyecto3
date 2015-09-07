@@ -6,36 +6,39 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:body>
-        <ui:composition template="../../WEB-INF/template/#{loginBean.template}.xhtml">
+        <ui:composition template="../../WEB-INF/template/master-page.xhtml">
 
             <ui:define name="head">
-                <title>Bienvenido</title>
+                <title>Administración de documentos</title>
             </ui:define>
             <ui:define name="content">
                 <p:panel toggleOrientation="horizontal">
-                    <p:breadCrumb>
-                        <p:menuitem value="Atajo" url="" />
-                        <p:menuitem value="Documentos" url="" />
-                        <p:menuitem value="Administración de documentos" url="" />
-                    </p:breadCrumb>
-                    <br/>
+                    <h:form>
+                        <p:breadCrumb>
+                            <p:menuitem value="Atajo" url="" />
+                            <p:menuitem value="Documentos" url="" />
+                            <p:menuitem value="Administración de documentos" url="" />
+                        </p:breadCrumb>
+                        <br/>
+                    </h:form>
                     <!-- //TODO  Funcionalidades Pendientes<br/>
                      - Compartir documentos con entidades<br/>
                      - Compartir documentos con otros usuarios<br/> -->
                     <h:panelGrid columns="2" styleClass="panelGridNoBorder">
-                        <p:tree value="#{documentView.root}" var="doc" selectionMode="single"
+                        
+                        <p:tree value="#{documentView.root}" var="carpeta" selectionMode="single"
                                 style="height: 400px; overflow: auto;display: block">
 
-                            <p:ajax event="select"  update=":documentTable"
-                                    listener="#{documentView.onNodeSelect}" />
+                           <!-- <p:ajax event="select"  update=":documentTable"
+                                    listener="#{documentView.onNodeSelect}" /> -->
 
                             <p:treeNode expandedIcon="ui-icon-folder-open"
                                         collapsedIcon="ui-icon-folder-collapsed">
-                                <h:outputText value="#{doc.name}" />
+                                <h:outputText value="#{carpeta.name}" />
                             </p:treeNode>
 
                             <p:treeNode type="document" icon="ui-icon-document">
-                                <h:outputText value="#{doc.name}" />
+                                <h:outputText value="#{carpeta.name}" />
                             </p:treeNode>
 
                         </p:tree>
@@ -43,6 +46,7 @@
 
                         <h:panelGrid columns="1">
                             <!-- Barra de menú -->
+                            <!--
                             <p:panel id="buttonPanel">
                                 <p:commandButton value="Cargar archivo"
                                                  icon="fa fa-upload"
@@ -78,7 +82,10 @@
 
 
                             </p:panel>
+                            -->
+                            
                             <!-- Tabla con detalles de archivo -->
+                            <!--
                             <p:panel>
                                 <p:dataTable id="documentTable" var="file" rowKey="#{file.id}"
                                              value="#{documentView.currentDocuments}"
@@ -96,7 +103,7 @@
                                             listener="#{documentView.onRowSelect}" />
 
                                 </p:dataTable>
-                            </p:panel>
+                            </p:panel> -->
                         </h:panelGrid>
                     </h:panelGrid>
 

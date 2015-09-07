@@ -5,6 +5,7 @@
  */
 package co.edu.uniandes.ecos.statusquo.operador.web.bean;
 
+import co.edu.uniandes.ecos.statusquo.operador.entity.Usuario;
 import java.io.IOException;
 import java.util.Date;
 import javax.faces.application.FacesMessage;
@@ -13,6 +14,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -63,5 +65,18 @@ public class UtilBean {
     public static void printMensajeError(final String msj) {
         final FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", msj);
         FacesContext.getCurrentInstance().addMessage(null, message);
+    }
+    
+    public static Usuario getUsuarioActual(){
+        Usuario usuario = null;
+        try {
+            HttpSession sesion = (HttpSession) FacesContext.getCurrentInstance()
+                .getExternalContext().getSession(true);
+            usuario = (Usuario)sesion.getAttribute("Usuario");
+        } catch (Exception e) {
+            printMensajeError("Imposible reconocer el usuario en la sesión");
+        }
+        return usuario;
+        
     }
 }

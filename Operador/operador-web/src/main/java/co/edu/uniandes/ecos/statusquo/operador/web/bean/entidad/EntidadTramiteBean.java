@@ -19,6 +19,7 @@ import org.primefaces.event.UnselectEvent;
  *
  * @author Alvaro
  */
+@Deprecated
 @ManagedBean(name = "entidadTramitesBean")
 @ViewScoped
 public class EntidadTramiteBean {

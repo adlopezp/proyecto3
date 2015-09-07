@@ -1,66 +1,52 @@
 package co.edu.uniandes.ecos.statusquo.operador.web.bean.documento;
 
+import co.edu.uniandes.ecos.statusquo.operador.ejb.DocumentoEJB;
+import co.edu.uniandes.ecos.statusquo.operador.entity.Carpeta;
+import co.edu.uniandes.ecos.statusquo.operador.entity.Usuario;
+import co.edu.uniandes.ecos.statusquo.operador.web.bean.UtilBean;
+import co.edu.uniandes.ecos.statusquo.operador.web.util.TreeNodeHelper;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 
 import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.TreeNode;
 
-import co.edu.uniandes.ecos.statusquo.operador.web.data.documento.Document;
- 
-@ManagedBean(name="documentView")
+import java.io.Serializable;
+import javax.ejb.EJB;
+
+@ManagedBean(name = "documentView")
 @SessionScoped
-public class DocumentView {
-     
+public class DocumentView implements Serializable {
+
     private TreeNode root;
-    
-    private List<Document> currentDocuments;
-    
-    private Document selectedDocument;
-     
-    @ManagedProperty("#{documentService}")
-    private DocumentService service;
-     
+
+    private List<Carpeta> carpetasUsuario;
+
+    @EJB
+    private DocumentoEJB documentoEJB;
+
     @PostConstruct
     public void init() {
-        root = service.createDocuments();
+        Usuario usuario = UtilBean.getUsuarioActual();
+        System.out.println("login:" + usuario.getNombre());
+        carpetasUsuario = documentoEJB.traerCarpetasDeUsuario(usuario);
+        root = TreeNodeHelper.toTreeNode(carpetasUsuario);
     }
- 
-    public void setService(DocumentService service) {
-        this.service = service;
-    }
- 
+
     public TreeNode getRoot() {
         return root;
     }
-    
-	public List<Document> getCurrentDocuments() {
-		return currentDocuments;
-	}
 
-	public void setCurrentDocuments(List<Document> currentDocuments) {
-		this.currentDocuments = currentDocuments;
-	}
-	
-	public Document getSelectedDocument() {
-		return selectedDocument;
-	}
-
-	public void setSelectedDocument(Document selectedDocument) {
-		this.selectedDocument = selectedDocument;
-	}
-
-	public void onNodeSelect(NodeSelectEvent event) {
-		currentDocuments = ((Document) event.getTreeNode().getData()).getListDocuments();
+    public void onNodeSelect(NodeSelectEvent event) {
+        System.out.println("Node select");
     }
-	
-	public void onRowSelect(SelectEvent event) {
-		selectedDocument = (Document) event.getObject();
-	}
+
+    public void onRowSelect(SelectEvent event) {
+        System.out.println("Row select");
+    }
 
 }

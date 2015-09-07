@@ -10,7 +10,7 @@ import javax.persistence.criteria.CriteriaQuery;
 public abstract class AbstractDAO<T> {
 
     @PersistenceContext(unitName = "STATUSQUO-PU")
-    private EntityManager em;
+    protected EntityManager em;
 
     private final Class<T> clase;
 
