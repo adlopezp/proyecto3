@@ -2,22 +2,22 @@ package co.edu.uniandes.ecos.statusquo.operador.dao;
 
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaQuery;
 
 public abstract class AbstractDAO<T> {
 
-    private final Class<T> clase;
-    private final EntityManager em;
+    @PersistenceContext(unitName = "STATUSQUO-PU")
+    private EntityManager em;
 
-    public AbstractDAO(final Class<T> clase, final EntityManager em) {
+    private final Class<T> clase;
+
+    public AbstractDAO(final Class<T> clase) {
         this.clase = clase;
-        this.em = em;
     }
 
-    public AbstractDAO(final Class<T> clase, final EntityManagerFactory emf) {
-        this.clase = clase;
-        this.em = emf.createEntityManager();
+    public EntityManager getEntityManager() {
+        return em;
     }
 
     public void insertar(T entity) {

@@ -6,21 +6,19 @@
 package co.edu.uniandes.ecos.statusquo.operador.dao;
 
 import co.edu.uniandes.ecos.statusquo.operador.entity.Usuario;
+import javax.ejb.LocalBean;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 
 /**
  *
  * @author Alvaro
  */
+@LocalBean
+@Stateless
 public class UsuarioDAO extends AbstractDAO<Usuario> {
 
     public UsuarioDAO(Class<Usuario> clase, EntityManager em) {
-        super(clase, em);
+        super(clase);
     }
-
-    public UsuarioDAO(Class<Usuario> clase, EntityManagerFactory emf) {
-        super(clase, emf);
-    }
-
 }
