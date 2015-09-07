@@ -7,11 +7,11 @@ package co.edu.uniandes.ecos.statusquo.centralizador.persistence.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -28,38 +28,39 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Dev
  */
 @Entity
-@TableGenerator(name = "seqoperador", initialValue = 1, allocationSize = 1)
-@Table(name = "OPERADOR")
+@Table(name = "VALOR")
+@TableGenerator(name = "seqvalor", initialValue = 1, allocationSize = 1)
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Operador.findAll", query = "SELECT o FROM Operador o"),
-    @NamedQuery(name = "Operador.findById", query = "SELECT o FROM Operador o WHERE o.id = :id"),
-    @NamedQuery(name = "Operador.findByNombre", query = "SELECT o FROM Operador o WHERE o.nombre = :nombre"),
-    @NamedQuery(name = "Operador.findByDescripcion", query = "SELECT o FROM Operador o WHERE o.descripcion = :descripcion"),
-    @NamedQuery(name = "Operador.findByUrl", query = "SELECT o FROM Operador o WHERE o.url = :url")})
-public class Operador implements Serializable {
-    @OneToMany(mappedBy = "operador")
-    private List<EntidadOperador> entidadOperadorList;
+    @NamedQuery(name = "Valor.findAll", query = "SELECT v FROM Valor v"),
+    @NamedQuery(name = "Valor.findById", query = "SELECT v FROM Valor v WHERE v.id = :id"),
+    @NamedQuery(name = "Valor.findByNombre", query = "SELECT v FROM Valor v WHERE v.nombre = :nombre"),
+    @NamedQuery(name = "Valor.findByDescripcion", query = "SELECT v FROM Valor v WHERE v.descripcion = :descripcion"),
+    @NamedQuery(name = "Valor.findByTipoDato", query = "SELECT v FROM Valor v WHERE v.tipoDato = :tipoDato"),
+    @NamedQuery(name = "Valor.findByFormato", query = "SELECT v FROM Valor v WHERE v.formato = :formato")})
+public class Valor implements Serializable {
+    @OneToMany(mappedBy = "codigoValor")
+    private List<DetalleValor> detalleValorList;
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE, generator = "seqoperador")
     @Basic(optional = false)
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "seqvalor")
     @Column(name = "ID", nullable = false, precision = 0, scale = -127)
     private BigDecimal id;
-    @Column(name = "NOMBRE", length = 225)
+    @Column(name = "NOMBRE", length = 250)
     private String nombre;
-    @Column(name = "DESCRIPCION", length = 225)
+    @Column(name = "DESCRIPCION", length = 250)
     private String descripcion;
-    @Column(name = "URL", length = 20)
-    private String url;
-    @OneToMany(mappedBy = "operador", fetch = FetchType.LAZY)
-    private List<Usuario> usuarioList;
+    @Column(name = "TIPO_DATO")
+    private BigInteger tipoDato;
+    @Column(name = "FORMATO", length = 250)
+    private String formato;
 
-    public Operador() {
+    public Valor() {
     }
 
-    public Operador(BigDecimal id) {
+    public Valor(BigDecimal id) {
         this.id = id;
     }
 
@@ -87,21 +88,20 @@ public class Operador implements Serializable {
         this.descripcion = descripcion;
     }
 
-    public String getUrl() {
-        return url;
+    public BigInteger getTipoDato() {
+        return tipoDato;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setTipoDato(BigInteger tipoDato) {
+        this.tipoDato = tipoDato;
     }
 
-    @XmlTransient
-    public List<Usuario> getUsuarioList() {
-        return usuarioList;
+    public String getFormato() {
+        return formato;
     }
 
-    public void setUsuarioList(List<Usuario> usuarioList) {
-        this.usuarioList = usuarioList;
+    public void setFormato(String formato) {
+        this.formato = formato;
     }
 
     @Override
@@ -114,10 +114,10 @@ public class Operador implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Operador)) {
+        if (!(object instanceof Valor)) {
             return false;
         }
-        Operador other = (Operador) object;
+        Valor other = (Valor) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -126,16 +126,16 @@ public class Operador implements Serializable {
 
     @Override
     public String toString() {
-        return "com.ecosstatusquo.centralizador.persistence.entity.Operador[ id=" + id + " ]";
+        return "co.edu.uniandes.ecos.statusquo.centralizador.persistence.entity.Valor[ id=" + id + " ]";
     }
 
     @XmlTransient
-    public List<EntidadOperador> getEntidadOperadorList() {
-        return entidadOperadorList;
+    public List<DetalleValor> getDetalleValorList() {
+        return detalleValorList;
     }
 
-    public void setEntidadOperadorList(List<EntidadOperador> entidadOperadorList) {
-        this.entidadOperadorList = entidadOperadorList;
+    public void setDetalleValorList(List<DetalleValor> detalleValorList) {
+        this.detalleValorList = detalleValorList;
     }
     
 }
