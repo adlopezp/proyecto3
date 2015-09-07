@@ -5,7 +5,7 @@
  */
 package co.edu.uniandes.ecos.statusquo.operador.dao;
 
-import co.edu.uniandes.ecos.statusquo.operador.entity.Usuario;
+import co.edu.uniandes.ecos.statusquo.operador.entity.CarpetaPersonal;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
@@ -15,10 +15,10 @@ import javax.ejb.Stateless;
  */
 @LocalBean
 @Stateless
-public class UsuarioDAO extends AbstractDAO<Usuario> {
+public class CarpetaPersonalDAO extends AbstractDAO<CarpetaPersonal> {
 
-    public UsuarioDAO() {
-        super(Usuario.class);
+    public CarpetaPersonalDAO() {
+        super(CarpetaPersonal.class);
     }
     
 }

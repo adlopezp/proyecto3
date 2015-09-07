@@ -5,20 +5,20 @@
  */
 package co.edu.uniandes.ecos.statusquo.operador.dao;
 
-import co.edu.uniandes.ecos.statusquo.operador.entity.Usuario;
+import co.edu.uniandes.ecos.statusquo.operador.entity.Archivo;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
 /**
  *
- * @author Alvaro
+ * @author Zamir
  */
 @LocalBean
 @Stateless
-public class UsuarioDAO extends AbstractDAO<Usuario> {
-
-    public UsuarioDAO() {
-        super(Usuario.class);
+public class ArchivoDAO extends AbstractDAO<Archivo>{
+    
+    public ArchivoDAO(){
+        super(Archivo.class);
     }
     
 }
