@@ -36,6 +36,13 @@
             <artifactId>postgresql</artifactId>
             <version>9.4-1202-jdbc4</version>
         </dependency>
+        
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.4</version>
+        </dependency>
+
 
     </dependencies>
 

@@ -18,6 +18,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -35,46 +36,64 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Archivo implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
     @Id
     @Basic(optional = false)
     @Column(name = "id")
     private Long id;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
     @Column(name = "nombre")
     private String nombre;
+    
     @Basic(optional = false)
     @NotNull
     @Column(name = "size_archivo")
-    private Integer sizeArchivo;
+    private Long sizeArchivo;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
     @Column(name = "url")
     private String url;
+    
     @Basic(optional = false)
     @NotNull
     @Column(name = "firmado")
     private Boolean firmado;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "archivo")
     private List<Etiqueta> etiquetas;
+    
     @JoinColumn(name = "tipo_archivo_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private TipoArchivo tipo;
+    
     @JoinColumn(name = "formato_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private FormatoArchivo formato;
+    
     @JoinColumn(name = "estado_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private EstadoArchivo estado;
+    
     @JoinColumn(name = "carpeta_personal_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private CarpetaPersonal carpetaPersonal;
+    
     @JoinColumn(name = "carpeta_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Carpeta carpetaPadre;
-
+    
+    
+    /**
+     * Contenido en bytes
+     */
+    @Transient
+    private byte[] contenido;
+    
     public Archivo() {
     }
 
@@ -82,7 +101,7 @@ public class Archivo implements Serializable {
         this.id = id;
     }
 
-    public Archivo(Long id, String nombre, int sizeArchivo, String url, boolean firmado) {
+    public Archivo(Long id, String nombre, Long sizeArchivo, String url, boolean firmado) {
         this.id = id;
         this.nombre = nombre;
         this.sizeArchivo = sizeArchivo;
@@ -106,11 +125,11 @@ public class Archivo implements Serializable {
         this.nombre = nombre;
     }
 
-    public Integer getSizeArchivo() {
+    public Long getSizeArchivo() {
         return sizeArchivo;
     }
 
-    public void setSizeArchivo(Integer sizeArchivo) {
+    public void setSizeArchivo(Long sizeArchivo) {
         this.sizeArchivo = sizeArchivo;
     }
 
@@ -179,6 +198,14 @@ public class Archivo implements Serializable {
         this.carpetaPadre = carpetaPadre;
     }
 
+    public byte[] getContenido() {
+        return contenido;
+    }
+
+    public void setContenido(byte[] contenido) {
+        this.contenido = contenido;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;
