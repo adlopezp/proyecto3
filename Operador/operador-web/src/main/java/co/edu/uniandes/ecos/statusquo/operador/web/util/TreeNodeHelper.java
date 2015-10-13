@@ -25,14 +25,13 @@ public class TreeNodeHelper {
             TreeNode nodoCarpeta = new DefaultTreeNode(carpeta,root);
             
             if (!carpeta.getCarpetasHijas().isEmpty()) {
-                TreeNode sub = toTreeNode(carpeta.getCarpetasHijas());
-                sub.setParent(nodoCarpeta);
+                for (Carpeta hija: carpeta.getCarpetasHijas()) {
+                    TreeNode sub = new DefaultTreeNode(hija ,nodoCarpeta);
+                }
+                
             }
             
         }
-        
-        
-         
         return root;
     }
     
