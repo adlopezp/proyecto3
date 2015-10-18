@@ -19,7 +19,7 @@ public class UsuarioBean {
     @EJB
     private UsuarioFacade facade;
 
-    public void createUsuario(Usuario user) {
+    public void createUsuario(Usuario user) throws Exception {
         if (user.getId() == null) {
             facade.create(user);
         } else {

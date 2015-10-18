@@ -5,12 +5,12 @@
  */
 package co.edu.uniandes.ecos.statusquo.centralizador.ws.servicios;
 
-import co.edu.uniandes.ecos.statusquo.centralizador.ejb.UsuarioBean;
-import co.edu.uniandes.ecos.statusquo.centralizador.persistence.entity.Usuario;
+import co.edu.uniandes.ecos.statusquo.centralizador.ejb.EntidadBean;
+import co.edu.uniandes.ecos.statusquo.centralizador.persistence.entity.Entidad;
 import co.edu.uniandes.ecos.statusquo.centralizador.ws.service.respuesta.ContextoRespuestaTipo;
 import co.edu.uniandes.ecos.statusquo.centralizador.ws.servicios.common.FalloTipo;
 import co.edu.uniandes.ecos.statusquo.centralizador.ws.servicios.common.Servicio;
-import co.edu.uniandes.ecos.statusquo.centralizador.ws.servicios.usuariows.RespuestaGetDocumentoUsuarioWS;
+import co.edu.uniandes.ecos.statusquo.centralizador.ws.servicios.entidadws.RespuestaGetEntidadWS;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.jws.WebService;
@@ -21,23 +21,23 @@ import javax.jws.WebParam;
  *
  * @author Dev
  */
-@WebService(serviceName = "UsuarioSW")
+@WebService(serviceName = "EntidadSW")
 @Stateless()
-public class UsuarioSW extends Servicio {
+public class EntidadSW extends Servicio {
 
-    @EJB
-    private UsuarioBean usuarioEJB;
+@EJB
+    private EntidadBean usuarioEJB;
     
-    @WebMethod(operationName = "setUsuario")
-    public ContextoRespuestaTipo setUsuario(@WebParam(name = "usuario") Usuario user) throws FalloTipo {
+    @WebMethod(operationName = "setEntidad")
+    public ContextoRespuestaTipo setEntidad(@WebParam(name = "usuario") Entidad user) throws FalloTipo {
         ContextoRespuestaTipo resp = new ContextoRespuestaTipo();
         try {
-            usuarioEJB.createUsuario(user);
+            usuarioEJB.createEntidad(user);
             //resp.getRespuestaEstandar().setIdTx(null); TODO agregar id del modulo de seguridad encargado del registro de movimientos
             resp.setCodEstadoTx("1");
             resp.setFechaTx(getFecha());
         } catch (Exception ex) {
-            controlFallo("500", "Error al crear el usuario", ex.getMessage());
+            controlFallo("500", "Error al crear el entidad", ex.getMessage());
         }
         if (!errores.isEmpty()) {
             resp.setCodEstadoTx("0");
@@ -46,16 +46,16 @@ public class UsuarioSW extends Servicio {
         return resp;
     }
 
-    @WebMethod(operationName = "getUsuario")
-    public RespuestaGetDocumentoUsuarioWS getDocumento(@WebParam(name = "identificacion") String identificacion) throws FalloTipo {
-        RespuestaGetDocumentoUsuarioWS resp = new RespuestaGetDocumentoUsuarioWS();
+    @WebMethod(operationName = "getEntidad")
+    public RespuestaGetEntidadWS getEntidad(@WebParam(name = "razonSocial") String razonSocial) throws FalloTipo {
+        RespuestaGetEntidadWS resp = new RespuestaGetEntidadWS();
         try {
-            resp.setUsuario(usuarioEJB.consultarIdentificacion(identificacion));
+            resp.setEntidad(usuarioEJB.consultarRazonSocial(razonSocial));
             //resp.getRespuestaEstandar().setIdTx(null); TODO agregar id del modulo de seguridad encargado del registro de movimientos
             resp.getRespuestaEstandar().setCodEstadoTx("1");
             resp.getRespuestaEstandar().setFechaTx(getFecha());
         } catch (Exception ex) {
-            controlFallo("500", "Error al consultar el usuario", ex.getMessage());
+            controlFallo("500", "Error al consultar el entidad", ex.getMessage());
         }
         if (!errores.isEmpty()) {
             resp.getRespuestaEstandar().setCodEstadoTx("0");
