@@ -10,8 +10,13 @@ import co.edu.uniandes.ecos.statusquo.operador.entity.EstadoCarpeta;
 import co.edu.uniandes.ecos.statusquo.operador.entity.TipoCarpeta;
 import co.edu.uniandes.ecos.statusquo.operador.entity.TipoUsuario;
 import co.edu.uniandes.ecos.statusquo.operador.entity.Usuario;
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -32,6 +37,9 @@ public class UsuarioEJB {
 
     @EJB
     TipoUsuarioDAO tipoUsuarioDao;
+    
+    @EJB
+    private SeguridadEJB seguridadEJB;
 
     public Usuario auntenticar(final String codigo, final String password) {
 
@@ -134,7 +142,12 @@ public class UsuarioEJB {
         carpetaPersonal.setCarpetaList(carpetas);
         
         usuarioDao.actualizar(usuario);
-        // FIXME ZAMIR:  Crear Llave Digital
+        
+        try {
+            seguridadEJB.escribirLlaves(usuario);
+        } catch (IOException | NoSuchAlgorithmException | NoSuchProviderException ex) {
+            Logger.getLogger(UsuarioEJB.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
     }
 
