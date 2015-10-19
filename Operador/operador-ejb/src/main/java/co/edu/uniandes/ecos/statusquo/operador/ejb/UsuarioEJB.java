@@ -77,8 +77,10 @@ public class UsuarioEJB {
         String q = "Autenticacion.findByLogin";
         parametros.add(login);
         Autenticacion objeto = autenticacionDao.buscarNamedQuery(q, parametros);
-        autenticacionDao.desconectar(objeto);
-        objeto.setPassword(null);
+        if (objeto != null) {
+            autenticacionDao.desconectar(objeto);
+            objeto.setPassword(null);
+        }
         return objeto;
     }
 

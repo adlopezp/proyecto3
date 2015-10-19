@@ -127,6 +127,7 @@ public class UsuarioBean implements Serializable {
                 aut.setUsuario(usuarioSeleccionado);
                 usuarioSeleccionado.setAutenticacion(aut);
                 usuarioService.guardarAutenticacion(aut);
+                usuarioService.actualizarUsuario(usuarioSeleccionado);
             } else {
                 usuarioService.actualizarUsuario(usuarioSeleccionado);
                 Autenticacion aut = usuarioSeleccionado.getAutenticacion();
