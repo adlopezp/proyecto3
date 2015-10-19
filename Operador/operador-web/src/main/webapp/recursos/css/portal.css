@@ -49,3 +49,8 @@ tr.rojo {
 .paneltotal {
     width: 100%! important;
 }
+
+#status_dlg_modal {
+    opacity: 0;
+    background: none;
+}

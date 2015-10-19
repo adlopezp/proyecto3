@@ -6,18 +6,23 @@
 package co.edu.uniandes.ecos.statusquo.operador.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -36,64 +41,72 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Archivo implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @Basic(optional = false)
+    @SequenceGenerator(name = "seq_archivo", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_archivo")
     @Column(name = "id")
     private Long id;
-    
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
     @Column(name = "nombre")
     private String nombre;
-    
-    @Basic(optional = false)
-    @NotNull
+
+    @Basic(optional = true)
     @Column(name = "size_archivo")
     private Long sizeArchivo;
-    
+
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 50)
+    @Size(min = 1, max = 255)
     @Column(name = "url")
     private String url;
-    
-    @Basic(optional = false)
-    @NotNull
+
+    @Basic(optional = true)
     @Column(name = "firmado")
     private Boolean firmado;
-    
+
+    @Basic(optional = true)
+    @Column(name = "identificacion_propietario")
+    private String identificacionPropietario;
+
+    @Basic(optional = true)
+    @Column(name = "fecha")
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date fecha;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "archivo")
     private List<Etiqueta> etiquetas;
-    
+
     @JoinColumn(name = "tipo_archivo_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = true)
     private TipoArchivo tipo;
-    
+
     @JoinColumn(name = "formato_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = true)
     private FormatoArchivo formato;
-    
+
     @JoinColumn(name = "estado_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private EstadoArchivo estado;
-    
+
     @JoinColumn(name = "carpeta_personal_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private CarpetaPersonal carpetaPersonal;
-    
+
     @JoinColumn(name = "carpeta_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Carpeta carpetaPadre;
-    
-    
+
     /**
      * Contenido en bytes
      */
     @Transient
     private byte[] contenido;
-    
+
     public Archivo() {
     }
 
@@ -205,7 +218,27 @@ public class Archivo implements Serializable {
     public void setContenido(byte[] contenido) {
         this.contenido = contenido;
     }
-    
+
+    public String getIdentificacionPropietario() {
+        return identificacionPropietario;
+    }
+
+    public void setIdentificacionPropietario(String identificacionPropietario) {
+        this.identificacionPropietario = identificacionPropietario;
+    }
+
+    public boolean isRemoto() {
+        return identificacionPropietario != null;
+    }
+
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -226,5 +259,4 @@ public class Archivo implements Serializable {
     public String toString() {
         return "co.edu.uniandes.ecos.statusquo.operador.entity.Archivo[ id=" + id + " ]";
     }
-
 }

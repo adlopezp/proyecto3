@@ -10,7 +10,6 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <link rel="shortcut icon" href="#{request.contextPath}/recursos/imagenes/icono.ico" />
         <link rel="stylesheet" href="#{request.contextPath}/recursos/css/portal.css"/>
-        <link rel="stylesheet" href="#{request.contextPath}/recursos/css/portal1.css"/>
         <script type="text/javascript" href="#{request.contextPath}/recursos/js/portal.js"/>
         <ui:insert name="head"/>
     </h:head>
@@ -27,7 +26,7 @@
                             <p:panel>
                                 <h:panelGrid columns="2" style="font-size: 10px; font-family: arial;">
                                     <h:outputText style="text-align: right;">Usuario:</h:outputText>
-                                    <h:outputText value="#{sesionBean.usuario.nombre}" />
+                                    <h:outputText value="#{sesionBean.usuario.nombre1} #{sesionBean.usuario.nombre2} #{sesionBean.usuario.apellido1} #{sesionBean.usuario.apellido2}" />
                                     <h:outputText style="text-align: right;">Rol:</h:outputText>
                                     <h:outputText value="#{sesionBean.usuario.tipo.nombre}"></h:outputText>
                                     <h:outputText style="text-align: right;">Fecha:</h:outputText>
@@ -99,6 +98,10 @@
                 </p:panel>
             </div>
         </div>
+        <p:ajaxStatus id="status_ajax" onsuccess="PF('status_dlg').hide();"/>
+        <p:dialog id="status_dlg" widgetVar="status_dlg"  modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+            <p:graphicImage id="status_img" url="/recursos/imagenes/loading_spinner.gif" />
+        </p:dialog>
         <ui:insert name="overlay"/>
     </h:body>
 </html>

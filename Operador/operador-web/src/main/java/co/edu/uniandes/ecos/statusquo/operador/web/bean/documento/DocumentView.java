@@ -6,21 +6,18 @@ import co.edu.uniandes.ecos.statusquo.operador.entity.Carpeta;
 import co.edu.uniandes.ecos.statusquo.operador.entity.Usuario;
 import co.edu.uniandes.ecos.statusquo.operador.web.bean.UtilBean;
 import co.edu.uniandes.ecos.statusquo.operador.web.util.TreeNodeHelper;
+import java.io.Serializable;
 import java.util.List;
-
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-
+import javax.faces.context.FacesContext;
+import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.TreeNode;
-
-import java.io.Serializable;
-import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
-import org.primefaces.event.FileUploadEvent;
 
 @ManagedBean(name = "documentView")
 @SessionScoped
@@ -31,7 +28,7 @@ public class DocumentView implements Serializable {
     private List<Carpeta> carpetasUsuario;
 
     private List<Archivo> archivosUsuario;
-    
+
     private Carpeta carpetaSeleccionada;
 
     private Archivo selectedDocument;
@@ -44,7 +41,7 @@ public class DocumentView implements Serializable {
     @PostConstruct
     public void init() {
         Usuario usuario = UtilBean.getUsuarioActual();
-        System.out.println("login:" + usuario.getNombre());
+        System.out.println("login:" + usuario.getNombre1() + " " + usuario.getNombre2() + " " + usuario.getApellido1() + " " + usuario.getApellido2());
         carpetasUsuario = documentoEJB.traerCarpetasDeUsuario(usuario);
         root = TreeNodeHelper.toTreeNode(carpetasUsuario);
     }
@@ -76,13 +73,12 @@ public class DocumentView implements Serializable {
     public void setNuevoDocumento(Archivo nuevoDocumento) {
         this.nuevoDocumento = nuevoDocumento;
     }
-    
-    
-    /* Métodos basados en eventos */
 
+    /* Métodos basados en eventos */
     /**
      * Método invocado cuando se selecciona una carpeta
-     * @param event 
+     *
+     * @param event
      */
     public void onNodeSelect(NodeSelectEvent event) {
         carpetaSeleccionada = (Carpeta) event.getTreeNode().getData();
@@ -91,7 +87,8 @@ public class DocumentView implements Serializable {
 
     /**
      * Método invocado cuando se selecciona un archivo
-     * @param event 
+     *
+     * @param event
      */
     public void onRowSelect(SelectEvent event) {
         System.out.println("Row select");
@@ -99,7 +96,8 @@ public class DocumentView implements Serializable {
 
     /**
      * Método invocado para subir un archivo
-     * @param event 
+     *
+     * @param event
      */
     public void handleFileUpload(FileUploadEvent event) {
         FacesMessage message = new FacesMessage();
@@ -117,7 +115,7 @@ public class DocumentView implements Serializable {
 
             archivo.setCarpetaPadreId(carpetaSeleccionada);
             archivo.setCarpetaPersonal(carpetaSeleccionada.getCarpetaPersonal());
-            
+
             documentoEJB.crearArchivo(archivo);
 
             //Mensaje en JSF
