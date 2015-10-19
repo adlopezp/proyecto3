@@ -109,7 +109,9 @@ public class CarpetaPersonal implements Serializable {
 
     @Override
     public String toString() {
-        return "co.edu.uniandes.ecos.statusquo.operador.entity.CarpetaPersonal[ id=" + id + " ]";
+        return "CarpetaPersonal{" + "id=" + id + ", archivos=" + archivos + ", carpetas=" + carpetas + ", usuario=" + usuario + '}';
     }
+
+  
 
 }

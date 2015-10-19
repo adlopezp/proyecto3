@@ -1,13 +1,21 @@
 package co.edu.uniandes.ecos.statusquo.operador.web.bean.documento;
 
 import co.edu.uniandes.ecos.statusquo.operador.ejb.DocumentoEJB;
+import co.edu.uniandes.ecos.statusquo.operador.ejb.PropertiesEJB;
 import co.edu.uniandes.ecos.statusquo.operador.entity.Archivo;
 import co.edu.uniandes.ecos.statusquo.operador.entity.Carpeta;
+import co.edu.uniandes.ecos.statusquo.operador.entity.EstadoArchivo;
 import co.edu.uniandes.ecos.statusquo.operador.entity.Usuario;
 import co.edu.uniandes.ecos.statusquo.operador.web.bean.UtilBean;
 import co.edu.uniandes.ecos.statusquo.operador.web.util.TreeNodeHelper;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -17,6 +25,8 @@ import javax.faces.context.FacesContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.event.SelectEvent;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 import org.primefaces.model.TreeNode;
 
 @ManagedBean(name = "documentView")
@@ -32,11 +42,16 @@ public class DocumentView implements Serializable {
     private Carpeta carpetaSeleccionada;
 
     private Archivo selectedDocument;
+    
+    private StreamedContent contenidoDescarga;
 
     private Archivo nuevoDocumento;
 
     @EJB
     private DocumentoEJB documentoEJB;
+    
+    @EJB
+    private PropertiesEJB propertiesEJB;
 
     @PostConstruct
     public void init() {
@@ -74,6 +89,14 @@ public class DocumentView implements Serializable {
         this.nuevoDocumento = nuevoDocumento;
     }
 
+    public StreamedContent getContenidoDescarga() {
+        return contenidoDescarga;
+    }
+
+    public void setContenidoDescarga(StreamedContent contenidoDescarga) {
+        this.contenidoDescarga = contenidoDescarga;
+    }
+    
     /* Métodos basados en eventos */
     /**
      * Método invocado cuando se selecciona una carpeta
@@ -91,7 +114,15 @@ public class DocumentView implements Serializable {
      * @param event
      */
     public void onRowSelect(SelectEvent event) {
-        System.out.println("Row select");
+        System.out.println("archivo seleccionado");
+        try {
+            InputStream is = new FileInputStream(selectedDocument.getUrl());
+            contenidoDescarga = 
+                    new DefaultStreamedContent(is,null,selectedDocument.getNombre());
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(DocumentView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
 
     /**
@@ -102,20 +133,21 @@ public class DocumentView implements Serializable {
     public void handleFileUpload(FileUploadEvent event) {
         FacesMessage message = new FacesMessage();
         try {
+            Usuario usuario = UtilBean.getUsuarioActual();
+            EstadoArchivo estado = new EstadoArchivo(1L); //Activo
+            
             Archivo archivo = new Archivo();
-            archivo.setCarpetaPadreId(null); //Poner la carpeta seleccionada
-            archivo.setCarpetaPersonal(null);//Poner la carpeta del usuario actual
-            archivo.setEstadoId(null);//Poner el estado
-            archivo.setEtiquetas(null); //Poner etiquetas
-            archivo.setFirmado(false); //Originalemente no está firmado
-            archivo.setFormato(null); //Poner el formato
             archivo.setNombre(event.getFile().getFileName());
             archivo.setSizeArchivo(event.getFile().getSize());
-            archivo.setContenido(event.getFile().getContents());
-
+            String url = propertiesEJB.getProperty("almacenamiento.ruta")
+                    + "/" + usuario.getDocumento() 
+                    + "/" +archivo.getNombre();
+            archivo.setUrl(url);
+            archivo.setEstadoId(estado);
             archivo.setCarpetaPadreId(carpetaSeleccionada);
-            archivo.setCarpetaPersonal(carpetaSeleccionada.getCarpetaPersonal());
-
+            archivo.setCarpetaPersonal(usuario.getCarpetaPersonal());
+            archivo.setContenido(event.getFile().getContents());
+            
             documentoEJB.crearArchivo(archivo);
 
             //Mensaje en JSF
