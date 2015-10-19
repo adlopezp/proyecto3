@@ -6,6 +6,7 @@
 package co.edu.uniandes.ecos.statusquo.operador.web.bean;
 
 import co.edu.uniandes.ecos.statusquo.operador.entity.Usuario;
+import co.edu.uniandes.ecos.statusquo.operador.util.DatosConstantes;
 import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -28,14 +29,24 @@ public class SesionBean implements Serializable {
     }
 
     public void cerrarCesion() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
-        session.removeAttribute("sesionBean");
-        session.removeAttribute("Usuario");
-        UtilBean.redirect("index.jsf");
+        LoginBean.limpiarSesion();
+        UtilBean.redirectLogin();
     }
 
     public Usuario getUsuario() {
         return usuario;
+    }
+
+    public boolean isAdministrador() {
+        return usuario.getTipo().getNombre().equals(DatosConstantes.ADMINISTRADOR);
+    }
+
+    public static SesionBean getInstanciaActual() {
+        HttpSession sesion = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        SesionBean bean = null;
+        if (sesion != null) {
+            bean = (SesionBean) sesion.getAttribute("sesionBean");
+        }
+        return bean;
     }
 }

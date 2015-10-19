@@ -1,0 +1,169 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>Mi Carpeta Personal</title>
+        <link rel="shortcut icon" href="#{request.contextPath}/recursos/imagenes/icono.ico" />
+        <link rel="stylesheet" href="#{request.contextPath}/recursos/css/portal.css"/>
+        <script type="text/javascript" src="#{request.contextPath}/recursos/js/portal.js"/>
+    </h:head>
+    <h:body>
+        <ui:composition template="../../WEB-INF/template/master-page.xhtml">
+            <ui:define name="head">
+                <title>Usuario</title>
+            </ui:define>
+            <ui:define name="content">
+                <h:form id="formulario_frm">
+                    <div align="center">
+                        <br/>
+                        <br/>
+                        <span style="font-weight: bold; font-size: 26px; font-family: 'Segoe UI', Verdana, Arial, sans-serif;">Usuario</span><br/>
+                        <span style="font-weight: bold; font-size: 22px; font-family: 'Segoe UI', Verdana, Arial, sans-serif;">Mi Carpeta Personal</span>
+                        <br/>
+                        <br/>
+                        <p:panel style="width: 820px;" header="Datos Personales" >
+                            <p:panelGrid style="border: 0px;" styleClass="noborder">
+                                <p:row>
+                                    <p:column>
+                                        <p:outputLabel value="Tipo de Documento"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:selectOneMenu style="width: 200px;" value="#{usuarioBean.usuarioSeleccionado.tipoDocumento}"
+                                                         label="Tipo Documento">
+                                            <f:selectItem itemLabel="Cedula de Ciudadania" itemValue="CC"/>
+                                            <f:selectItem itemLabel="Tarjeta de Identidad" itemValue="TI"/>
+                                            <f:selectItem itemLabel="NIT" itemValue="NIT"/>
+                                        </p:selectOneMenu>
+                                    </p:column>
+                                    <p:column>
+                                        <p:outputLabel value="Identificacion"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText value="#{usuarioBean.usuarioSeleccionado.documento}" style="width: 200px;"
+                                                     label="Identificacion" required="true"/>
+                                    </p:column>
+                                </p:row>
+                                <p:row>
+                                    <p:column>
+                                        <p:outputLabel value="Primer Nombre"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText value="#{usuarioBean.usuarioSeleccionado.nombre1}" style="width: 200px;"
+                                                     label="Primer Nombre" required="true"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:outputLabel value="Segundo Nombre"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText value="#{usuarioBean.usuarioSeleccionado.nombre2}" style="width: 200px;"
+                                                     label="Segundo Nombre"/>
+                                    </p:column>
+                                </p:row><p:row>
+                                    <p:column>
+                                        <p:outputLabel value="Primer Apellido"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText value="#{usuarioBean.usuarioSeleccionado.apellido1}" style="width: 200px;"
+                                                     label="Primer Apellido" required="true"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:outputLabel value="Segundo Apellido"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText value="#{usuarioBean.usuarioSeleccionado.apellido2}" style="width: 200px;"
+                                                     label="Segundo Apellido"/>
+                                    </p:column>
+                                </p:row>
+
+                                <p:row>
+                                    <p:column>
+                                        <p:outputLabel value="Contraseña"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:password value="#{usuarioBean.password}" style="width: 200px;"
+                                                    label="Contraseña" required="true"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:outputLabel value="Contraseña Nuevamente"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:password value="#{usuarioBean.passwordNuevamente}" style="width: 200px;"
+                                                    label="Contraseña Nuevamente" required="true"/>
+                                    </p:column>
+                                </p:row>
+                                <p:row>
+                                    <p:column>
+                                        <p:outputLabel value="Usuario"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText value="#{usuarioBean.login}" style="width: 200px;"
+                                                     label="Usuario" required="true"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:outputLabel value="Correo Electrónico"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText value="#{usuarioBean.usuarioSeleccionado.correo}" style="width: 200px;"
+                                                     label="Correo Electrónico" required="true"/>
+                                    </p:column>
+                                </p:row>
+                                <p:row>
+                                    <p:column>
+                                        <p:outputLabel value="Telefono Fijo"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText value="#{usuarioBean.usuarioSeleccionado.telefono}" style="width: 200px;"
+                                                     label="Telefono Fijo" required="true"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:outputLabel value="Celular"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText value="#{usuarioBean.usuarioSeleccionado.celular}" style="width: 200px;"
+                                                     label="Celular" required="true"/>
+                                    </p:column>
+                                </p:row>
+                                <p:row>
+                                    <p:column>
+                                        <p:outputLabel value="Dirección"/>
+                                    </p:column>
+                                    <p:column colspan="3">
+                                        <p:inputText value="#{usuarioBean.usuarioSeleccionado.direccion}" styleClass="paneltotal"
+                                                     label="Dirección" required="true"/>
+                                    </p:column>
+                                </p:row>
+                                <p:row>
+                                    <p:column>
+                                        <p:outputLabel value="Firma Digital"/>
+                                    </p:column>
+                                    <p:column colspan="3">
+                                        <p:inputText value="#{usuarioBean.archivo}" styleClass="paneltotal" disabled="true"/>
+                                    </p:column>
+                                </p:row>
+                                <p:row>
+                                    <p:column colspan="4" style="text-align: center;">
+                                        &nbsp;
+                                    </p:column>
+                                </p:row>
+                                <p:row>
+                                    <p:column colspan="4" style="text-align: center;">
+                                        <p:commandButton id ="guardar_btn" value="Guardar" actionListener="#{usuarioBean.guardarUsuario}" update="#{p:component('messages')}" />
+                                        <p:commandButton id="atras_btn" value="Atras" type="button" ajax="false" onclick="abrirPagina('#{request.contextPath}/usuario/registro/usuarios.jsf')" />
+                                    </p:column>
+                                </p:row>
+                            </p:panelGrid>
+                        </p:panel>
+                        <p:messages id="messages" showDetail="false"/>
+                        <br/>
+                        <br/>
+                    </div>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+

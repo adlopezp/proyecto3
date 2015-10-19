@@ -9,6 +9,8 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -31,7 +33,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "usuario")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u")})
+    @NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u"),
+    @NamedQuery(name = "Usuario.findByDocumento", query = "SELECT u FROM Usuario u WHERE u.documento LIKE ?1"),
+    @NamedQuery(name = "Usuario.findByNombre", query = "SELECT u FROM Usuario u WHERE u.nombre1 LIKE ?1 OR u.nombre2 LIKE ?1 OR u.apellido1 LIKE ?1 OR u.apellido2 LIKE ?1"),
+    @NamedQuery(name = "Usuario.findByNombreDocumento", query = "SELECT u FROM Usuario u WHERE (u.nombre1 LIKE ?1 OR u.nombre2 LIKE ?1 OR u.apellido1 LIKE ?1 OR u.apellido2 LIKE ?1) AND u.documento = ?2")})
 public class Usuario implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -68,9 +73,9 @@ public class Usuario implements Serializable {
 
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 50)
     @Column(name = "tipo_documento")
-    private String tipoDocumento;
+    @Enumerated(EnumType.STRING)
+    private TipoDocumento tipoDocumento;
 
     @Basic(optional = false)
     @NotNull
@@ -196,11 +201,11 @@ public class Usuario implements Serializable {
         this.apellido2 = apellido2;
     }
 
-    public String getTipoDocumento() {
+    public TipoDocumento getTipoDocumento() {
         return tipoDocumento;
     }
 
-    public void setTipoDocumento(String tipoDocumento) {
+    public void setTipoDocumento(TipoDocumento tipoDocumento) {
         this.tipoDocumento = tipoDocumento;
     }
 
