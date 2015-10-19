@@ -29,11 +29,22 @@
                             <p:panelGrid style="border: 0px;" styleClass="noborder">
                                 <p:row>
                                     <p:column>
+                                        <p:outputLabel value="Tipo de Usuario"/>
+                                    </p:column>
+                                    <p:column colspan="3">
+                                        <p:selectOneMenu style="width: 200px;" value="#{usuarioBean.tipoUsuario}"
+                                                         label="Tipo Usuario" required="true">
+                                            <f:selectItems value="#{usuarioBean.tiposUsuariosItems}"/>
+                                        </p:selectOneMenu>
+                                    </p:column>
+                                </p:row>
+                                <p:row>
+                                    <p:column>
                                         <p:outputLabel value="Tipo de Documento"/>
                                     </p:column>
                                     <p:column>
                                         <p:selectOneMenu style="width: 200px;" value="#{usuarioBean.usuarioSeleccionado.tipoDocumento}"
-                                                         label="Tipo Documento">
+                                                         label="Tipo Documento" required="true">
                                             <f:selectItem itemLabel="Cedula de Ciudadania" itemValue="CC"/>
                                             <f:selectItem itemLabel="Tarjeta de Identidad" itemValue="TI"/>
                                             <f:selectItem itemLabel="NIT" itemValue="NIT"/>
@@ -43,7 +54,7 @@
                                         <p:outputLabel value="Identificacion"/>
                                     </p:column>
                                     <p:column>
-                                        <p:inputText value="#{usuarioBean.usuarioSeleccionado.documento}" style="width: 200px;"
+                                        <p:inputText value="#{usuarioBean.documento}" style="width: 200px;"
                                                      label="Identificacion" required="true"/>
                                     </p:column>
                                 </p:row>
@@ -78,21 +89,32 @@
                                                      label="Segundo Apellido"/>
                                     </p:column>
                                 </p:row>
-
+                                <p:row rendered="#{not empty usuarioBean.usuarioSeleccionado.id}">
+                                    <p:column>
+                                        <p:outputLabel value="Editar Contraseña"/>
+                                    </p:column>
+                                    <p:column colspan="3">
+                                        <p:selectBooleanCheckbox value="#{usuarioBean.editarPassword}" >
+                                            <p:ajax event="change" process="@form" update="password1_txt password2_txt" />
+                                        </p:selectBooleanCheckbox>
+                                    </p:column>
+                                </p:row>
                                 <p:row>
                                     <p:column>
                                         <p:outputLabel value="Contraseña"/>
                                     </p:column>
                                     <p:column>
-                                        <p:password value="#{usuarioBean.password}" style="width: 200px;"
-                                                    label="Contraseña" required="true"/>
+                                        <p:password id="password1_txt" value="#{usuarioBean.password}"
+                                                    label="Contraseña" required="true" disabled="#{!usuarioBean.editarPassword}"
+                                                    style="width: 200px; #{usuarioBean.editarPassword?'':'background-color: #cfcfcf'}"/>
                                     </p:column>
                                     <p:column>
                                         <p:outputLabel value="Contraseña Nuevamente"/>
                                     </p:column>
                                     <p:column>
-                                        <p:password value="#{usuarioBean.passwordNuevamente}" style="width: 200px;"
-                                                    label="Contraseña Nuevamente" required="true"/>
+                                        <p:password id="password2_txt" value="#{usuarioBean.passwordNuevamente}"
+                                                    label="Contraseña Nuevamente" required="true" disabled="#{!usuarioBean.editarPassword}"
+                                                    style="width: 200px; #{usuarioBean.editarPassword?'':'background-color: #cfcfcf'}"/>
                                     </p:column>
                                 </p:row>
                                 <p:row>
@@ -141,7 +163,7 @@
                                         <p:outputLabel value="Firma Digital"/>
                                     </p:column>
                                     <p:column colspan="3">
-                                        <p:inputText value="#{usuarioBean.archivo}" styleClass="paneltotal" disabled="true"/>
+                                        <p:inputText value="#{usuarioBean.archivo}" styleClass="paneltotal" disabled="true" style="background-color: #cfcfcf"/>
                                     </p:column>
                                 </p:row>
                                 <p:row>
@@ -152,7 +174,7 @@
                                 <p:row>
                                     <p:column colspan="4" style="text-align: center;">
                                         <p:commandButton id ="guardar_btn" value="Guardar" actionListener="#{usuarioBean.guardarUsuario}" update="#{p:component('messages')}" />
-                                        <p:commandButton id="atras_btn" value="Atras" type="button" ajax="false" onclick="abrirPagina('#{request.contextPath}/usuario/registro/usuarios.jsf')" />
+                                        <p:commandButton id="atras_btn" value="Atras" action="usuarios" immediate="true"/>
                                     </p:column>
                                 </p:row>
                             </p:panelGrid>

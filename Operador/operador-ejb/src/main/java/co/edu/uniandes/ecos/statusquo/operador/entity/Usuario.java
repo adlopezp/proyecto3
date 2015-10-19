@@ -34,6 +34,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u"),
+    @NamedQuery(name = "Usuario.findByDocumentoExacto", query = "SELECT u FROM Usuario u WHERE u.documento = ?1"),
     @NamedQuery(name = "Usuario.findByDocumento", query = "SELECT u FROM Usuario u WHERE u.documento LIKE ?1"),
     @NamedQuery(name = "Usuario.findByNombre", query = "SELECT u FROM Usuario u WHERE u.nombre1 LIKE ?1 OR u.nombre2 LIKE ?1 OR u.apellido1 LIKE ?1 OR u.apellido2 LIKE ?1"),
     @NamedQuery(name = "Usuario.findByNombreDocumento", query = "SELECT u FROM Usuario u WHERE (u.nombre1 LIKE ?1 OR u.nombre2 LIKE ?1 OR u.apellido1 LIKE ?1 OR u.apellido2 LIKE ?1) AND u.documento = ?2")})
@@ -55,7 +56,7 @@ public class Usuario implements Serializable {
 
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 100)
+    @Size(max = 100)
     @Column(name = "nombre2")
     private String nombre2;
 
@@ -67,7 +68,7 @@ public class Usuario implements Serializable {
 
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 100)
+    @Size(max = 100)
     @Column(name = "apellido2")
     private String apellido2;
 
@@ -113,6 +114,7 @@ public class Usuario implements Serializable {
     private Boolean activo;
 
     @ManyToOne(optional = false)
+    @NotNull
     @JoinColumn(name = "tipo_usuario_id", referencedColumnName = "id")
     private TipoUsuario tipo;
 

@@ -31,6 +31,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Autenticacion.findAll", query = "SELECT a FROM Autenticacion a"),
+    @NamedQuery(name = "Autenticacion.findByLogin", query = "SELECT a FROM Autenticacion a where a.codigo = ?1"),
     @NamedQuery(name = "Autenticacion.autenticar", query = "SELECT a FROM Autenticacion a where a.codigo = ?1 and a.password = ?2")})
 public class Autenticacion implements Serializable {
 

@@ -34,6 +34,10 @@ public abstract class AbstractDAO<T> {
         em.remove(em.merge(entity));
     }
 
+    public void desconectar(T entity) {
+        em.detach(entity);
+    }
+
     public void refrescar(T entity) {
         em.refresh(entity);
     }

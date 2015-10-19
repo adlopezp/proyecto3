@@ -56,6 +56,9 @@
                                 <p:column headerText="Identificación">
                                     <h:outputText id="nombre_lbl" value="#{usuario.documento}"/>
                                 </p:column>
+                                <p:column headerText="Login">
+                                    <h:outputText id="login_lbl" value="#{usuario.autenticacion.codigo}"/>
+                                </p:column>
                                 <p:column headerText="Nombre">
                                     <h:outputText id="archivo_lbl" value="#{usuario.nombre1} #{usuario.nombre2} #{usuario.apellido1} #{usuario.apellido2}"/>
                                 </p:column>
