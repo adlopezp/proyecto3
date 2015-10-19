@@ -8,6 +8,7 @@ package co.edu.uniandes.ecos.statusquo.operador.web.bean;
 import co.edu.uniandes.ecos.statusquo.operador.entity.Usuario;
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
@@ -30,8 +31,10 @@ public class UtilBean {
 
     public static void redirect(final String url) {
         final ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+        final HttpServletRequest request = (HttpServletRequest) context.getRequest();
+        final String path = request.getContextPath();
         try {
-            context.redirect(url);
+            context.redirect(path + "/" + url);
         } catch (final IOException ex) {
         }
     }
@@ -66,17 +69,27 @@ public class UtilBean {
         final FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", msj);
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
-    
-    public static Usuario getUsuarioActual(){
+
+    public static void printMensajeErrorSimple(final String msj) {
+        final FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, msj, null);
+        FacesContext.getCurrentInstance().addMessage(null, message);
+    }
+
+    public static boolean isMensajesEnCola() {
+        List<FacesMessage> lista = FacesContext.getCurrentInstance().getMessageList();
+        return lista != null && !lista.isEmpty();
+    }
+
+    public static Usuario getUsuarioActual() {
         Usuario usuario = null;
         try {
             HttpSession sesion = (HttpSession) FacesContext.getCurrentInstance()
-                .getExternalContext().getSession(true);
-            usuario = (Usuario)sesion.getAttribute("Usuario");
+                    .getExternalContext().getSession(true);
+            usuario = (Usuario) sesion.getAttribute("Usuario");
         } catch (Exception e) {
             printMensajeError("Imposible reconocer el usuario en la sesión");
         }
         return usuario;
-        
+
     }
 }

@@ -50,21 +50,30 @@ public class LoginBean implements Serializable {
         if (usuario != null && !usuario.isEmpty() && password != null && !password.isEmpty()) {
             Usuario usuarioEnt = usuarioService.auntenticar(usuario, password);
             if (usuarioEnt == null) {
-                UtilBean.printMensajeError("Usuario/Contraseña");
+                UtilBean.printMensajeError("Error de Usuario/Contraseña");
             } else {
+                limpiarSesion();
                 HttpSession sesion = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
                 sesion.setAttribute("Usuario", usuarioEnt);
                 UtilBean.redirect("portal.jsf");
             }
 
         } else {
-            UtilBean.printMensajeError("Usuario/Contraseña");
+            UtilBean.printMensajeError("Error de Usuario/Contraseña");
         }
 
     }
 
     public void logoutAction() {
+        limpiarSesion();
         UtilBean.redirectLogin();
+    }
+
+    public static void limpiarSesion() {
+        HttpSession sesion = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        sesion.removeAttribute("sesionBean");
+        sesion.removeAttribute("documentView");
+        sesion.removeAttribute("Usuario");
     }
 
     public boolean isRenderPortal() {

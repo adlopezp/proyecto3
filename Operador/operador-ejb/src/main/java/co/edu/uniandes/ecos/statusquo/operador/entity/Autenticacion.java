@@ -52,6 +52,7 @@ public class Autenticacion implements Serializable {
     @Column(name = "password")
     private String password;
     @JoinColumn(name = "usuario_id", referencedColumnName = "id")
+    @NotNull
     @OneToOne(optional = false)
     private Usuario usuario;
 
