@@ -29,7 +29,7 @@
                         <p:tree value="#{documentView.root}" var="carpeta" selectionMode="single"
                                 style="height: 400px; overflow: auto;display: block">
 
-                            <p:ajax event="select"  update="documentForm"
+                            <p:ajax event="select"  update="documentForm, :documentTable"
                                     listener="#{documentView.onNodeSelect}" />
                            
                            <p:treeNode>
@@ -61,18 +61,25 @@
                                                  ajax="false"
                                                  onclick="PrimeFaces.monitorDownload(start, stop);"
                                                  icon="fa fa-fw fa-download"
+                                                 type="button"
                                                  disabled="#{empty documentView.selectedDocument}">
                                     <p:fileDownload value="#{documentView.contenidoDescarga}" />
                                 </p:commandButton>
+                                <p:commandButton value="Eliminar"
+                                                 icon="fa fa-remove"
+                                                 actionListener="#{documentView.borrarArchivo}"
+                                                 update=":documentTable"
+                                                 disabled="#{empty documentView.selectedDocument}">
+                                    <p:confirm header="Confirmation" message="¿Eliminar archivo?" icon="ui-icon-alert" />
+                                </p:commandButton>
                                 <p:commandButton value="Compartir"
                                                  icon="fa fa-share-alt"
-                                                 disabled="#{empty documentView.selectedDocument}"
-                                                 oncomplete="PF('downloadDialog').show()">
+                                                 disabled="true">
                                 </p:commandButton>
+                                
                                 <p:commandButton value="Firmar"
                                                  icon="fa fa-check"
-                                                 disabled="#{empty documentView.selectedDocument}"
-                                                 oncomplete="PF('downloadDialog').show()">
+                                                 disabled="#{empty documentView.selectedDocument}">
                                 </p:commandButton>
 
                                 <p:dialog id="loadDialog" widgetVar="loadDialog"
@@ -83,6 +90,11 @@
                                           modal="true" resizable="false" closeOnEscape="true">
                                     <ui:include src="dialogos/dialogo-descarga.xhtml" />
                                 </p:dialog>
+                                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                    <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                </p:confirmDialog>    
+                                    
                                 <script type="text/javascript">
                                     function start() {
                                         PF('statusDialog').show();

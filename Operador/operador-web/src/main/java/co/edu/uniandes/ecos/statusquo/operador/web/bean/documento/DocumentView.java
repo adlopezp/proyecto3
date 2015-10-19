@@ -8,7 +8,6 @@ import co.edu.uniandes.ecos.statusquo.operador.entity.EstadoArchivo;
 import co.edu.uniandes.ecos.statusquo.operador.entity.Usuario;
 import co.edu.uniandes.ecos.statusquo.operador.web.bean.UtilBean;
 import co.edu.uniandes.ecos.statusquo.operador.web.util.TreeNodeHelper;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -20,7 +19,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.NodeSelectEvent;
@@ -30,7 +29,7 @@ import org.primefaces.model.StreamedContent;
 import org.primefaces.model.TreeNode;
 
 @ManagedBean(name = "documentView")
-@SessionScoped
+@ViewScoped
 public class DocumentView implements Serializable {
 
     private TreeNode root;
@@ -148,7 +147,11 @@ public class DocumentView implements Serializable {
             archivo.setCarpetaPersonal(usuario.getCarpetaPersonal());
             archivo.setContenido(event.getFile().getContents());
             
+            archivo.setFirmado(false);//Por defecto no sube firmado
+            
             documentoEJB.crearArchivo(archivo);
+            
+            carpetaSeleccionada.getArchivos().add(archivo);
 
             //Mensaje en JSF
             message.setSummary("Succesful");
@@ -160,6 +163,11 @@ public class DocumentView implements Serializable {
             message.setSeverity(FacesMessage.SEVERITY_ERROR);
         }
         FacesContext.getCurrentInstance().addMessage(null, message);
+    }
+    
+    public void borrarArchivo(){
+        System.out.println("Borrando archivo: " + selectedDocument.getNombre());
+        archivosUsuario.remove(selectedDocument);
     }
 
 }

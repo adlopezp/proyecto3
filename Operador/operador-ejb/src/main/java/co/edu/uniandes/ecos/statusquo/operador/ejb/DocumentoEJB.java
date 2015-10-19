@@ -52,5 +52,9 @@ public class DocumentoEJB {
         System.out.println(archivo);
     }
 
+    public Carpeta traerCarpeta(long id) {
+        return carpetaDAO.buscar(id);
+    }
+
     
 }

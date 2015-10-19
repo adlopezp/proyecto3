@@ -4,6 +4,10 @@ import co.edu.uniandes.ecos.statusquo.operador.dao.AutenticacionDAO;
 import co.edu.uniandes.ecos.statusquo.operador.dao.TipoUsuarioDAO;
 import co.edu.uniandes.ecos.statusquo.operador.dao.UsuarioDAO;
 import co.edu.uniandes.ecos.statusquo.operador.entity.Autenticacion;
+import co.edu.uniandes.ecos.statusquo.operador.entity.Carpeta;
+import co.edu.uniandes.ecos.statusquo.operador.entity.CarpetaPersonal;
+import co.edu.uniandes.ecos.statusquo.operador.entity.EstadoCarpeta;
+import co.edu.uniandes.ecos.statusquo.operador.entity.TipoCarpeta;
 import co.edu.uniandes.ecos.statusquo.operador.entity.TipoUsuario;
 import co.edu.uniandes.ecos.statusquo.operador.entity.Usuario;
 import java.util.ArrayList;
@@ -100,9 +104,38 @@ public class UsuarioEJB {
         autenticacionDao.insertar(autenticacion);
     }
 
-    public void guardarUsuario(final Usuario usuario) {
+    public void guardarUsuario(Usuario usuario) {
         usuarioDao.insertar(usuario);
-        // FIXME ZAMIR:  Crear Carpeta Personal y Carpetas Necesarias asi como Llave Digital
+        
+        //Creando carpetas
+        CarpetaPersonal carpetaPersonal = new CarpetaPersonal();
+        carpetaPersonal.setUsuario(usuario);
+        
+        usuario.setCarpetaPersonal(carpetaPersonal);
+        
+        Carpeta inbox = new Carpeta();
+        inbox.setPrincipal(true);
+        inbox.setCarpetaPersonal(carpetaPersonal);
+        inbox.setEstado(new EstadoCarpeta(1L)); //Activa
+        inbox.setNombre("Inbox");
+        inbox.setTipo(new TipoCarpeta(1L));
+        
+        Carpeta papelera = new Carpeta();
+        papelera.setPrincipal(true);
+        papelera.setCarpetaPersonal(carpetaPersonal);
+        papelera.setEstado(new EstadoCarpeta(1L)); //Activa
+        papelera.setNombre("Papelera");
+        papelera.setTipo(new TipoCarpeta(1L));
+        
+        List<Carpeta> carpetas = new ArrayList<>();
+        carpetas.add(inbox);
+        carpetas.add(papelera);
+        
+        carpetaPersonal.setCarpetaList(carpetas);
+        
+        usuarioDao.actualizar(usuario);
+        // FIXME ZAMIR:  Crear Llave Digital
+        
     }
 
 }
