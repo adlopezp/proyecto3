@@ -58,9 +58,11 @@
                                     <f:param name="productId" value="10" />
                                 </p:button>
                                 <p:commandButton value="Descargar"
+                                                 ajax="false"
+                                                 onclick="PrimeFaces.monitorDownload(start, stop);"
                                                  icon="fa fa-fw fa-download"
-                                                 disabled="#{empty documentView.selectedDocument}"
-                                                 oncomplete="PF('downloadDialog').show()">
+                                                 disabled="#{empty documentView.selectedDocument}">
+                                    <p:fileDownload value="#{documentView.contenidoDescarga}" />
                                 </p:commandButton>
                                 <p:commandButton value="Compartir"
                                                  icon="fa fa-share-alt"
@@ -81,6 +83,15 @@
                                           modal="true" resizable="false" closeOnEscape="true">
                                     <ui:include src="dialogos/dialogo-descarga.xhtml" />
                                 </p:dialog>
+                                <script type="text/javascript">
+                                    function start() {
+                                        PF('statusDialog').show();
+                                    }
+
+                                    function stop() {
+                                        PF('statusDialog').hide();
+                                    }
+                                </script>
 
                                 </h:form>
                             </p:panel>

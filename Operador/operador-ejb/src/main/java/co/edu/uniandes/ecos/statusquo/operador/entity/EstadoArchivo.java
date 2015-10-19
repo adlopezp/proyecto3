@@ -85,7 +85,7 @@ public class EstadoArchivo implements Serializable {
 
     @Override
     public String toString() {
-        return "co.edu.uniandes.ecos.statusquo.operador.entity.EstadoArchivo[ id=" + id + " ]";
+        return "EstadoArchivo{" + "id=" + id + ", nombre=" + nombre + '}';
     }
 
 }

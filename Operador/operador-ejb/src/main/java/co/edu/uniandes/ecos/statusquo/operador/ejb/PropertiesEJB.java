@@ -32,6 +32,10 @@ public class PropertiesEJB {
         this.properties = properties;
     }
     
+    public String getProperty(String name){
+        return properties.getProperty(name);
+    }
+    
     @PostConstruct
     public void init(){
         InputStream inputStream = getClass().getClassLoader()

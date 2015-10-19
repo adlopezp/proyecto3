@@ -257,6 +257,10 @@ public class Archivo implements Serializable {
 
     @Override
     public String toString() {
-        return "co.edu.uniandes.ecos.statusquo.operador.entity.Archivo[ id=" + id + " ]";
+        return "Archivo{" + "id=" + id + ", nombre=" + nombre + 
+                ", sizeArchivo=" + sizeArchivo + ", url=" + url + 
+                ", estado=" + estado + ", carpetaPersonal=" + carpetaPersonal + 
+                ", carpetaPadre=" + carpetaPadre + '}';
     }
+    
 }
