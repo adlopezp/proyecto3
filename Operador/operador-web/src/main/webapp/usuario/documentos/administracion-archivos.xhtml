@@ -25,20 +25,20 @@
                      - Compartir documentos con entidades<br/>
                      - Compartir documentos con otros usuarios<br/> -->
                     <h:panelGrid columns="2" styleClass="panelGridNoBorder">
-                        
+
                         <p:tree value="#{documentView.root}" var="carpeta" selectionMode="single"
                                 style="height: 400px; overflow: auto;display: block">
 
                             <p:ajax event="select"  update="documentForm, :documentTable"
                                     listener="#{documentView.onNodeSelect}" />
-                           
-                           <p:treeNode>
+
+                            <p:treeNode>
                                 <h:outputText value="#{carpeta.nombre}" />
                             </p:treeNode>
-                           
-                           
-                           
-                           <p:treeNode type="document" icon="ui-icon-document">
+
+
+
+                            <p:treeNode type="document" icon="ui-icon-document">
                                 <h:outputText value="#{carpeta.nombre}" />
                             </p:treeNode>
 
@@ -47,68 +47,68 @@
 
                         <h:panelGrid columns="1">
                             <!-- Barra de menú -->
-                           
+
                             <p:panel id="buttonPanel">
                                 <h:form>
-                                <p:commandButton value="Cargar archivo"
-                                                 icon="fa fa-upload"
-                                                 oncomplete="PF('loadDialog').show()">
-                                </p:commandButton>
-                                <p:button value="Nuevo directorio" icon="ui-icon-plus">
-                                    <f:param name="productId" value="10" />
-                                </p:button>
-                                <p:commandButton value="Descargar"
-                                                 ajax="false"
-                                                 onclick="PrimeFaces.monitorDownload(start, stop);"
-                                                 icon="fa fa-fw fa-download"
-                                                 type="button"
-                                                 disabled="#{empty documentView.selectedDocument}">
-                                    <p:fileDownload value="#{documentView.contenidoDescarga}" />
-                                </p:commandButton>
-                                <p:commandButton value="Eliminar"
-                                                 icon="fa fa-remove"
-                                                 actionListener="#{documentView.borrarArchivo}"
-                                                 update=":documentTable"
-                                                 disabled="#{empty documentView.selectedDocument}">
-                                    <p:confirm header="Confirmation" message="¿Eliminar archivo?" icon="ui-icon-alert" />
-                                </p:commandButton>
-                                <p:commandButton value="Compartir"
-                                                 icon="fa fa-share-alt"
-                                                 disabled="true">
-                                </p:commandButton>
-                                
-                                <p:commandButton value="Firmar"
-                                                 icon="fa fa-check"
-                                                 disabled="#{empty documentView.selectedDocument}">
-                                </p:commandButton>
+                                    <p:commandButton value="Cargar archivo"
+                                                     icon="fa fa-upload"
+                                                     oncomplete="PF('loadDialog').show()">
+                                    </p:commandButton>
+                                    <p:button value="Nuevo directorio" icon="ui-icon-plus" disabled="true">
+                                        <f:param name="productId" value="10" />
+                                    </p:button>
+                                    <p:commandButton value="Descargar"
+                                                     ajax="false"
+                                                     onclick="PrimeFaces.monitorDownload(start, stop);"
+                                                     icon="fa fa-fw fa-download"
+                                                     type="button"
+                                                     disabled="#{empty documentView.selectedDocument}">
+                                        <p:fileDownload value="#{documentView.contenidoDescarga}" />
+                                    </p:commandButton>
+                                    <p:commandButton value="Eliminar"
+                                                     icon="fa fa-remove"
+                                                     actionListener="#{documentView.borrarArchivo}"
+                                                     update=":documentTable"
+                                                     disabled="#{empty documentView.selectedDocument}">
+                                        <p:confirm header="Confirmation" message="¿Eliminar archivo?" icon="ui-icon-alert" />
+                                    </p:commandButton>
+                                    <p:commandButton value="Compartir"
+                                                     icon="fa fa-share-alt"
+                                                     disabled="true">
+                                    </p:commandButton>
 
-                                <p:dialog id="loadDialog" widgetVar="loadDialog"
-                                          modal="true" resizable="false" closeOnEscape="true">
-                                    <ui:include src="dialogos/dialogo-carga.xhtml" />
-                                </p:dialog>
-                                <p:dialog id="downloadDialog" widgetVar="downloadDialog"
-                                          modal="true" resizable="false" closeOnEscape="true">
-                                    <ui:include src="dialogos/dialogo-descarga.xhtml" />
-                                </p:dialog>
-                                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                                    <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-                                </p:confirmDialog>    
-                                    
-                                <script type="text/javascript">
-                                    function start() {
-                                        PF('statusDialog').show();
-                                    }
+                                    <p:commandButton value="Firmar"
+                                                     icon="fa fa-check"
+                                                     disabled="#{empty documentView.selectedDocument}">
+                                    </p:commandButton>
 
-                                    function stop() {
-                                        PF('statusDialog').hide();
-                                    }
-                                </script>
+                                    <p:dialog id="loadDialog" widgetVar="loadDialog"
+                                              modal="true" resizable="false" closeOnEscape="true">
+                                        <ui:include src="dialogos/dialogo-carga.xhtml" />
+                                    </p:dialog>
+                                    <p:dialog id="downloadDialog" widgetVar="downloadDialog"
+                                              modal="true" resizable="false" closeOnEscape="true">
+                                        <ui:include src="dialogos/dialogo-descarga.xhtml" />
+                                    </p:dialog>
+                                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                        <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                    </p:confirmDialog>
+
+                                    <script type="text/javascript">
+                                        function start() {
+                                            PF('statusDialog').show();
+                                        }
+
+                                        function stop() {
+                                            PF('statusDialog').hide();
+                                        }
+                                    </script>
 
                                 </h:form>
                             </p:panel>
-                            
-                            
+
+
                             <!-- Tabla con detalles de archivo -->
                             <p:panel>
                                 <h:form id="documentForm" prependId="false">
@@ -123,15 +123,15 @@
                                         <p:column headerText="Nombre de archivo">
                                             <h:outputText value="#{file.nombre}" />
                                         </p:column>
-                                        
+
                                         <p:column headerText="Tamaño">
                                             <h:outputText value="#{file.sizeArchivo}" />
                                         </p:column>
-                                        
+
                                         <p:column headerText="Firmado">
                                             <h:outputText value="#{file.firmado}" />
                                         </p:column>
-                                        
+
                                         <p:column headerText="Formato">
                                             <h:outputText value="#{file.formato.nombre}" />
                                         </p:column>

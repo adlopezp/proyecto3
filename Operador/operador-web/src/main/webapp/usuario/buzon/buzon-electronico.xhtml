@@ -5,7 +5,7 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
 
-    <ui:composition template="../../WEB-INF/template/#{loginBean.template}.xhtml">
+    <ui:composition template="../../WEB-INF/template/master-page.xhtml">
         <ui:define name="head">
             <title>#{mailboxBean.title}</title>
         </ui:define>
@@ -19,7 +19,7 @@
                         </p:breadCrumb>
                         <br/>
                         <p:tabView>
-                            <p:tab title="Solicitudes (4)" >
+                            <p:tab title="Solicitudes (1)" >
                                 <h:form>
                                     <p:dataTable var="mail" value="#{mailboxBean.mails}" paginator="true" rows="11"
                                                  emptyMessage="No existen datos" >
@@ -33,7 +33,7 @@
                                             #{mail.from}
                                         </p:column>
 
-                                        <p:column headerText="Asunto" sortBy="subject">
+                                        <p:column headerText="Tipo" sortBy="subject">
                                             #{mail.subject}
                                         </p:column>
 
@@ -54,7 +54,7 @@
                                 </h:form>
                             </p:tab>
 
-                            <p:tab title="Notificaciones (4)">
+                            <p:tab title="Notificaciones (1)">
                                 <h:form>
                                     <p:dataTable var="mail" value="#{mailboxBean.mails2}" paginator="true" rows="11"
                                                  emptyMessage="No existen datos">
@@ -76,34 +76,6 @@
                                         <p:column>
                                             <p:commandButton update=":mailViewer" icon="ui-icon-search" title="View" oncomplete="PF('editDlg').show()">
                                                 <f:setPropertyActionListener value="#{mail }" target="#{mailboxBean.mail}" />
-                                            </p:commandButton>
-                                        </p:column>
-                                    </p:dataTable>
-                                </h:form>
-                            </p:tab>
-
-                            <p:tab title="Alertas (4)">
-                                <h:form>
-                                    <p:dataTable var="mail" value="#{mailboxBean.mails3}" paginator="true" rows="11"
-                                                 emptyMessage="No existen datos">
-                                        <f:facet name="header">
-                                            <h:outputText value="#{mailboxBean.title}" />
-                                        </f:facet>
-                                        <p:column style="width: 30px" headerText="Leido" sortBy="from">
-                                            <p:selectBooleanCheckbox value="true" />
-                                        </p:column>
-                                        <p:column headerText="From" sortBy="from">
-                                            #{mail.from}
-                                        </p:column>
-                                        <p:column headerText="Subject" sortBy="subject">
-                                            #{mail.subject}
-                                        </p:column>
-                                        <p:column headerText="Date" sortBy="date">
-                                            #{mail.date}
-                                        </p:column>
-                                        <p:column headerText="Mensaje">
-                                            <p:commandButton update=":mailViewer" icon="ui-icon-search" title="View" oncomplete="PF('editDlg').show()">
-                                                <f:setPropertyActionListener value="#{mail}" target="#{mailboxBean.mail}" />
                                             </p:commandButton>
                                         </p:column>
                                     </p:dataTable>

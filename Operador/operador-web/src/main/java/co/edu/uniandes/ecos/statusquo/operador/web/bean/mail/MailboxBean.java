@@ -14,7 +14,6 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
-
 /**
  *
  * @author Dev
@@ -32,17 +31,11 @@ public class MailboxBean implements Serializable {
     @PostConstruct
     public void init() {
         mails = new ArrayList<Mail>();
-        mails.add(new Mail("usuario@carpetaciudadana.com", "Solicitud 1", "Texto solicitud", new Date()));
-        mails.add(new Mail("usuario@carpetaciudadana.com", "Solicitud 2", "Texto solicitud 2", new Date()));
-        mails.add(new Mail("usuario@carpetaciudadana.com", "Solicitud 3", "Texto solicitud 3", new Date()));
-        mails.add(new Mail("Entidad oficial", "Solicitud 4", "Texto solicitud 4", new Date()));
-        
+        mails.add(new Mail("1016008913", "Solicitud Para Compartir Documentos", "Compartir Documento Cedula", new Date()));
+
         mails2 = new ArrayList<Mail>();
-        mails2.add(new Mail("usuario@carpetaciudadana.com", "Notificacion 1", "Texto notificacion", new Date()));
-        mails2.add(new Mail("usuario@carpetaciudadana.com", "Notificacion 2", "Texto notificacion 2", new Date()));
-        mails2.add(new Mail("usuario@carpetaciudadana.com", "Notificacion 3", "Texto notificacion 3", new Date()));
-        mails2.add(new Mail("Entidad oficial", "Notificacion 4", "Texto notificacion 4", new Date()));
-        
+        mails2.add(new Mail("1016008913", "Notificacion de Documento Compartido", "Compartido Documento RUT", new Date()));
+
         mails3 = new ArrayList<Mail>();
         mails3.add(new Mail("usuario@carpetaciudadana.com", "Alerta 1", "Texto Alerta", new Date()));
         mails3.add(new Mail("usuario@carpetaciudadana.com", "Alerta 2", "Texto Alerta 2", new Date()));
@@ -53,7 +46,6 @@ public class MailboxBean implements Serializable {
     public void setMails(List<Mail> mails) {
         this.mails = mails;
     }
-
 
     public List<Mail> getMails() {
         return mails;
@@ -90,7 +82,5 @@ public class MailboxBean implements Serializable {
     public void setMails3(List<Mail> mails3) {
         this.mails3 = mails3;
     }
-    
-    
-    
+
 }
