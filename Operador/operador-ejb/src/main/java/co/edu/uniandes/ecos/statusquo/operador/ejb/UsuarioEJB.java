@@ -1,6 +1,58 @@
 package co.edu.uniandes.ecos.statusquo.operador.ejb;
 
 import co.edu.uniandes.ecos.statusquo.operador.dao.AutenticacionDAO;
+import co.edu.uniandes.ecos.statusquo.operador.entity.Autenticacion;
+import co.edu.uniandes.ecos.statusquo.operador.entity.Usuario;
+import java.util.ArrayList;
+import java.util.List;
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+import javax.jws.HandlerChain;
+import javax.xml.ws.WebServiceRef;
+import co.edu.uniandes.ecos.statusquo.operador.clientews.UsuarioSW_Service;
+import co.edu.uniandes.ecos.statusquo.operador.clientews.UsuarioSW;
+import co.edu.uniandes.ecos.statusquo.operador.clientews.RespuestaGetDocumentoUsuarioWS;
+
+/**
+ *
+ * @author Alvaro
+ */
+@Stateless
+public class UsuarioEJB {
+
+    @WebServiceRef(wsdlLocation = "http://localhost:8080/UsuarioSW/UsuarioSW?WSDL")
+    @HandlerChain(file = "/LogHandler.xml")
+    private UsuarioSW_Service service;
+
+    @EJB
+    AutenticacionDAO autenticacionDao;
+
+    public Usuario auntenticar(final String codigo, final String password) {
+        try { // Call Web Service Operation
+            UsuarioSW port = service.getUsuarioSWPort();
+            // TODO initialize WS operation arguments here
+            String identificacion = "SDF";
+            // TODO process result here
+            RespuestaGetDocumentoUsuarioWS result = port.getUsuario(identificacion);
+            System.out.println("Result = " + result);
+        } catch (Exception ex) {
+            // TODO handle custom exceptions here
+        }
+        Usuario usuario = null;
+        List<Object> parametros = new ArrayList<>();
+        parametros.add(codigo);
+        parametros.add(password);
+        Autenticacion aut = autenticacionDao.buscarNamedQuery("Autenticacion.autenticar", parametros);
+        if (aut != null) {
+            usuario = aut.getUsuario();
+        }
+
+        return usuario;
+    }
+}
+package co.edu.uniandes.ecos.statusquo.operador.ejb;
+
+import co.edu.uniandes.ecos.statusquo.operador.dao.AutenticacionDAO;
 import co.edu.uniandes.ecos.statusquo.operador.dao.TipoUsuarioDAO;
 import co.edu.uniandes.ecos.statusquo.operador.dao.UsuarioDAO;
 import co.edu.uniandes.ecos.statusquo.operador.entity.Autenticacion;
