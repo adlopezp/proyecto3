@@ -9,6 +9,7 @@ import co.edu.uniandes.ecos.statusquo.centralizador.percistence.facade.TipoDocum
 import co.edu.uniandes.ecos.statusquo.centralizador.persistence.entity.TipoDocumento;
 import java.util.List;
 import javax.ejb.EJB;
+import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
 /**
@@ -16,6 +17,7 @@ import javax.ejb.Stateless;
  * @author Dev
  */
 @Stateless
+@LocalBean
 public class TipoDocumentoBean {
 
     @EJB

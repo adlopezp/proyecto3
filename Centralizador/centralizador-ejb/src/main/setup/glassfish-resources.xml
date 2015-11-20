@@ -19,5 +19,5 @@
         <property name="URL" value="jdbc:oracle:thin:@localhost:1521:apoyoesc"/>
         <property name="driverClass" value="oracle.jdbc.OracleDriver"/>
     </jdbc-connection-pool>
-    <jdbc-resource enabled="true" jndi-name="java:app/jdbc/centralizadorDS" object-type="user" pool-name="oracle-thin_orcl_devPool"/>
+    <jdbc-resource enabled="true" jndi-name="centralizadorDS" object-type="user" pool-name="oracle-thin_orcl_devPool"/>
 </resources>

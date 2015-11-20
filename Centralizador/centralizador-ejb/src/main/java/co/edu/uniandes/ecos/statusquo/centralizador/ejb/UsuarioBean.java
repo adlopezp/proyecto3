@@ -30,6 +30,6 @@ public class UsuarioBean {
     public Usuario consultarIdentificacion(String identificacion) throws Exception {
         Hashtable<String, Object> params = new Hashtable<String, Object>();
         params.put("numeroIdentificacion", identificacion);
-        return facade.findByNamedQuery("Usuario.findByNumeroIdentificacion", params).get(0);
+        return facade.findSingleObjectByNamedQuery("Usuario.findByNumeroIdentificacion", params);
     }
 }

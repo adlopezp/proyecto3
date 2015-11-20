@@ -10,11 +10,15 @@ import co.edu.uniandes.ecos.statusquo.centralizador.persistence.entity.Entidad;
 import java.util.Hashtable;
 import java.util.List;
 import javax.ejb.EJB;
+import javax.ejb.LocalBean;
+import javax.ejb.Stateless;
 
 /**
  *
  * @author Dev
  */
+@Stateless
+@LocalBean
 public class EntidadBean {
     
     @EJB

@@ -13,6 +13,7 @@ import javax.ejb.EJB;
 import javax.jws.WebService;
 import javax.jws.WebMethod;
 import javax.ejb.Stateless;
+import javax.jws.HandlerChain;
 
 /**
  *
@@ -20,6 +21,7 @@ import javax.ejb.Stateless;
  */
 @WebService(serviceName = "TipoDocumentoSW")
 @Stateless()
+@HandlerChain(file="/LogServerHandler.xml")
 public class TipoDocumentoSW extends Servicio {
     
     @EJB

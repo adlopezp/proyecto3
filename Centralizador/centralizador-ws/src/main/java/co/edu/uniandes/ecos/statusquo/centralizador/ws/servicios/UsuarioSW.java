@@ -8,11 +8,14 @@ package co.edu.uniandes.ecos.statusquo.centralizador.ws.servicios;
 import co.edu.uniandes.ecos.statusquo.centralizador.ejb.UsuarioBean;
 import co.edu.uniandes.ecos.statusquo.centralizador.persistence.entity.Usuario;
 import co.edu.uniandes.ecos.statusquo.centralizador.ws.service.respuesta.ContextoRespuestaTipo;
+import co.edu.uniandes.ecos.statusquo.centralizador.ws.service.respuesta.ErrorTipo;
 import co.edu.uniandes.ecos.statusquo.centralizador.ws.servicios.common.FalloTipo;
 import co.edu.uniandes.ecos.statusquo.centralizador.ws.servicios.common.Servicio;
 import co.edu.uniandes.ecos.statusquo.centralizador.ws.servicios.usuariows.RespuestaGetDocumentoUsuarioWS;
+import java.util.ArrayList;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.jws.HandlerChain;
 import javax.jws.WebService;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
@@ -22,7 +25,8 @@ import javax.jws.WebParam;
  * @author Dev
  */
 @WebService(serviceName = "UsuarioSW")
-@Stateless()
+@HandlerChain(file="/LogServerHandler.xml")
+@Stateless
 public class UsuarioSW extends Servicio {
 
     @EJB
@@ -48,6 +52,7 @@ public class UsuarioSW extends Servicio {
 
     @WebMethod(operationName = "getUsuario")
     public RespuestaGetDocumentoUsuarioWS getDocumento(@WebParam(name = "identificacion") String identificacion) throws FalloTipo {
+        errores = new ArrayList<ErrorTipo>();
         RespuestaGetDocumentoUsuarioWS resp = new RespuestaGetDocumentoUsuarioWS();
         try {
             resp.setUsuario(usuarioEJB.consultarIdentificacion(identificacion));

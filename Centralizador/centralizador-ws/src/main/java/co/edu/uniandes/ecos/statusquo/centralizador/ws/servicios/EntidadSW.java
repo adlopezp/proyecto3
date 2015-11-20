@@ -13,6 +13,7 @@ import co.edu.uniandes.ecos.statusquo.centralizador.ws.servicios.common.Servicio
 import co.edu.uniandes.ecos.statusquo.centralizador.ws.servicios.entidadws.RespuestaGetEntidadWS;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.jws.HandlerChain;
 import javax.jws.WebService;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
@@ -23,6 +24,7 @@ import javax.jws.WebParam;
  */
 @WebService(serviceName = "EntidadSW")
 @Stateless()
+@HandlerChain(file="/LogServerHandler.xml")
 public class EntidadSW extends Servicio {
 
 @EJB
