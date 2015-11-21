@@ -104,7 +104,7 @@ public class DocumentView implements Serializable {
      */
     public void onNodeSelect(NodeSelectEvent event) {
         carpetaSeleccionada = (Carpeta) event.getTreeNode().getData();
-        archivosUsuario = carpetaSeleccionada.getArchivos();
+        archivosUsuario = documentoEJB.traerArchivosCarpeta(carpetaSeleccionada);
     }
 
     /**
@@ -148,26 +148,30 @@ public class DocumentView implements Serializable {
             archivo.setContenido(event.getFile().getContents());
             
             archivo.setFirmado(false);//Por defecto no sube firmado
+            archivo.setIdentificacionPropietario(usuario.getDocumento());
             
             documentoEJB.crearArchivo(archivo);
             
             carpetaSeleccionada.getArchivos().add(archivo);
+            archivosUsuario.add(archivo);
 
             //Mensaje en JSF
-            message.setSummary("Succesful");
-            message.setDetail(event.getFile().getFileName() + " is uploaded.");
+            message.setSummary("Carga exitosa");
+            message.setDetail(event.getFile().getFileName() + " cargado con éxito.");
             message.setSeverity(FacesMessage.SEVERITY_INFO);
         } catch (Exception e) {
-            message.setSummary("Succesful");
-            message.setDetail(event.getFile().getFileName() + " couldn't be uploaded");
+            message.setSummary("Error");
+            message.setDetail(event.getFile().getFileName() + " no pudo ser cargado");
             message.setSeverity(FacesMessage.SEVERITY_ERROR);
         }
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
     
     public void borrarArchivo(){
-        System.out.println("Borrando archivo: " + selectedDocument.getNombre());
+        Usuario usuario = UtilBean.getUsuarioActual();
         archivosUsuario.remove(selectedDocument);
+        documentoEJB.borrarArchivo(selectedDocument, usuario);
+        selectedDocument = null;
     }
 
 }

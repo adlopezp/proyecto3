@@ -27,13 +27,6 @@ public class DocumentoEJB {
     @EJB
     private ArchivoDAO archivoDAO;
     
-    @EJB
-    private PropertiesEJB propertiesEJB;
-
-    public void businessMethod() {
-        System.out.println("llamado EJB");
-    }
-
     public List<Carpeta> traerCarpetasDeUsuario(final Usuario usuario) {
         List<Carpeta> carpetas = carpetaDAO.consultarPorUsuario(usuario);
         return carpetas;
@@ -45,7 +38,6 @@ public class DocumentoEJB {
      * @throws IOException
      */
     public void crearArchivo(Archivo archivo) throws IOException {
-        
         File file = new File(archivo.getUrl());
         FileUtils.writeByteArrayToFile(file, archivo.getContenido());
         archivoDAO.actualizar(archivo);
@@ -56,5 +48,19 @@ public class DocumentoEJB {
         return carpetaDAO.buscar(id);
     }
 
-    
+    /**
+     * Retorna los archivos y de una carpeta seleccionada
+     * @param carpeta
+     * @return 
+     */
+    public List<Archivo> traerArchivosCarpeta(Carpeta carpeta) {
+        return archivoDAO.traerArchivosCarpeta(carpeta);
+    }
+
+    public void borrarArchivo(Archivo archivo, Usuario usuario) {
+        Carpeta papelera = carpetaDAO.traerPapelera(usuario);
+        archivo.setCarpetaPadreId(papelera);
+        archivoDAO.actualizar(archivo);
+    }
+
 }
