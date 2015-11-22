@@ -44,30 +44,39 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class AuditoriaOperadorWs implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE, generator = "seq_auditoriaws")
+    @SequenceGenerator(name = "seq_auditoria_operador", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_auditoria_operador")
     @Basic(optional = false)
     @NotNull
     @Column(name = "id", nullable = false)
     private Long id;
+
     @Column(name = "fecha_in")
     @Temporal(TemporalType.DATE)
     private Date fechaIn;
+
     @Size(max = 10485760)
     @Column(name = "mensaje_in", length = 10485760)
     private String mensajeIn;
+
     @Size(max = 250)
     @Column(name = "host_actor", length = 250)
     private String hostActor;
+
     @Column(name = "fecha_out")
     @Temporal(TemporalType.DATE)
     private Date fechaOut;
+
     @Size(max = 10485760)
     @Column(name = "mensaje_out", length = 10485760)
     private String mensajeOut;
+
     @Size(max = 250)
     @Column(name = "idcliente", length = 250)
     private String idcliente;
+
     @Column(name = "in_out")
     private Boolean inOut;
 
@@ -166,5 +175,5 @@ public class AuditoriaOperadorWs implements Serializable {
     public String toString() {
         return "co.edu.uniandes.ecos.statusquo.operador.entity.AuditoriaOperadorWs[ id=" + id + " ]";
     }
-    
+
 }

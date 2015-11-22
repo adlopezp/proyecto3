@@ -7,6 +7,8 @@ package co.edu.uniandes.ecos.statusquo.operador.dao;
 
 import co.edu.uniandes.ecos.statusquo.operador.entity.Archivo;
 import co.edu.uniandes.ecos.statusquo.operador.entity.Carpeta;
+import co.edu.uniandes.ecos.statusquo.operador.entity.CarpetaPersonal;
+import co.edu.uniandes.ecos.statusquo.operador.entity.EstadoArchivo;
 import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -32,10 +34,13 @@ public class ArchivoDAO extends AbstractDAO<Archivo>{
     public List<Archivo> traerArchivosCarpeta(Carpeta carpetaSeleccionada) {
         StringBuilder sb = new StringBuilder();
         sb.append("from Archivo a ");
-        sb.append("where a.carpetaPadre.id = :carpetaId");
+        sb.append("where a.carpetaPadre.id = :carpetaId ");
+        sb.append("and a.estado.id = 1");
+              
         Query query = em.createQuery(sb.toString());
         query.setParameter("carpetaId", carpetaSeleccionada.getId());
         return query.getResultList();
     }
 
+   
 }

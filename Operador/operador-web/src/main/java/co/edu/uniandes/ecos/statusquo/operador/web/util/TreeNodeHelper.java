@@ -22,17 +22,23 @@ public class TreeNodeHelper {
         TreeNode root =  new DefaultTreeNode("Root", null);
         
         for (Carpeta carpeta: carpetas) {
-            TreeNode nodoCarpeta = new DefaultTreeNode(carpeta,root);
-            
-            if (!carpeta.getCarpetasHijas().isEmpty()) {
-                for (Carpeta hija: carpeta.getCarpetasHijas()) {
-                    TreeNode sub = new DefaultTreeNode(hija ,nodoCarpeta);
-                }
-                
-            }
-            
+            addFolderToTree(root, carpeta);
         }
+        
+        
+        
         return root;
+    }
+
+    private static void addFolderToTree(TreeNode root, Carpeta carpeta) {
+        TreeNode nodoCarpeta = new DefaultTreeNode(carpeta, root);
+        List<Carpeta> subcarpetas = carpeta.getCarpetasHijas();
+        
+        if (subcarpetas != null && !subcarpetas.isEmpty()) {
+            for (Carpeta subcarpeta: subcarpetas) {
+                addFolderToTree(nodoCarpeta, subcarpeta);
+            }
+        }
     }
     
 }

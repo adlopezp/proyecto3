@@ -62,11 +62,11 @@
                 <br/>
                 <br/>
             </div>
-            <p:ajaxStatus id="status_ajax" onsuccess="PF('status_dlg').hide();"/>
-            <p:dialog id="status_dlg" widgetVar="status_dlg"  modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
-                <p:graphicImage id="status_img" url="/recursos/imagenes/loading_spinner.gif" />
-            </p:dialog>
         </h:form>
+        <p:ajaxStatus id="status_ajax" onsuccess="PF('status_dlg').hide();" onstart="PF('status_dlg').show();"/>
+        <p:dialog id="status_dlg" widgetVar="status_dlg"  modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+            <p:graphicImage id="status_img" url="/recursos/imagenes/loading_spinner.gif"  />
+        </p:dialog>
     </h:body>
 </html>
 

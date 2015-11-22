@@ -104,8 +104,10 @@ public class DocumentView implements Serializable {
      * @param event
      */
     public void onNodeSelect(NodeSelectEvent event) {
+        Usuario usuario = UtilBean.getUsuarioActual();
         carpetaSeleccionada = (Carpeta) event.getTreeNode().getData();
-        archivosUsuario = documentoEJB.traerArchivosCarpeta(carpetaSeleccionada);
+        archivosUsuario = 
+                documentoEJB.traerArchivosCarpeta(carpetaSeleccionada, usuario);
     }
 
     /**
@@ -169,10 +171,8 @@ public class DocumentView implements Serializable {
     }
     
     public void borrarArchivo(){
-        Usuario usuario = UtilBean.getUsuarioActual();
         archivosUsuario.remove(selectedDocument);
-        documentoEJB.borrarArchivo(selectedDocument, usuario);
-        selectedDocument = null;
+        documentoEJB.moverAPapelera(selectedDocument);
     }
 
 }

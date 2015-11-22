@@ -58,19 +58,12 @@ public class Mensaje implements Serializable {
     @Column(name = "identificacion_remitente")
     private String identificacionRemitente;
 
-    /* TODO: Cada mensaje de tipo "Notificacion de Documentos Compartidos" solo
-     * tiene un link del archivo remoto asociado, se podria modificar para que
-     * el mensaje tenga varias URL
-     */
-    @Basic(optional = true)
-    @Size(min = 1, max = 255)
-    @Column(name = "url")
-    private String url;
+    // Archivo remoto
+    @JoinColumn(name = "archivo_id", referencedColumnName = "id")
+    @ManyToOne(optional = true)
+    private Archivo archivo;
 
-    /* TODO: Cada mensaje de tipo "Solicitud de Documentos" solo
-     * tiene un tipo de archivo solicitado, se podria modificar para que
-     * el mensaje tenga varios tipos y solicitar varios tipos de archivos
-     */
+    // Tipo de Archivo Solicitado
     @JoinColumn(name = "tipo_archivo_id", referencedColumnName = "id")
     @ManyToOne(optional = true)
     private TipoArchivo tipoArchivo;
@@ -135,19 +128,19 @@ public class Mensaje implements Serializable {
         this.identificacionRemitente = identificacionRemitente;
     }
 
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
     public TipoArchivo getTipoArchivo() {
         return tipoArchivo;
     }
 
     public void setTipoArchivo(TipoArchivo tipoArchivo) {
         this.tipoArchivo = tipoArchivo;
+    }
+
+    public Archivo getArchivo() {
+        return archivo;
+    }
+
+    public void setArchivo(Archivo archivo) {
+        this.archivo = archivo;
     }
 }
