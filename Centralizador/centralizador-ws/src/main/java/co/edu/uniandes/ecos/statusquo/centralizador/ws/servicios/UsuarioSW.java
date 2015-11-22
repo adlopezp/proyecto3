@@ -12,6 +12,7 @@ import co.edu.uniandes.ecos.statusquo.centralizador.ws.service.respuesta.ErrorTi
 import co.edu.uniandes.ecos.statusquo.centralizador.ws.servicios.common.FalloTipo;
 import co.edu.uniandes.ecos.statusquo.centralizador.ws.servicios.common.Servicio;
 import co.edu.uniandes.ecos.statusquo.centralizador.ws.servicios.usuariows.RespuestaGetDocumentoUsuarioWS;
+import java.io.Serializable;
 import java.util.ArrayList;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -26,8 +27,7 @@ import javax.jws.WebParam;
  */
 @WebService(serviceName = "UsuarioSW")
 @HandlerChain(file="/LogServerHandler.xml")
-@Stateless
-public class UsuarioSW extends Servicio {
+public class UsuarioSW extends Servicio implements Serializable {
 
     @EJB
     private UsuarioBean usuarioEJB;

@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<handler-chains xmlns="http://java.sun.com/xml/ns/javaee"
-                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                xsi:schemaLocation="http://java.sun.com/xml/ns/javaee">
-    <handler-chain>
-        <handler>
-            <handler-class>co.edu.uniandes.ecos.statusquo.centralizador.ws.handlers.LogingServerHandler</handler-class>
-        </handler>
-    </handler-chain>
+<handler-chains xmlns="http://java.sun.com/xml/ns/javaee">
+  <handler-chain>
+    <handler>
+      <handler-name>co.edu.uniandes.ecos.statusquo.centralizador.ws.handlers.LogingServerHandler</handler-name>
+      <handler-class>co.edu.uniandes.ecos.statusquo.centralizador.ws.handlers.LogingServerHandler</handler-class>
+    </handler>
+  </handler-chain>
 </handler-chains>
