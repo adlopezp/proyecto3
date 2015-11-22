@@ -1,8 +1,5 @@
 package co.edu.uniandes.ecos.statusquo.operador.ejb;
 
-import co.edu.uniandes.ecos.statusquo.operador.clientews.RespuestaGetDocumentoUsuarioWS;
-import co.edu.uniandes.ecos.statusquo.operador.clientews.UsuarioSW;
-import co.edu.uniandes.ecos.statusquo.operador.clientews.UsuarioSW_Service;
 import co.edu.uniandes.ecos.statusquo.operador.dao.AutenticacionDAO;
 import co.edu.uniandes.ecos.statusquo.operador.dao.TipoUsuarioDAO;
 import co.edu.uniandes.ecos.statusquo.operador.dao.UsuarioDAO;
@@ -14,6 +11,7 @@ import co.edu.uniandes.ecos.statusquo.operador.entity.TipoCarpeta;
 import co.edu.uniandes.ecos.statusquo.operador.entity.TipoUsuario;
 import co.edu.uniandes.ecos.statusquo.operador.entity.Usuario;
 import java.io.IOException;
+import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.util.ArrayList;
@@ -32,7 +30,7 @@ import javax.xml.ws.WebServiceRef;
  */
 @Stateless
 @LocalBean
-public class UsuarioEJB {
+public class UsuarioEJB implements Serializable {
 
     @EJB
     AutenticacionDAO autenticacionDao;
@@ -46,7 +44,7 @@ public class UsuarioEJB {
     @EJB
     private SeguridadEJB seguridadEJB;
 
-    @WebServiceRef(wsdlLocation = "http://localhost:8080/UsuarioSW/UsuarioSW?WSDL")
+    @WebServiceRef(wsdlLocation = "http://localhost:8080/centralizador-ws/UsuarioSW?wsdl")
     @HandlerChain(file = "/LogHandler.xml")
     private UsuarioSW_Service service;
 
@@ -61,6 +59,7 @@ public class UsuarioEJB {
         } catch (Exception ex) {
             // TODO handle custom exceptions here
         }
+
         Usuario usuario = null;
         List<Object> parametros = new ArrayList<>();
         parametros.add(codigo);

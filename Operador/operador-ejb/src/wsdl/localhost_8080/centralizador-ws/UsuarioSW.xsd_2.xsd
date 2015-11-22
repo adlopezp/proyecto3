@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI (http://jax-ws.java.net). RI's version is Metro/2.3.1-b419 (branches/2.3.1.x-7937; 2014-08-04T08:11:03+0000) JAXWS-RI/2.2.10-b140803.1500 JAXWS-API/2.2.11 JAXB-RI/2.2.10-b140802.1033 JAXB-API/2.2.12-b140109.1041 svn-revision#unknown. --><xs:schema xmlns:ns1="http://servicios.ws.centralizador.statusquo.ecos.uniandes.edu.co/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://co.edu.uniandes.ecos.statusquo.centralizador.ws.servicio.exception/">
 
-<xs:import namespace="http://servicios.ws.centralizador.statusquo.ecos.uniandes.edu.co/" schemaLocation="http://localhost:8080/UsuarioSW/UsuarioSW?xsd=1"/>
+<xs:import namespace="http://servicios.ws.centralizador.statusquo.ecos.uniandes.edu.co/" schemaLocation="http://localhost:8080/centralizador-ws/UsuarioSW?xsd=1"/>
 
 <xs:element name="FalloTipo" type="ns1:FalloTipo"/>
 
