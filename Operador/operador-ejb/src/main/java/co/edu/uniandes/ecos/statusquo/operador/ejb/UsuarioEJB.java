@@ -1,5 +1,8 @@
 package co.edu.uniandes.ecos.statusquo.operador.ejb;
 
+import co.edu.uniandes.ecos.statusquo.operador.clientews.RespuestaGetDocumentoUsuarioWS;
+import co.edu.uniandes.ecos.statusquo.operador.clientews.UsuarioSW;
+import co.edu.uniandes.ecos.statusquo.operador.clientews.UsuarioSW_Service;
 import co.edu.uniandes.ecos.statusquo.operador.dao.AutenticacionDAO;
 import co.edu.uniandes.ecos.statusquo.operador.dao.TipoUsuarioDAO;
 import co.edu.uniandes.ecos.statusquo.operador.dao.UsuarioDAO;
@@ -20,6 +23,8 @@ import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.jws.HandlerChain;
+import javax.xml.ws.WebServiceRef;
 
 /**
  *
@@ -41,8 +46,21 @@ public class UsuarioEJB {
     @EJB
     private SeguridadEJB seguridadEJB;
 
-    public Usuario auntenticar(final String codigo, final String password) {
+    @WebServiceRef(wsdlLocation = "http://localhost:8080/UsuarioSW/UsuarioSW?WSDL")
+    @HandlerChain(file = "/LogHandler.xml")
+    private UsuarioSW_Service service;
 
+    public Usuario auntenticar(final String codigo, final String password) {
+        try { // Call Web Service Operation
+            UsuarioSW port = service.getUsuarioSWPort();
+            // TODO initialize WS operation arguments here
+            String identificacion = "SDF";
+            // TODO process result here
+            RespuestaGetDocumentoUsuarioWS result = port.getUsuario(identificacion);
+            System.out.println("Result = " + result);
+        } catch (Exception ex) {
+            // TODO handle custom exceptions here
+        }
         Usuario usuario = null;
         List<Object> parametros = new ArrayList<>();
         parametros.add(codigo);
@@ -51,6 +69,7 @@ public class UsuarioEJB {
         if (aut != null) {
             usuario = aut.getUsuario();
         }
+
         return usuario;
     }
 

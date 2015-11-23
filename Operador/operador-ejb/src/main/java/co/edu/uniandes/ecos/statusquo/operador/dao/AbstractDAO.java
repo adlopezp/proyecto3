@@ -24,14 +24,17 @@ public abstract class AbstractDAO<T> {
 
     public void insertar(T entity) {
         em.persist(entity);
+        em.flush();
     }
 
     public void actualizar(T entity) {
         em.merge(entity);
+        em.flush();
     }
 
     public void borrar(T entity) {
         em.remove(em.merge(entity));
+        em.flush();
     }
 
     public void desconectar(T entity) {
