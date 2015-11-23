@@ -7,6 +7,7 @@ package co.edu.uniandes.ecos.statusquo.centralizador.ws.servicios.tipodocumentow
 
 import co.edu.uniandes.ecos.statusquo.centralizador.persistence.entity.TipoDocumento;
 import co.edu.uniandes.ecos.statusquo.centralizador.ws.service.respuesta.ContextoRespuestaTipo;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +15,7 @@ import java.util.List;
  *
  * @author Dev
  */
-public class RespuestaGetTipoDocumentoWS {
+public class RespuestaGetTipoDocumentoWS implements Serializable {
     private ContextoRespuestaTipo respuestaEstandar=new ContextoRespuestaTipo();
     private List<TipoDocumento> tipoDocumento= new ArrayList<TipoDocumento>();
 

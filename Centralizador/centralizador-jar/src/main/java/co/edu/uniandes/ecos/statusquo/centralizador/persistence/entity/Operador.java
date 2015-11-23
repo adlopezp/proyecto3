@@ -51,7 +51,7 @@ public class Operador implements Serializable {
     private String nombre;
     @Column(name = "DESCRIPCION", length = 225)
     private String descripcion;
-    @Column(name = "URL", length = 20)
+    @Column(name = "URL", length = 225)
     private String url;
     @OneToMany(mappedBy = "operador", fetch = FetchType.LAZY)
     private List<Usuario> usuarioList;

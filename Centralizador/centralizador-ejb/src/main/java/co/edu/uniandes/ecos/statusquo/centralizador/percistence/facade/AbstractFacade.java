@@ -157,7 +157,12 @@ public abstract class AbstractFacade<T> {
             String key = enu.nextElement();
             q.setParameter(key, params.get(key));
         }
-        return (T)q.getSingleResult();
+        try{
+            return (T)q.getSingleResult();
+        }catch(Exception ex){
+            return null;
+        }
+        
     }
 
     /**

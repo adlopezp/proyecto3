@@ -8,6 +8,7 @@ package co.edu.uniandes.ecos.statusquo.centralizador.persistence.entity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -70,7 +71,7 @@ public class Usuario implements Serializable {
     @Column(name = "FIRMA")
     private Byte[] firma;
     @JoinColumn(name = "OPERADOR", referencedColumnName = "ID")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Operador operador;
 
     public Usuario() {

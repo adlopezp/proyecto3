@@ -7,12 +7,13 @@ package co.edu.uniandes.ecos.statusquo.centralizador.ws.servicios.usuariows;
 
 import co.edu.uniandes.ecos.statusquo.centralizador.persistence.entity.Usuario;
 import co.edu.uniandes.ecos.statusquo.centralizador.ws.service.respuesta.ContextoRespuestaTipo;
+import java.io.Serializable;
 
 /**
  *
  * @author Dev
  */
-public class RespuestaGetDocumentoUsuarioWS {
+public class RespuestaGetDocumentoUsuarioWS implements Serializable {
     
     private ContextoRespuestaTipo respuestaEstandar=new ContextoRespuestaTipo();
     private Usuario usuario= new Usuario();
