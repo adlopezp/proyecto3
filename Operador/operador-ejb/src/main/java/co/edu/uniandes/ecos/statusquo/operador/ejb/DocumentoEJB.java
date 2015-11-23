@@ -41,7 +41,6 @@ public class DocumentoEJB {
         File file = new File(archivo.getUrl());
         FileUtils.writeByteArrayToFile(file, archivo.getContenido());
         archivoDAO.actualizar(archivo);
-        System.out.println(archivo);
     }
 
     public Carpeta traerCarpeta(long id) {

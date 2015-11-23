@@ -55,9 +55,10 @@ public class DocumentView implements Serializable {
     @PostConstruct
     public void init() {
         Usuario usuario = UtilBean.getUsuarioActual();
-        System.out.println("login:" + usuario.getNombre1() + " " + usuario.getNombre2() + " " + usuario.getApellido1() + " " + usuario.getApellido2());
         carpetasUsuario = documentoEJB.traerCarpetasDeUsuario(usuario);
-        root = TreeNodeHelper.toTreeNode(carpetasUsuario);
+        if (carpetasUsuario != null && !carpetasUsuario.isEmpty()) {
+            root = TreeNodeHelper.toTreeNode(carpetasUsuario);
+        }
     }
 
     public TreeNode getRoot() {

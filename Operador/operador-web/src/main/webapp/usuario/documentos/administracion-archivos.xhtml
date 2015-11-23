@@ -57,14 +57,18 @@
                                     <p:button value="Nuevo directorio" icon="ui-icon-plus" disabled="true">
                                         <f:param name="productId" value="10" />
                                     </p:button>
-                                    <p:commandButton value="Descargar"
-                                                     ajax="false"
-                                                     onclick="PrimeFaces.monitorDownload(start, stop);"
-                                                     icon="fa fa-fw fa-download"
-                                                     type="button"
-                                                     disabled="#{empty documentView.selectedDocument}">
+                                    <!-- Acá va el botón de descargar -->
+                                    <p:commandButton value="Descargar" ajax="false" 
+                                                     onclick="PrimeFaces.monitorDownload(start, stop);" 
+                                                     icon="ui-icon-arrowthick-1-s">
                                         <p:fileDownload value="#{documentView.contenidoDescarga}" />
                                     </p:commandButton>
+                                    
+                                    
+                                    
+
+                                    
+                                    
                                     <p:commandButton value="Eliminar"
                                                      icon="fa fa-remove"
                                                      actionListener="#{documentView.borrarArchivo}"
@@ -81,15 +85,18 @@
                                                      icon="fa fa-check"
                                                      disabled="#{empty documentView.selectedDocument}">
                                     </p:commandButton>
-
+                                    
+                                    <!-- Dialogo carga -->
                                     <p:dialog id="loadDialog" widgetVar="loadDialog"
                                               modal="true" resizable="false" closeOnEscape="true">
                                         <ui:include src="dialogos/dialogo-carga.xhtml" />
                                     </p:dialog>
-                                    <p:dialog id="downloadDialog" widgetVar="downloadDialog"
-                                              modal="true" resizable="false" closeOnEscape="true">
-                                        <ui:include src="dialogos/dialogo-descarga.xhtml" />
+                                    <!-- Estado descarga -->
+                                    <p:dialog modal="true" widgetVar="statusDialog" header="Status" draggable="false" closable="false" resizable="false">
+                                        <!-- FIXME no muestra la imagen -->
+                                        <p:graphicImage name="#{request.contextPath}/recursos/imagenes/ajaxloadingbar.gif" />
                                     </p:dialog>
+                                    <!-- Dialogo carga -->
                                     <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
                                         <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
                                         <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
