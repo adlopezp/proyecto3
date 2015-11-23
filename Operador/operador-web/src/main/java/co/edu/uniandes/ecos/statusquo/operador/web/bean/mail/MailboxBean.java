@@ -5,12 +5,15 @@
  */
 package co.edu.uniandes.ecos.statusquo.operador.web.bean.mail;
 
-import co.edu.uniandes.ecos.statusquo.operador.web.data.mail.Mail;
+import co.edu.uniandes.ecos.statusquo.operador.ejb.MailEJB;
+import co.edu.uniandes.ecos.statusquo.operador.entity.Mensaje;
+import co.edu.uniandes.ecos.statusquo.operador.entity.Usuario;
+import co.edu.uniandes.ecos.statusquo.operador.web.bean.UtilBean;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
@@ -23,14 +26,26 @@ import javax.faces.bean.ViewScoped;
 public class MailboxBean implements Serializable {
 
     private String title = "Buzon de Correo";
-    private List<Mail> mails;
-    private List<Mail> mails2;
-    private List<Mail> mails3;
-    private Mail mail;
+    private List<Mensaje> mails;
+    private List<Mensaje> mails2;
+    private List<Mensaje> mails3;
+    private Mensaje mail;
+    private Usuario usuario=UtilBean.getUsuarioActual();
+    
+    @EJB
+    private MailEJB dao;
 
     @PostConstruct
     public void init() {
-        mails = new ArrayList<Mail>();
+        List<Object> params=new ArrayList<Object>();
+        params.add(new Long(1));
+        params.add(usuario.getId());
+        setMails(dao.consultarMensajesporusuario(params));
+        params.clear();
+        params.add(new Long(2));
+        params.add(usuario.getId());
+        setMails2(dao.consultarMensajesporusuario(params));
+        /*mails = new ArrayList<Mail>();
         mails.add(new Mail("1016008913", "Solicitud Para Compartir Documentos", "Compartir Documento Cedula", new Date()));
 
         mails2 = new ArrayList<Mail>();
@@ -40,23 +55,7 @@ public class MailboxBean implements Serializable {
         mails3.add(new Mail("usuario@carpetaciudadana.com", "Alerta 1", "Texto Alerta", new Date()));
         mails3.add(new Mail("usuario@carpetaciudadana.com", "Alerta 2", "Texto Alerta 2", new Date()));
         mails3.add(new Mail("usuario@carpetaciudadana.com", "Alerta 3", "Texto Alerta 3", new Date()));
-        mails3.add(new Mail("Entidad oficial", "Alerta 4", "Texto Alerta 4", new Date()));
-    }
-
-    public void setMails(List<Mail> mails) {
-        this.mails = mails;
-    }
-
-    public List<Mail> getMails() {
-        return mails;
-    }
-
-    public Mail getMail() {
-        return mail;
-    }
-
-    public void setMail(Mail mail) {
-        this.mail = mail;
+        mails3.add(new Mail("Entidad oficial", "Alerta 4", "Texto Alerta 4", new Date()));*/
     }
 
     public String getTitle() {
@@ -67,20 +66,35 @@ public class MailboxBean implements Serializable {
         this.title = title;
     }
 
-    public List<Mail> getMails2() {
+    public List<Mensaje> getMails() {
+        return mails;
+    }
+
+    public void setMails(List<Mensaje> mails) {
+        this.mails = mails;
+    }
+
+    public List<Mensaje> getMails2() {
         return mails2;
     }
 
-    public void setMails2(List<Mail> mails2) {
+    public void setMails2(List<Mensaje> mails2) {
         this.mails2 = mails2;
     }
 
-    public List<Mail> getMails3() {
+    public List<Mensaje> getMails3() {
         return mails3;
     }
 
-    public void setMails3(List<Mail> mails3) {
+    public void setMails3(List<Mensaje> mails3) {
         this.mails3 = mails3;
     }
 
+    public Mensaje getMail() {
+        return mail;
+    }
+
+    public void setMail(Mensaje mail) {
+        this.mail = mail;
+    }
 }
