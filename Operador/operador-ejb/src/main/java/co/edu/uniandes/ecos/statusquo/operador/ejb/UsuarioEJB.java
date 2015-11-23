@@ -8,6 +8,7 @@ import co.edu.uniandes.ecos.statusquo.operador.entity.Carpeta;
 import co.edu.uniandes.ecos.statusquo.operador.entity.CarpetaPersonal;
 import co.edu.uniandes.ecos.statusquo.operador.entity.EstadoCarpeta;
 import co.edu.uniandes.ecos.statusquo.operador.entity.TipoCarpeta;
+import co.edu.uniandes.ecos.statusquo.operador.entity.TipoDocumento;
 import co.edu.uniandes.ecos.statusquo.operador.entity.TipoUsuario;
 import co.edu.uniandes.ecos.statusquo.operador.entity.Usuario;
 import java.io.IOException;
@@ -49,17 +50,6 @@ public class UsuarioEJB implements Serializable {
     private UsuarioSW_Service service;
 
     public Usuario auntenticar(final String codigo, final String password) {
-        try { // Call Web Service Operation
-            UsuarioSW port = service.getUsuarioSWPort();
-            // TODO initialize WS operation arguments here
-            String identificacion = "SDF";
-            // TODO process result here
-            RespuestaGetDocumentoUsuarioWS result = port.getUsuario(identificacion);
-            System.out.println("Result = " + result);
-        } catch (Exception ex) {
-            // TODO handle custom exceptions here
-        }
-
         Usuario usuario = null;
         List<Object> parametros = new ArrayList<>();
         parametros.add(codigo);
@@ -82,20 +72,53 @@ public class UsuarioEJB implements Serializable {
                 q = "Usuario.findByDocumento";
                 parametros.add(documento);
             }
+        } else if (documento == null || documento.isEmpty()) {
+            q = "Usuario.findByNombre";
+            parametros.add("%" + nombre + "%");
         } else {
-            if (documento == null || documento.isEmpty()) {
-                q = "Usuario.findByNombre";
-                parametros.add("%" + nombre + "%");
-            } else {
-                q = "Usuario.findByNombreDocumento";
-                parametros.add("%" + nombre + "%");
-                parametros.add(documento);
-            }
+            q = "Usuario.findByNombreDocumento";
+            parametros.add("%" + nombre + "%");
+            parametros.add(documento);
         }
         return usuarioDao.consultarNamedQuery(q, parametros);
     }
 
     public Usuario obtenerUsuario(final String documento) {
+        try { // Call Web Service Operation
+            UsuarioSW port = service.getUsuarioSWPort();
+            // TODO initialize WS operation arguments here
+            String identificacion = documento;
+            // TODO process result here
+            RespuestaGetDocumentoUsuarioWS result = port.getUsuario(identificacion);
+            System.out.println("Result = " + result);
+            if (result.getUsuario() != null) {
+                List<Object> parametros = new ArrayList<>();
+                String q = "Usuario.findByDocumentoExacto";
+                parametros.add(documento);
+                if (usuarioDao.buscarNamedQuery(q, parametros) == null) {
+                    Usuario usuarioSeleccionado = new Usuario();
+                    usuarioSeleccionado.setApellido1(result.getUsuario().getApellido1());
+                    usuarioSeleccionado.setApellido2(result.getUsuario().getApellido2());
+                    usuarioSeleccionado.setCorreo(result.getUsuario().getCorreo());
+                    usuarioSeleccionado.setNombre1(result.getUsuario().getNombre1());
+                    usuarioSeleccionado.setNombre2(result.getUsuario().getNombre2());
+                    usuarioSeleccionado.setDocumento(result.getUsuario().getNumeroIdentificacion());
+                    usuarioSeleccionado.setTelefono(result.getUsuario().getTelefono());
+                    usuarioSeleccionado.setTipoDocumento(TipoDocumento.valueOf(result.getUsuario().getTipoIdentificacion()));
+                    usuarioSeleccionado.setTipo(new TipoUsuario(new Long(2)));
+                    Autenticacion aut = new Autenticacion();
+                    aut.setCodigo(usuarioSeleccionado.getNombre1() + "." + usuarioSeleccionado.getApellido1());
+                    aut.setPassword("ecos2015");
+                    aut.setUsuario(usuarioSeleccionado);
+                    usuarioSeleccionado.setAutenticacion(aut);
+                    guardarUsuario(usuarioSeleccionado);
+                    guardarAutenticacion(aut);
+                    actualizarUsuario(usuarioSeleccionado);
+                }
+            }
+        } catch (Exception ex) {
+            // TODO handle custom exceptions here
+        }
         List<Object> parametros = new ArrayList<>();
         String q = "Usuario.findByDocumentoExacto";
         parametros.add(documento);
@@ -133,6 +156,30 @@ public class UsuarioEJB implements Serializable {
     public void guardarUsuario(Usuario usuario) {
         usuarioDao.insertar(usuario);
 
+        if (usuario.getAutenticacion() == null) {
+            try { // Call Web Service Operation
+                UsuarioSW port = service.getUsuarioSWPort();
+                // TODO initialize WS operation arguments here
+                co.edu.uniandes.ecos.statusquo.operador.ejb.Usuario usuariocen = new co.edu.uniandes.ecos.statusquo.operador.ejb.Usuario();
+                usuariocen.setApellido1(usuario.getApellido1());
+                usuariocen.setApellido2(usuario.getApellido2());
+                usuariocen.setCorreo(usuario.getCorreo());
+                usuariocen.setNombre1(usuario.getNombre1());
+                usuariocen.setNombre2(usuario.getNombre2());
+                usuariocen.setNumeroIdentificacion(usuario.getDocumento());
+                Operador ope = new Operador();
+                ope.setNombre("Operador1");
+                ope.setUrl("http://localhost:8080/operador-ws/");
+                ope.setDescripcion("Operador1");
+                usuariocen.setOperador(ope);
+                usuariocen.setTelefono(usuario.getTelefono());
+                usuariocen.setTipoIdentificacion(usuario.getTipoDocumento().toString());
+                ContextoRespuestaTipo result = port.setUsuario(usuariocen);
+                System.out.println("Result = " + result);
+            } catch (Exception ex) {
+                // TODO handle custom exceptions here
+            }
+        }
         //Creando carpetas
         CarpetaPersonal carpetaPersonal = new CarpetaPersonal();
         carpetaPersonal.setUsuario(usuario);
