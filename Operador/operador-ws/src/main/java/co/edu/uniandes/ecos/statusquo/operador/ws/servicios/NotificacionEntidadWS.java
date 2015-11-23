@@ -8,37 +8,37 @@ package co.edu.uniandes.ecos.statusquo.operador.ws.servicios;
 import co.edu.uniandes.ecos.statusquo.centralizador.ws.servicios.common.FalloTipo;
 import co.edu.uniandes.ecos.statusquo.centralizador.ws.servicios.common.Servicio;
 import co.edu.uniandes.ecos.statusquo.operador.ws.dto.ArchivoResultanteDTO;
-import co.edu.uniandes.ecos.statusquo.operador.ws.servicios.documento.RespuestaDocumento;
+import contextorespuestatipo.servicio.ws.operador.statusquo.ecos.uniandes.edu.co.ContextoRespuestaTipo;
 import errortipo.servicio.ws.operador.statusquo.ecos.uniandes.edu.co.ErrorTipo;
 import java.util.ArrayList;
 import java.util.List;
 import javax.jws.HandlerChain;
+import javax.jws.WebService;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
-import javax.jws.WebService;
 
 /**
  *
- * @author Alvaro
+ * @author Dev
  */
-@WebService(serviceName = "Documento")
+@WebService(serviceName = "NotificacionEntidadWS")
 @HandlerChain(file = "/LogHandler.xml")
-public class Documento extends Servicio{
+public class NotificacionEntidadWS extends Servicio{
 
-    @WebMethod(operationName = "getDocumento")
-    public RespuestaDocumento getDocumento(@WebParam(name = "solicitudArchivo") List<ArchivoResultanteDTO> solicitudArchivo) throws FalloTipo {
+    @WebMethod(operationName = "recepcionNotificacionEntidad")
+    public ContextoRespuestaTipo recepcionNotificacionEntidad(@WebParam(name = "envio") List<ArchivoResultanteDTO> envio) throws FalloTipo {
         errores = new ArrayList<ErrorTipo>();
-        RespuestaDocumento resp = new RespuestaDocumento();
+        ContextoRespuestaTipo resp = new ContextoRespuestaTipo();
         try {
-            //TODO logica de documento
-            resp.getRespuestaEstandar().setCodEstadoTx("1");
-            resp.getRespuestaEstandar().setFechaTx(getFecha());
+            //TODO logica de envio
+            resp.setCodEstadoTx("1");
+            resp.setFechaTx(getFecha());
         } catch (Exception ex) {
-            controlFallo("500", "Error al enviar el documento", ex.getMessage());
+            controlFallo("500", "Error al recibir el documento de la entidad", ex.getMessage());
         }
         if (!errores.isEmpty()) {
-            resp.getRespuestaEstandar().setCodEstadoTx("0");
-            throw new FalloTipo(resp.getRespuestaEstandar(), errores);
+            resp.setCodEstadoTx("0");
+            throw new FalloTipo(resp, errores);
         }
         return resp;
     }

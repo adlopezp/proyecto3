@@ -1,0 +1,27 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://co.edu.uniandes.ecos.statusquo.operador.ws.servicio.ContextoRespuestaTipo/"
+            elementFormDefault="qualified"
+            version="1.0">
+	
+	
+    <xsd:complexType name="ContextoRespuestaTipo">
+        <xsd:sequence>
+           		
+            <!--Este elemento hace referencia a un identificador �nico-->
+            <xsd:element name="idTx" maxOccurs="1" minOccurs="1">
+                <xsd:simpleType>
+                    <xsd:restriction base="xsd:string">
+                        <xsd:length value="32"></xsd:length>
+                    </xsd:restriction>
+                </xsd:simpleType>
+            </xsd:element>   
+
+            <!--Hace referencia el estado de la ejecuci�n de la transacci�n. Si fue exitosa valor "1" y si no fue exitosa valor "0"-->
+            <xsd:element name="codEstadoTx" type="xsd:string" maxOccurs="1" minOccurs="1"></xsd:element>
+			
+            <!--Hace referencia a la fecha y hora de ejecuci�n de la transacci�n.-->
+            <xsd:element name="fechaTx" type="xsd:dateTime" maxOccurs="1" minOccurs="1"></xsd:element>
+					        			
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

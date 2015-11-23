@@ -130,6 +130,60 @@
                         <id>wsimport-generate-UsuarioSW</id>
                         <phase>generate-sources</phase>
                     </execution>
+                    <execution>
+                        <goals>
+                            <goal>wsimport</goal>
+                        </goals>
+                        <configuration>
+                            <wsdlFiles>
+                                <wsdlFile>localhost_8080/operador-ws/Documento.wsdl</wsdlFile>
+                            </wsdlFiles>
+                            <packageName>co.edu.uniandes.ecos.statusquo.operador.ejb</packageName>
+                            <vmArgs>
+                                <vmArg>-Djavax.xml.accessExternalSchema=all</vmArg>
+                            </vmArgs>
+                            <wsdlLocation>http://localhost:8080/operador-ws/Documento?wsdl</wsdlLocation>
+                            <staleFile>${project.build.directory}/jaxws/stale/Documento.stale</staleFile>
+                        </configuration>
+                        <id>wsimport-generate-Documento</id>
+                        <phase>generate-sources</phase>
+                    </execution>
+                    <execution>
+                        <goals>
+                            <goal>wsimport</goal>
+                        </goals>
+                        <configuration>
+                            <wsdlFiles>
+                                <wsdlFile>localhost_8080/operador-ws/NotificacionCompartidoWS.wsdl</wsdlFile>
+                            </wsdlFiles>
+                            <packageName>co.edu.uniandes.ecos.statusquo.operador.ejb</packageName>
+                            <vmArgs>
+                                <vmArg>-Djavax.xml.accessExternalSchema=all</vmArg>
+                            </vmArgs>
+                            <wsdlLocation>http://localhost:8080/operador-ws/NotificacionCompartidoWS?wsdl</wsdlLocation>
+                            <staleFile>${project.build.directory}/jaxws/stale/NotificacionCompartidoWS.stale</staleFile>
+                        </configuration>
+                        <id>wsimport-generate-NotificacionCompartidoWS</id>
+                        <phase>generate-sources</phase>
+                    </execution>
+                    <execution>
+                        <goals>
+                            <goal>wsimport</goal>
+                        </goals>
+                        <configuration>
+                            <wsdlFiles>
+                                <wsdlFile>localhost_8080/operador-ws/NotificacionEntidadWS.wsdl</wsdlFile>
+                            </wsdlFiles>
+                            <packageName>co.edu.uniandes.ecos.statusquo.operador.ejb</packageName>
+                            <vmArgs>
+                                <vmArg>-Djavax.xml.accessExternalSchema=all</vmArg>
+                            </vmArgs>
+                            <wsdlLocation>http://localhost:8080/operador-ws/NotificacionEntidadWS?wsdl</wsdlLocation>
+                            <staleFile>${project.build.directory}/jaxws/stale/NotificacionEntidadWS.stale</staleFile>
+                        </configuration>
+                        <id>wsimport-generate-NotificacionEntidadWS</id>
+                        <phase>generate-sources</phase>
+                    </execution>
                 </executions>
                 <dependencies>
                     <dependency>
