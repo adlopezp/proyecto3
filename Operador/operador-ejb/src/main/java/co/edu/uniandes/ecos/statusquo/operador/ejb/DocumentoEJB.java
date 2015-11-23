@@ -137,14 +137,8 @@ public class DocumentoEJB {
      */
     public void addFiles(Carpeta carpeta, List<Archivo> archivos, long state) {
         for (Archivo archivo : carpeta.getArchivos()) {
-            
             if (archivo.getEstado().getId() == state ) {
-                System.out.print("Add file: " + archivo.getNombre());
-                if (!archivos.contains(archivo)) {
-                    System.out.println(" -> no está");
                     archivos.add(archivo);
-                }
-                
             }
             if (carpeta.getCarpetasHijas() != null && !carpeta.getCarpetasHijas().isEmpty()) {
                 archivos.addAll(traerArchivosPapelera(carpeta.getCarpetasHijas()));

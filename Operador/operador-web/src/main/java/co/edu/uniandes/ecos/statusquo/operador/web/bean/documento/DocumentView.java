@@ -63,7 +63,7 @@ public class DocumentView implements Serializable {
             root = TreeNodeHelper.toTreeNode(carpetasUsuario);
             if (root != null && root.getChildren() != null && !root.getChildren().isEmpty()) {
                 TreeNode primera = root.getChildren().get(0);
-                primera.setSelected(true);
+                //primera.setSelected(true);
                 primera.setExpanded(true);
                 carpetaSeleccionada = (Carpeta) primera.getData();
                 archivosUsuario = documentoEJB.traerArchivosCarpeta(carpetaSeleccionada, usuario);
@@ -124,8 +124,6 @@ public class DocumentView implements Serializable {
     public String getMensajeEliminacion(){
         String  mensaje = "¿Está seguro de mover el archivo a la papelera?";
         if ( carpetaSeleccionada != null ) {
-            System.out.println(
-                carpetaSeleccionada.getNombre() + " - Tipo: "  + carpetaSeleccionada.getTipo().getNombre());
             if (carpetaSeleccionada.getTipo().getId() == 3) {
                 mensaje = "¿Está seguro de eliminar el archivo definitivamente?";
             }
@@ -218,6 +216,7 @@ public class DocumentView implements Serializable {
     }
     
     public void restaurarArchivo(){
+        archivosUsuario.remove(selectedDocument);
         documentoEJB.restaurarArchivo(selectedDocument);
         selectedDocument = null;
     }

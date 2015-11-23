@@ -154,8 +154,8 @@
                                         <p:fileDownload value="#{documentView.contenidoDescarga}" />
                                     </p:menuitem>
                                     <p:menuitem value="Cambiar Nombre" ajax="false" disabled="true" icon="ui-icon-pencil"/>
-                                    <p:menuitem value="Compartir" actionListener="#{documentView.restaurarArchivo}" disabled="true" ajax="false" icon="fa fa-share-alt"/>
-                                    <p:menuitem value="Restaurar" disabled="false" ajax="false" icon="fa fa-share-alt" update=":documentTable :botones_frm"/>
+                                    <p:menuitem value="Compartir" disabled="true" ajax="false" icon="fa fa-share-alt"/>
+                                    <p:menuitem value="Restaurar" actionListener="#{documentView.restaurarArchivo}" disabled="false" ajax="false" icon="fa fa-reply" update=":documentTable :botones_frm"/>
                                     <p:menuitem value="Eliminar" actionListener="#{documentView.borrarArchivo}" icon="fa fa-remove" update=":documentTable :botones_frm">
                                             <p:confirm header="Confirmación" message="#{documentView.mensajeEliminacion}" icon="ui-icon-alert"/>
                                     </p:menuitem>
