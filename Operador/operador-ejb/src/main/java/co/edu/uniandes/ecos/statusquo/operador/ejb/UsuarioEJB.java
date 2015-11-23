@@ -102,6 +102,7 @@ public class UsuarioEJB implements Serializable {
                 usuarioSeleccionado.setTelefono(result.getUsuario().getTelefono());
                 usuarioSeleccionado.setTipoDocumento(TipoDocumento.valueOf(result.getUsuario().getTipoIdentificacion()));
                 usuarioSeleccionado.setTipo(new TipoUsuario(new Long(2)));
+                return usuarioSeleccionado;
             }
         } catch (Exception ex) {
             // TODO handle custom exceptions here
