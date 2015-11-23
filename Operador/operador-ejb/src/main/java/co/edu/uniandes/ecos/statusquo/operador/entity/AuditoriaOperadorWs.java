@@ -28,7 +28,6 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Dev
  */
 @Entity
-@SequenceGenerator(name = "seq_auditoriaws", initialValue = 1, allocationSize = 1)
 @Table(name = "auditoria_operador_ws")
 @XmlRootElement
 @NamedQueries({

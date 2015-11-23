@@ -50,6 +50,7 @@ public class UsuarioBean implements Serializable {
     public void init() {
         tiposUsuarios = usuarioService.getTiposUsuario();
         usuarioSeleccionado = new Usuario();
+        usuarios = usuarioService.buscarUsuarios(nombreBusqueda, documentoBusqueda);
     }
 
     public List<Usuario> getUsuarios() {
