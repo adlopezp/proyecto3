@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI (http://jax-ws.java.net). RI's version is Metro/2.3.1-b419 (branches/2.3.1.x-7937; 2014-08-04T08:11:03+0000) JAXWS-RI/2.2.10-b140803.1500 JAXWS-API/2.2.11 JAXB-RI/2.2.10-b140802.1033 JAXB-API/2.2.12-b140109.1041 svn-revision#unknown. --><xs:schema xmlns:tns="http://servicios.ws.centralizador.statusquo.ecos.uniandes.edu.co/" xmlns:ns2="http://co.edu.uniandes.ecos.statusquo.centralizador.ws.servicio.ErrorTipo/" xmlns:ns1="http://co.edu.uniandes.ecos.statusquo.centralizador.ws.servicio.ContextoRespuestaTipo/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://servicios.ws.centralizador.statusquo.ecos.uniandes.edu.co/">
+
+<xs:import namespace="http://co.edu.uniandes.ecos.statusquo.centralizador.ws.servicio.ContextoRespuestaTipo/" schemaLocation="http://localhost:8080/UsuarioSW/UsuarioSW?xsd=4"/>
+
+<xs:import namespace="http://co.edu.uniandes.ecos.statusquo.centralizador.ws.servicio.ErrorTipo/" schemaLocation="http://localhost:8080/UsuarioSW/UsuarioSW?xsd=3"/>
+
+<xs:element name="getUsuario" type="tns:getUsuario"/>
+
+<xs:element name="getUsuarioResponse" type="tns:getUsuarioResponse"/>
+
+<xs:element name="operador" type="tns:operador"/>
+
+<xs:element name="setUsuario" type="tns:setUsuario"/>
+
+<xs:element name="setUsuarioResponse" type="tns:setUsuarioResponse"/>
+
+<xs:element name="usuario" type="tns:usuario"/>
+
+<xs:complexType name="getUsuario">
+<xs:sequence>
+<xs:element name="identificacion" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getUsuarioResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:respuestaGetDocumentoUsuarioWS" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="respuestaGetDocumentoUsuarioWS">
+<xs:sequence>
+<xs:element name="respuestaEstandar" type="ns1:ContextoRespuestaTipo" minOccurs="0"/>
+<xs:element name="usuario" type="tns:usuario" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="usuario">
+<xs:sequence>
+<xs:element name="apellido1" type="xs:string" minOccurs="0"/>
+<xs:element name="apellido2" type="xs:string" minOccurs="0"/>
+<xs:element name="correo" type="xs:string" minOccurs="0"/>
+<xs:element name="firma" type="xs:byte" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="id" type="xs:decimal" minOccurs="0"/>
+<xs:element name="nombre1" type="xs:string" minOccurs="0"/>
+<xs:element name="nombre2" type="xs:string" minOccurs="0"/>
+<xs:element name="numeroIdentificacion" type="xs:string" minOccurs="0"/>
+<xs:element name="operador" type="tns:operador" minOccurs="0"/>
+<xs:element name="telefono" type="xs:string" minOccurs="0"/>
+<xs:element name="tipoIdentificacion" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="operador">
+<xs:sequence>
+<xs:element name="descripcion" type="xs:string" minOccurs="0"/>
+<xs:element name="id" type="xs:decimal" minOccurs="0"/>
+<xs:element name="nombre" type="xs:string" minOccurs="0"/>
+<xs:element name="url" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="FalloTipo">
+<xs:sequence>
+<xs:element name="contextoRespuesta" type="ns1:ContextoRespuestaTipo" minOccurs="0"/>
+<xs:element name="error" type="ns2:ErrorTipo" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="message" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="setUsuario">
+<xs:sequence>
+<xs:element name="usuario" type="tns:usuario" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="setUsuarioResponse">
+<xs:sequence>
+<xs:element name="return" type="ns1:ContextoRespuestaTipo" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>
