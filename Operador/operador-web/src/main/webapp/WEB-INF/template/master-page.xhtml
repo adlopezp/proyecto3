@@ -101,7 +101,7 @@
         </div>
         <p:ajaxStatus id="status_ajax" onsuccess="PF('status_dlg').hide();" onstart="PF('status_dlg').show();"/>
         <p:dialog id="status_dlg" widgetVar="status_dlg"  modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
-            <p:graphicImage id="status_img" url="#{request.contextPath}/recursos/imagenes/loading_spinner.gif" />
+            <p:graphicImage id="status_img" url="/recursos/imagenes/loading_spinner.gif"/>
         </p:dialog>
         <ui:insert name="overlay"/>
     </h:body>
