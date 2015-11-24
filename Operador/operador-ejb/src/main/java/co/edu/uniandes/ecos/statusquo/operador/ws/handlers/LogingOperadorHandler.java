@@ -3,21 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package co.edu.uniandes.ecos.statusquo.centralizador.ws.handlers;
+package co.edu.uniandes.ecos.statusquo.operador.ws.handlers;
 
-import co.edu.uniandes.ecos.statusquo.centralizador.percistence.facade.AuditoriaWsFacade;
-import co.edu.uniandes.ecos.statusquo.centralizador.persistence.entity.AuditoriaWs;
+import co.edu.uniandes.ecos.statusquo.operador.dao.AuditoriaWsDAORemote;
+import co.edu.uniandes.ecos.statusquo.operador.entity.AuditoriaOperadorWs;
 import java.io.StringWriter;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
-import javax.ejb.EJB;
-import javax.ejb.Stateless;
+import javax.naming.InitialContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.namespace.QName;
 import javax.xml.soap.SOAPHeader;
@@ -36,20 +35,23 @@ import org.w3c.dom.NodeList;
  *
  * @author Dev
  */
-@Stateless
-public class LogingServerHandler implements SOAPHandler<SOAPMessageContext> {
-
-    @EJB
-    private AuditoriaWsFacade auditoria;
+public class LogingOperadorHandler implements SOAPHandler<SOAPMessageContext> {
 
     @Override
     public boolean handleMessage(SOAPMessageContext mc) {
         try {
+            Properties env = new Properties();
+            env.put("java.naming.factory.initial", "com.sun.enterprise.naming.SerialInitContextFactory");
+            env.put("java.naming.factory.url.pkgs", "com.sun.enterprise.naming");
+            env.put("org.omg.CORBA.ORBInitialPort", "3700");
+            InitialContext contexto;
+            contexto = new InitialContext(env);
+            AuditoriaWsDAORemote<AuditoriaOperadorWs> auditoriaOperador = (AuditoriaWsDAORemote<AuditoriaOperadorWs>) contexto.lookup("co.edu.uniandes.ecos.statusquo.operador.dao.AuditoriaWsDAORemote");
             final SOAPMessage message = mc.getMessage();
             SOAPHeader header = message.getSOAPHeader();
             NodeList userIdNode = header.getElementsByTagNameNS("*", "idtxcliente");
             Map<String, List<String>> headers;
-            AuditoriaWs transaccion = new AuditoriaWs();
+            AuditoriaOperadorWs transaccion = new AuditoriaOperadorWs();
             List<String> variables = new ArrayList<String>();
             StringWriter sw = new StringWriter();
             TransformerFactory.newInstance().newTransformer().transform(
@@ -59,15 +61,21 @@ public class LogingServerHandler implements SOAPHandler<SOAPMessageContext> {
             if (direction) {
                 headers = (Map<String, List<String>>) mc.get(SOAPMessageContext.HTTP_REQUEST_HEADERS);
                 if (headers != null && headers.get("idtx") != null && !headers.isEmpty()) {
-                    transaccion = auditoria.find(new BigDecimal(headers.get("idtx").get(0)));
+                    transaccion = auditoriaOperador.buscar(new Long(headers.get("idtx").get(0)));
+                } else if (userIdNode != null && userIdNode.getLength() != 0) {
+                    transaccion = auditoriaOperador.buscar(new Long(userIdNode.item(0).getChildNodes().item(0).getNodeValue()));
                 }
                 transaccion.setFechaOut(new Date());
                 transaccion.setMensajeOut(sw.toString());
             } else {
                 headers = (Map<String, List<String>>) mc.get(SOAPMessageContext.HTTP_REQUEST_HEADERS);
                 if (headers != null && headers.get("idtx") != null && !headers.isEmpty()) {
-                    transaccion = auditoria.find(new BigDecimal(headers.get("idtx").get(0)));
+                    transaccion = auditoriaOperador.buscar(new Long(headers.get("idtx").get(0)));
                 } else {
+                    if (userIdNode != null && userIdNode.getLength() != 0) {
+                        transaccion = auditoriaOperador.buscar(new Long(userIdNode.item(0).getChildNodes().item(0).getNodeValue()));
+                    }
+
                     HttpServletRequest req = (HttpServletRequest) mc.get(SOAPMessageContext.SERVLET_REQUEST);
                     if (req != null) {
                         transaccion.setHostActor(req.getRemoteAddr());
@@ -79,16 +87,16 @@ public class LogingServerHandler implements SOAPHandler<SOAPMessageContext> {
             if (headers == null) {
                 headers = new HashMap<String, List<String>>();
             }
+
             if (transaccion.getId() == null) {
                 if (headers != null && headers.get("idtxcliente") != null) {
                     transaccion.setIdcliente(headers.get("idtxcliente").get(0));
                 }
-
                 if (userIdNode != null && userIdNode.getLength() != 0) {
                     transaccion.setIdcliente(userIdNode.item(0).getChildNodes().item(0).getNodeValue());
                 }
                 transaccion.setInOut(!direction);
-                auditoria.create(transaccion);
+                transaccion = auditoriaOperador.insertarReturn(transaccion);
                 if (!direction) {
                     variables.clear();
                     variables.add(transaccion.getId().toString());
@@ -99,6 +107,7 @@ public class LogingServerHandler implements SOAPHandler<SOAPMessageContext> {
                     tag.addTextNode(transaccion.getId().toString());
                     message.saveChanges();
                 }
+
             } else {
                 userIdNode = header.getElementsByTagNameNS("*", "idtx");
                 if (userIdNode != null && userIdNode.getLength() != 0) {
@@ -106,12 +115,12 @@ public class LogingServerHandler implements SOAPHandler<SOAPMessageContext> {
                 }
                 QName idtx = new QName("https://co.edu.uniandes.ecos.statusquo.operador.ws.handlers/", "idtx");
                 SOAPHeaderElement tag = header.addHeaderElement(idtx);
-                tag.addTextNode(transaccion.getId().toString());
+                tag.addTextNode(transaccion.getIdcliente());
                 QName idtxcliente = new QName("https://co.edu.uniandes.ecos.statusquo.operador.ws.handlers/", "idtxcliente");
                 SOAPHeaderElement tag2 = header.addHeaderElement(idtxcliente);
-                tag2.addTextNode(transaccion.getIdcliente());
+                tag2.addTextNode(transaccion.getId().toString());
                 message.saveChanges();
-                auditoria.edit(transaccion);
+                auditoriaOperador.actualizar(transaccion);
             }
             return true;
         } catch (TransformerException e) {
@@ -129,13 +138,11 @@ public class LogingServerHandler implements SOAPHandler<SOAPMessageContext> {
     }
 
     @Override
-    public void close(MessageContext mc
-    ) {
+    public void close(MessageContext mc) {
     }
 
     @Override
-    public boolean handleFault(SOAPMessageContext mc
-    ) {
+    public boolean handleFault(SOAPMessageContext mc) {
         return true;
     }
 }
