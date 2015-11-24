@@ -122,7 +122,8 @@
                                     <p:dataTable id="documentTable" var="file" rowKey="#{file.id}"
                                                  value="#{documentView.archivosUsuario}"
                                                  selectionMode="single" selection="#{documentView.selectedDocument}"
-                                                 style="height: 335px;" paginator="true" rows="10">
+                                                 style="height: 335px;" paginator="true" rows="10"
+                                                 emptyMessage="No hay archivos en esta carpeta">
                                         <p:column headerText="Id">
                                             <h:outputText value="#{file.id}" />
                                         </p:column>

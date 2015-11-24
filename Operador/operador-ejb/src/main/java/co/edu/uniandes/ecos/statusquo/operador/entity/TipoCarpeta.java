@@ -86,7 +86,7 @@ public class TipoCarpeta implements Serializable {
 
     @Override
     public String toString() {
-        return "co.edu.uniandes.ecos.statusquo.operador.entity.TipoCarpeta[ id=" + id + " ]";
+        return "TipoCarpeta{" + "id=" + id + ", nombre=" + nombre + '}';
     }
 
 }
