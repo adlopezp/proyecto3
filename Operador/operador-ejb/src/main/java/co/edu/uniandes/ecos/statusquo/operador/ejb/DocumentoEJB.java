@@ -4,6 +4,7 @@ import co.edu.uniandes.ecos.statusquo.operador.dao.ArchivoDAO;
 import co.edu.uniandes.ecos.statusquo.operador.dao.CarpetaDAO;
 import co.edu.uniandes.ecos.statusquo.operador.entity.Archivo;
 import co.edu.uniandes.ecos.statusquo.operador.entity.Carpeta;
+import co.edu.uniandes.ecos.statusquo.operador.entity.EstadoArchivo;
 import co.edu.uniandes.ecos.statusquo.operador.entity.Usuario;
 import java.io.File;
 import java.io.IOException;
@@ -69,10 +70,16 @@ public class DocumentoEJB {
         return archivos;
     }
 
-    @Deprecated
-    public void borrarArchivo(Archivo archivo, Usuario usuario) {
-        Carpeta papelera = carpetaDAO.traerPapelera(usuario);
-        archivo.setCarpetaPadreId(papelera);
+    /**
+     * Cambia el estado del archivo así:
+     * 1. Si el archivo es activo (1) lo cambia a "papelera" (2)
+     * 2. Si el archivo es "papelera" (2) lo cambia a "borrado" (3)
+     * @param archivo 
+     */
+    public void borrarArchivo(Archivo archivo) {
+        long estadoActual = archivo.getEstado().getId();
+        EstadoArchivo nuevoEstado = new EstadoArchivo(estadoActual + 1);
+        archivo.setEstadoId(nuevoEstado);
         archivoDAO.actualizar(archivo);
     }
     
@@ -81,7 +88,9 @@ public class DocumentoEJB {
      * @param archivo 
      */
     public void moverAPapelera(Archivo archivo){
-        archivoDAO.moverAPapelera(archivo);
+        EstadoArchivo estado = new EstadoArchivo(2L);
+        archivo.setEstadoId(estado);
+        archivoDAO.actualizar(archivo);
     }
     
     /**
@@ -89,7 +98,9 @@ public class DocumentoEJB {
      * @param archivo 
      */
     public void restaurarArchivo(Archivo archivo) {
-        archivoDAO.restaurarArchivo(archivo);
+        EstadoArchivo estado = new EstadoArchivo(1L);
+        archivo.setEstadoId(estado);
+        archivoDAO.actualizar(archivo);
     }
 
     /**

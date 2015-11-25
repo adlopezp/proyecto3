@@ -42,20 +42,5 @@ public class ArchivoDAO extends AbstractDAO<Archivo>{
         return query.getResultList();
     }
 
-    /**
-     * Establece el estado del archivo a estado "en papelera".
-     * @param archivo 
-     */
-    public void moverAPapelera(Archivo archivo) {
-        EstadoArchivo estado = new EstadoArchivo(2L);
-        archivo.setEstadoId(estado);
-        actualizar(archivo);
-    }
-
-    public void restaurarArchivo(Archivo archivo) {
-        EstadoArchivo estado = new EstadoArchivo(1L);
-        archivo.setEstadoId(estado);
-        actualizar(archivo);
-    }
-
+   
 }
