@@ -42,7 +42,7 @@ public class UsuarioEJB {
 
     @EJB
     TipoUsuarioDAO tipoUsuarioDao;
-    
+
     @EJB
     private SeguridadEJB seguridadEJB;
 
@@ -133,41 +133,41 @@ public class UsuarioEJB {
 
     public void guardarUsuario(Usuario usuario) {
         usuarioDao.insertar(usuario);
-        
+
         //Creando carpetas
         CarpetaPersonal carpetaPersonal = new CarpetaPersonal();
         carpetaPersonal.setUsuario(usuario);
-        
+
         usuario.setCarpetaPersonal(carpetaPersonal);
-        
+
         Carpeta inbox = new Carpeta();
         inbox.setPrincipal(true);
         inbox.setCarpetaPersonal(carpetaPersonal);
         inbox.setEstado(new EstadoCarpeta(1L)); //Activa
-        inbox.setNombre("Inbox");
+        inbox.setNombre("Carpeta Personal");
         inbox.setTipo(new TipoCarpeta(1L));
-        
+
         Carpeta papelera = new Carpeta();
         papelera.setPrincipal(true);
         papelera.setCarpetaPersonal(carpetaPersonal);
         papelera.setEstado(new EstadoCarpeta(1L)); //Activa
         papelera.setNombre("Papelera");
         papelera.setTipo(new TipoCarpeta(1L));
-        
+
         List<Carpeta> carpetas = new ArrayList<>();
         carpetas.add(inbox);
         carpetas.add(papelera);
-        
+
         carpetaPersonal.setCarpetaList(carpetas);
-        
+
         usuarioDao.actualizar(usuario);
-        
+
         try {
             seguridadEJB.escribirLlaves(usuario);
         } catch (IOException | NoSuchAlgorithmException | NoSuchProviderException ex) {
             Logger.getLogger(UsuarioEJB.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
 
 }
