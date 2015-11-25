@@ -23,7 +23,6 @@ import javax.jws.WebParam;
  * @author Dev
  */
 @WebService(serviceName = "EntidadSW")
-@Stateless()
 @HandlerChain(file="/LogServerHandler.xml")
 public class EntidadSW extends Servicio {
 

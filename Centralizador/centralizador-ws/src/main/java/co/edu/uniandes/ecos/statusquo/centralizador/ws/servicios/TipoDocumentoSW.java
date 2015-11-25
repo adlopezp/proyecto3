@@ -20,7 +20,6 @@ import javax.jws.HandlerChain;
  * @author Dev
  */
 @WebService(serviceName = "TipoDocumentoSW")
-@Stateless()
 @HandlerChain(file="/LogServerHandler.xml")
 public class TipoDocumentoSW extends Servicio {
     

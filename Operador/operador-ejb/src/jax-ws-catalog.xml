@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
     <system systemId="http://localhost:8080/UsuarioSW/UsuarioSW?wsdl" uri="wsdl/localhost_8080/UsuarioSW/UsuarioSW.wsdl"/>
+    <system systemId="http://localhost:8080/UsuarioSW/UsuarioSW?WSDL" uri="wsdl/localhost_8080/UsuarioSW/UsuarioSW.wsdl"/>
     <system systemId="http://localhost:8080/UsuarioSW/UsuarioSW?xsd=1" uri="wsdl/localhost_8080/UsuarioSW/UsuarioSW.xsd_1.xsd"/>
     <system systemId="http://localhost:8080/UsuarioSW/UsuarioSW?xsd=2" uri="wsdl/localhost_8080/UsuarioSW/UsuarioSW.xsd_2.xsd"/>
     <system systemId="http://localhost:8080/UsuarioSW/UsuarioSW?xsd=3" uri="wsdl/localhost_8080/UsuarioSW/UsuarioSW.xsd_3.xsd"/>
     <system systemId="http://localhost:8080/UsuarioSW/UsuarioSW?xsd=4" uri="wsdl/localhost_8080/UsuarioSW/UsuarioSW.xsd_4.xsd"/>
+    <system systemId="http://localhost:8080/centralizador-ws/UsuarioSW?wsdl" uri="wsdl/localhost_8080/centralizador-ws/UsuarioSW.wsdl"/>
+    <system systemId="http://localhost:8080/centralizador-ws/UsuarioSW?xsd=1" uri="wsdl/localhost_8080/centralizador-ws/UsuarioSW.xsd_1.xsd"/>
+    <system systemId="http://localhost:8080/centralizador-ws/UsuarioSW?xsd=2" uri="wsdl/localhost_8080/centralizador-ws/UsuarioSW.xsd_2.xsd"/>
+    <system systemId="http://localhost:8080/centralizador-ws/UsuarioSW?xsd=3" uri="wsdl/localhost_8080/centralizador-ws/UsuarioSW.xsd_3.xsd"/>
+    <system systemId="http://localhost:8080/centralizador-ws/UsuarioSW?xsd=4" uri="wsdl/localhost_8080/centralizador-ws/UsuarioSW.xsd_4.xsd"/>
 </catalog>
