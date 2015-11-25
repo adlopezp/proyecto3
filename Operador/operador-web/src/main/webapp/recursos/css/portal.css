@@ -54,3 +54,118 @@ tr.rojo {
     opacity: 0;
     background: none;
 }
+
+.panelnopadding > .ui-panel-content {
+    padding: 0 !important;
+}
+
+.panelnoborder > .ui-panelgrid-even {
+    border: none !important;
+}
+
+.celdanopadding{
+    padding: 0px !important;
+    -moz-border-radius: 5px!important;
+    -webkit-border-radius: 5px!important;
+    border-radius: 5px!important;
+    border: 1px solid #a6c9e2!important;
+}
+
+.celdapanel{
+    -moz-border-radius: 5px!important;
+    -webkit-border-radius: 5px!important;
+    border-radius: 5px!important;
+    border: 1px solid #a6c9e2!important;
+}
+
+.celdapaddingleft{
+    padding-top: 0px !important;
+    padding-right: 0px !important;
+    padding-bottom: 0px !important;
+    padding-left: 8px !important;
+}
+
+.filanoborder{
+    border: none !important;
+}
+
+.ui-breadcrumb {
+    -moz-border-radius: 0px;
+    -webkit-border-radius: 0px;
+    border-radius: 0px;
+    border: none;
+    background: none;
+    color: #000000;
+    font-weight: bold;
+}
+
+.ui-breadcrumb .ui-menuitem-text{
+    text-decoration: none;
+    color: #000000;
+    text-shadow: none;
+}
+
+.ui-breadcrumb .ui-breadcrumb-chevron {
+    background-image: url("/operador-web/javax.faces.resource/images/ui-icons_0078ae_256x240.png.jsf?ln=primefaces-start");
+}
+
+.ui-breadcrumb .ui-icon-home{
+    background-image: url("/operador-web/javax.faces.resource/images/ui-icons_0078ae_256x240.png.jsf?ln=primefaces-start");
+}
+
+.tabladocumentos th{
+
+    border-top: none !important;
+    border-bottom: none !important;
+    border-left: none !important;
+    border-right: 1px solid #77d5f7;
+    text-align: left !important;
+}
+
+.tabladocumentos .ui-datatable-data{
+    border-left: 0px !important;
+    border-right: 0px !important;
+}
+
+.tabladocumentos tr.ui-widget-content{
+    border-left: 0px !important;
+    border-right: 0px !important;
+}
+
+.tabladocumentos td{
+    border: 1px solid #a6c9e2 !important;
+}
+
+.tabladocumentos .ui-datatable-data{
+    border-bottom: 0px !important;
+}
+
+.tabladocumentos .ui-datatable-empty-message {
+    border-bottom: 0px !important;
+}
+
+.tabladocumentos .ui-datatable-empty-message td{
+    border-left: 0px !important;
+    border-right: 0px !important;
+    border-bottom: 0px !important;
+}
+
+th.col-izquierda{
+    border-top-left-radius: 4px;
+}
+
+th.col-derecha{
+    border-right: none !important;
+    border-top-right-radius: 4px;
+}
+
+td.col-izquierda{
+    border-left: 0px !important;
+}
+
+td.col-derecha{
+    border-right: 0px !important;
+}
+
+
+

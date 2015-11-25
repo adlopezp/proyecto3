@@ -2,9 +2,11 @@ package co.edu.uniandes.ecos.statusquo.operador.ejb;
 
 import co.edu.uniandes.ecos.statusquo.operador.dao.ArchivoDAO;
 import co.edu.uniandes.ecos.statusquo.operador.dao.CarpetaDAO;
+import co.edu.uniandes.ecos.statusquo.operador.dao.FormatoArchivoDAO;
 import co.edu.uniandes.ecos.statusquo.operador.entity.Archivo;
 import co.edu.uniandes.ecos.statusquo.operador.entity.Carpeta;
 import co.edu.uniandes.ecos.statusquo.operador.entity.EstadoArchivo;
+import co.edu.uniandes.ecos.statusquo.operador.entity.FormatoArchivo;
 import co.edu.uniandes.ecos.statusquo.operador.entity.Usuario;
 import java.io.File;
 import java.io.IOException;
@@ -22,13 +24,16 @@ import org.apache.commons.io.FileUtils;
 @Stateless
 @LocalBean
 public class DocumentoEJB {
-    
+
     @EJB
     private CarpetaDAO carpetaDAO;
-    
+
     @EJB
     private ArchivoDAO archivoDAO;
-    
+
+    @EJB
+    private FormatoArchivoDAO formatoDAO;
+
     public List<Carpeta> traerCarpetasDeUsuario(final Usuario usuario) {
         List<Carpeta> carpetas = carpetaDAO.consultarPorUsuario(usuario);
         return carpetas;
@@ -36,7 +41,8 @@ public class DocumentoEJB {
 
     /**
      * Crea un archivo en el sistema (Uploaded)
-     * @param archivo 
+     *
+     * @param archivo
      * @throws IOException
      */
     public void crearArchivo(Archivo archivo) throws IOException {
@@ -51,9 +57,10 @@ public class DocumentoEJB {
 
     /**
      * Retorna los archivos y de una carpeta seleccionada
+     *
      * @param carpeta
-     * @param usuario 
-     * @return 
+     * @param usuario
+     * @return
      */
     public List<Archivo> traerArchivosCarpeta(Carpeta carpeta, Usuario usuario) {
         long tipo = carpeta.getTipo().getId();
@@ -65,16 +72,16 @@ public class DocumentoEJB {
         } else {
             archivos = new ArrayList<>();
         }
-       
-        
+
         return archivos;
     }
 
     /**
-     * Cambia el estado del archivo así:
-     * 1. Si el archivo es activo (1) lo cambia a "papelera" (2)
-     * 2. Si el archivo es "papelera" (2) lo cambia a "borrado" (3)
-     * @param archivo 
+     * Cambia el estado del archivo así: 1. Si el archivo es activo (1) lo
+     * cambia a "papelera" (2) 2. Si el archivo es "papelera" (2) lo cambia a
+     * "borrado" (3)
+     *
+     * @param archivo
      */
     public void borrarArchivo(Archivo archivo) {
         long estadoActual = archivo.getEstado().getId();
@@ -82,20 +89,22 @@ public class DocumentoEJB {
         archivo.setEstadoId(nuevoEstado);
         archivoDAO.actualizar(archivo);
     }
-    
+
     /**
      * Mueve el archivo a la papelera del usuario
-     * @param archivo 
+     *
+     * @param archivo
      */
-    public void moverAPapelera(Archivo archivo){
+    public void moverAPapelera(Archivo archivo) {
         EstadoArchivo estado = new EstadoArchivo(2L);
         archivo.setEstadoId(estado);
         archivoDAO.actualizar(archivo);
     }
-    
+
     /**
      * Restaura un archivo a su carpeta original
-     * @param archivo 
+     *
+     * @param archivo
      */
     public void restaurarArchivo(Archivo archivo) {
         EstadoArchivo estado = new EstadoArchivo(1L);
@@ -105,21 +114,23 @@ public class DocumentoEJB {
 
     /**
      * Retorna la lista de archivos eliminados de un usuario
+     *
      * @param usuario
-     * @return 
+     * @return
      */
     private List<Archivo> traerArchivosPapelera(List<Carpeta> carpetas) {
         List<Archivo> archivos = new ArrayList<>();
-        
-        for (Carpeta carpeta: carpetas) {
+
+        for (Carpeta carpeta : carpetas) {
             addFiles(carpeta, archivos, 2L);
         }
-        
+
         return archivos;
     }
 
     /**
-     * Adiciona en la lista de archivos 
+     * Adiciona en la lista de archivos
+     *
      * @param carpeta Carpeta de dónde se exploran los archivos
      * @param archivos Lista de archivos que debe llenarse
      * @param state Código de estado de archivo
@@ -133,6 +144,14 @@ public class DocumentoEJB {
                 archivos.addAll(traerArchivosPapelera(carpeta.getCarpetasHijas()));
             }
         }
+    }
+
+    public FormatoArchivo obtenerFormato(final String extencion) {
+        return formatoDAO.buscarPorExtencion(extencion);
+    }
+
+    public void crearFormato(final FormatoArchivo formato) {
+        formatoDAO.insertar(formato);
     }
 
 }

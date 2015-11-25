@@ -10,9 +10,17 @@
 
             <ui:define name="head">
                 <title>Administración de documentos</title>
+                <script type="text/javascript">
+                    function start() {
+                        PF('statusDialog').show();
+                    }
+                    function stop() {
+                        PF('statusDialog').hide();
+                    }
+                </script>
             </ui:define>
             <ui:define name="content">
-                <p:panel toggleOrientation="horizontal">
+                <p:panel>
                     <h:form>
                         <p:breadCrumb>
                             <p:menuitem value="Atajo" url="" />
@@ -24,57 +32,34 @@
                     <!-- //TODO  Funcionalidades Pendientes<br/>
                      - Compartir documentos con entidades<br/>
                      - Compartir documentos con otros usuarios<br/> -->
-                    <h:panelGrid columns="2" styleClass="panelGridNoBorder">
+                    <h:form id="botones_frm">
+                        <div class="celdapanel" style="margin-bottom: 8px; padding: 6px 12px;">
 
-                        <p:tree value="#{documentView.root}" var="carpeta" selectionMode="single"
-                                style="height: 400px; overflow: auto;display: block">
-
-                            <p:ajax event="select"  update="documentForm, :documentTable"
-                                    listener="#{documentView.onNodeSelect}" />
-
-                            <p:treeNode>
-                                <h:outputText value="#{carpeta.nombre}" />
-                            </p:treeNode>
-
-
-
-                            <p:treeNode type="document" icon="ui-icon-document">
-                                <h:outputText value="#{carpeta.nombre}" />
-                            </p:treeNode>
-
-                        </p:tree>
-
-
-                        <h:panelGrid columns="1">
-                            <!-- Barra de menú -->
-
-                            <p:panel id="buttonPanel">
-                                <h:form>
-                                    <p:commandButton value="Cargar archivo"
+                            <div style="display: table; width: 100%;">
+                                <div style="display: table-cell;">
+                                    <span style="font-weight: bold; font-size: 14px; font-family: Verdana, Arial, sans-serif; color: #000000; text-decoration: none; text-shadow: none;">Documentos</span>
+                                </div>
+                                <div style="display: table-cell; text-align: right; ">
+                                    <p:commandButton value="Cargar Documento"
                                                      icon="fa fa-upload"
-                                                     oncomplete="PF('loadDialog').show()">
-                                    </p:commandButton>
-                                    <p:button value="Nuevo directorio" icon="ui-icon-plus" disabled="true">
-                                        <f:param name="productId" value="10" />
-                                    </p:button>
-                                    <!-- Acá va el botón de descargar -->
-                                    <p:commandButton value="Descargar" ajax="false" 
-                                                     onclick="PrimeFaces.monitorDownload(start, stop);" 
-                                                     icon="ui-icon-arrowthick-1-s">
+                                                     oncomplete="PF('loadDialog').show()"/>
+                                    <p:commandButton value="Nueva Carpeta"
+                                                     icon="ui-icon-plus"
+                                                     disabled="true"
+                                                     oncomplete="PF('loadDialog').show()"/>
+                                    <p:commandButton value="Descargar" ajax="false"
+                                                     onclick="PrimeFaces.monitorDownload(start, stop);"
+                                                     icon="ui-icon-arrowthick-1-s"
+                                                     disabled="#{empty documentView.selectedDocument}">
                                         <p:fileDownload value="#{documentView.contenidoDescarga}" />
                                     </p:commandButton>
-                                    
-                                    
-                                    
-
-                                    
-                                    
                                     <p:commandButton value="Eliminar"
                                                      icon="fa fa-remove"
+                                                     process="@this"
                                                      actionListener="#{documentView.borrarArchivo}"
-                                                     update=":documentTable"
+                                                     update=":documentTable :botones_frm"
                                                      disabled="#{empty documentView.selectedDocument}">
-                                        <p:confirm header="Confirmation" message="¿Está seguro de mover el archivo a la papelera?" icon="ui-icon-alert" />
+                                        <p:confirm header="Confirmation" message="¿Está seguro de mover el archivo a la papelera?" icon="ui-icon-alert"/>
                                     </p:commandButton>
                                     <p:commandButton value="Compartir"
                                                      icon="fa fa-share-alt"
@@ -85,74 +70,97 @@
                                                      icon="fa fa-check"
                                                      disabled="#{empty documentView.selectedDocument}">
                                     </p:commandButton>
-                                    
-                                    <!-- Dialogo carga -->
-                                    <p:dialog id="loadDialog" widgetVar="loadDialog"
-                                              modal="true" resizable="false" closeOnEscape="true">
-                                        <ui:include src="dialogos/dialogo-carga.xhtml" />
-                                    </p:dialog>
-                                    <!-- Estado descarga -->
-                                    <p:dialog modal="true" widgetVar="statusDialog" header="Status" draggable="false" closable="false" resizable="false">
-                                        <!-- FIXME no muestra la imagen -->
-                                        <p:graphicImage name="#{request.contextPath}/recursos/imagenes/ajaxloadingbar.gif" />
-                                    </p:dialog>
-                                    <!-- Dialogo carga -->
-                                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                                        <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-                                    </p:confirmDialog>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Dialogo carga -->
+                        <p:dialog id="loadDialog" widgetVar="loadDialog" draggable="false" header="Cargar Archivo"
+                                  modal="true" resizable="false" closeOnEscape="true">
+                            <p:fileUpload fileUploadListener="#{documentView.handleFileUpload}"
+                                          mode="advanced" dragDropSupport="true" update=":documentTable :botones_frm"
+                                          oncomplete="PF('loadDialog').hide()" uploadLabel="Cargar"
+                                          cancelLabel="Cancelar" label="Seleccionar"
+                                          sizeLimit="5242880" allowTypes="/(\.|\/)(gif|jpe?g|png|pdf|txt|doc|docx)$/" />
+                        </p:dialog>
+                        <p:growl id="messages" showDetail="true" />
+                        <!-- Estado descarga -->
+                        <p:dialog modal="true" widgetVar="statusDialog" header="Status" draggable="false" closable="false" resizable="false" showHeader="false">
+                            <p:graphicImage url="/recursos/imagenes/ajaxloadingbar.gif" />
+                        </p:dialog>
+                        <!-- Dialogo carga -->
+                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                            <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                        </p:confirmDialog>
 
-                                    <script type="text/javascript">
-                                        function start() {
-                                            PF('statusDialog').show();
-                                        }
+                    </h:form>
+                    <div style="display: table;">
+                        <div class="celdanopadding" style="display: table-cell; width: 15%;">
+                            <div style="min-height: 400px;">
+                                <p:tree value="#{documentView.root}" var="carpeta" selectionMode="single"
+                                        style="border: none; width: auto;">
 
-                                        function stop() {
-                                            PF('statusDialog').hide();
-                                        }
-                                    </script>
+                                    <p:ajax event="select"  update="documentTable botones_frm"
+                                            listener="#{documentView.onNodeSelect}" />
 
-                                </h:form>
-                            </p:panel>
+                                    <p:treeNode expandedIcon="ui-icon-folder-open" collapsedIcon="ui-icon-folder-collapsed">
+                                        <h:outputText value="#{carpeta.nombre}" />
+                                    </p:treeNode>
 
+                                </p:tree>
+                            </div>
+                        </div>
+                        <div style="vertical-align: top; display: table-cell; width: 8px;"/>
+                        <div class="celdanopadding" style="vertical-align: top; display: table-cell;">
+                            <h:form id="documentForm" prependId="false">
+                                <p:dataTable id="documentTable" var="file" rowKey="#{file.id}"
+                                             value="#{documentView.archivosUsuario}"
+                                             selectionMode="single" selection="#{documentView.selectedDocument}"
+                                             emptyMessage="No hay archivos en esta carpeta"
+                                             styleClass="tabladocumentos" >
+                                    <p:column headerText="Nombre" styleClass="col-izquierda" style="width: 50%">
+                                        <div style="display: table;">
+                                            <div class="ui-icon ui-icon-document" style="display: table-cell; background-position: -32px -97px; width: 20px;"/>
+                                            <div style="display: table-cell"><h:outputText value="#{file.nombre}" /></div>
+                                        </div>
+                                    </p:column>
 
-                            <!-- Tabla con detalles de archivo -->
-                            <p:panel>
-                                <h:form id="documentForm" prependId="false">
-                                    <p:dataTable id="documentTable" var="file" rowKey="#{file.id}"
-                                                 value="#{documentView.archivosUsuario}"
-                                                 selectionMode="single" selection="#{documentView.selectedDocument}"
-                                                 style="height: 335px;" paginator="true" rows="10"
-                                                 emptyMessage="No hay archivos en esta carpeta">
-                                        <p:column headerText="Id">
-                                            <h:outputText value="#{file.id}" />
-                                        </p:column>
+                                    <p:column headerText="Tamaño">
+                                        <h:outputText value="#{documentView.obtenerSizeKB(file.sizeArchivo)}"/>
+                                    </p:column>
 
-                                        <p:column headerText="Nombre de archivo">
-                                            <h:outputText value="#{file.nombre}" />
-                                        </p:column>
+                                    <p:column headerText="Fecha">
+                                        <h:outputText value="#{file.fecha}">
+                                            <f:convertDateTime pattern="dd-MMM-yyyy" />
+                                        </h:outputText>
+                                    </p:column>
 
-                                        <p:column headerText="Tamaño">
-                                            <h:outputText value="#{file.sizeArchivo}" />
-                                        </p:column>
+                                    <p:column headerText="Firmado">
+                                        <h:outputText value="#{file.firmado?'SI':'NO'}" />
+                                    </p:column>
 
-                                        <p:column headerText="Firmado">
-                                            <h:outputText value="#{file.firmado}" />
-                                        </p:column>
+                                    <p:column headerText="Formato" styleClass="col-derecha">
+                                        <h:outputText value="#{file.formato.nombre}" />
+                                    </p:column>
 
-                                        <p:column headerText="Formato">
-                                            <h:outputText value="#{file.formato.nombre}" />
-                                        </p:column>
+                                    <p:ajax event="rowSelect"  update=":botones_frm" />
 
-                                        <p:ajax event="rowSelect"  update=":buttonPanel"
-                                                listener="#{documentView.onRowSelect}" />
+                                    <p:ajax event="contextMenu"  update=":botones_frm" />
 
-                                    </p:dataTable>
-                                </h:form>
-                            </p:panel>
-                        </h:panelGrid>
-                    </h:panelGrid>
-
+                                </p:dataTable>
+                                <p:contextMenu id="context_menu" for="documentTable">
+                                    <p:menuitem value="Descargar" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s" ajax="false">
+                                        <p:fileDownload value="#{documentView.contenidoDescarga}" />
+                                    </p:menuitem>
+                                    <p:menuitem value="Cambiar Nombre" ajax="false" disabled="true" icon="ui-icon-pencil"/>
+                                    <p:menuitem value="Compartir" disabled="true" ajax="false" icon="fa fa-share-alt"/>
+                                    <p:menuitem value="Eliminar" actionListener="#{documentView.borrarArchivo}" icon="fa fa-remove" update=":documentTable :botones_frm"/>
+                                    <p:menuitem value="Firmar" disabled="true" ajax="false" icon="fa fa-check"/>
+                                    <p:menuitem value="Mover" disabled="true" ajax="false" icon="ui-icon-folder-open"/>
+                                </p:contextMenu>
+                            </h:form>
+                        </div>
+                    </div>
                 </p:panel>
             </ui:define>
         </ui:composition>

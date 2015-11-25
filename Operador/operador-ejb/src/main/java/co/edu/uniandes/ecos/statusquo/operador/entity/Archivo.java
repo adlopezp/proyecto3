@@ -257,10 +257,10 @@ public class Archivo implements Serializable {
 
     @Override
     public String toString() {
-        return "Archivo{" + "id=" + id + ", nombre=" + nombre + 
-                ", sizeArchivo=" + sizeArchivo + ", url=" + url + 
-                ", estado=" + estado + ", carpetaPersonal=" + carpetaPersonal + 
-                ", carpetaPadre=" + carpetaPadre + '}';
+        return "Archivo{" + "id=" + id + ", nombre=" + nombre
+                + ", sizeArchivo=" + sizeArchivo + ", url=" + url
+                + ", estado=" + estado + ", carpetaPersonal=" + carpetaPersonal
+                + ", carpetaPadre=" + carpetaPadre + '}';
     }
-    
+
 }

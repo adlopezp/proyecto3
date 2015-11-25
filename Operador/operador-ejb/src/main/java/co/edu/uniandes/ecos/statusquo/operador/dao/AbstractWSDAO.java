@@ -7,59 +7,80 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
 
-public abstract class AbstractDAO<T> {
+public abstract class AbstractWSDAO<T> implements AuditoriaWsDAORemote<T> {
 
     @PersistenceContext(unitName = "STATUSQUO-PU")
     protected EntityManager em;
 
     private final Class<T> clase;
 
-    public AbstractDAO(final Class<T> clase) {
+    public AbstractWSDAO(final Class<T> clase) {
         this.clase = clase;
     }
 
+    @Override
     public EntityManager getEntityManager() {
         return em;
     }
 
+    @Override
     public void insertar(T entity) {
         em.persist(entity);
+        em.flush();
+    }
+    
+    @Override
+    public T insertarReturn(T entity) {
+        em.persist(entity);
+        em.flush();
+        return entity;
     }
 
+    @Override
     public void actualizar(T entity) {
         em.merge(entity);
+        em.flush();
     }
 
+    @Override
     public void borrar(T entity) {
         em.remove(em.merge(entity));
+        em.flush();
     }
 
+    @Override
     public void desconectar(T entity) {
         em.detach(entity);
     }
 
+    @Override
     public void refrescar(T entity) {
         em.refresh(entity);
     }
 
+    @Override
     public List<T> consultar() {
         CriteriaQuery<T> cq = em.getCriteriaBuilder().createQuery(clase);
         cq.select(cq.from(clase));
         return em.createQuery(cq).getResultList();
     }
 
+    @Override
     public List<T> consultarNamedQuery(final String queryName) {
         return consultarNamedQuery(queryName, null, null, null);
     }
 
+    @Override
     public List<T> consultarNamedQuery(final String queryName, final List<Object> params) {
         return consultarNamedQuery(queryName, null, null, params);
     }
 
+    @Override
     public List<T> consultarNamedQuery(final String queryName, final Integer primerRegistro, final Integer maxResultados) {
         return consultarNamedQuery(queryName, primerRegistro, maxResultados, null);
     }
 
+    @Override
     public List<T> consultarNamedQuery(final String queryName, final Integer primerRegistro, final Integer maxResultados, final List<?> params) {
         TypedQuery<T> q = em.createNamedQuery(queryName, clase);
         if (params != null) {
@@ -77,14 +98,17 @@ public abstract class AbstractDAO<T> {
         return q.getResultList();
     }
 
+    @Override
     public T buscar(final Long id) {
         return em.find(clase, id);
     }
 
+    @Override
     public T buscarNamedQuery(final String queryName) {
         return buscarNamedQuery(queryName, null);
     }
 
+    @Override
     public T buscarNamedQuery(final String queryName, final List<Object> params) {
         try {
             TypedQuery<T> q = em.createNamedQuery(queryName, clase);

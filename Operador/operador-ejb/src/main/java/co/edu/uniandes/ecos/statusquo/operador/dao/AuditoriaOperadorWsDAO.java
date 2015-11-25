@@ -5,8 +5,6 @@
  */
 package co.edu.uniandes.ecos.statusquo.operador.dao;
 
-
-
 import co.edu.uniandes.ecos.statusquo.operador.entity.AuditoriaOperadorWs;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -15,10 +13,9 @@ import javax.ejb.Stateless;
  *
  * @author Dev
  */
-
 @Stateless
 @LocalBean
-public class AuditoriaOperadorWsDAO extends AbstractDAO<AuditoriaOperadorWs> implements AuditoriaWsDAORemote<AuditoriaOperadorWs> {
+public class AuditoriaOperadorWsDAO extends AbstractWSDAO<AuditoriaOperadorWs> implements AuditoriaWsDAORemote<AuditoriaOperadorWs> {
 
     public AuditoriaOperadorWsDAO() {
         super(AuditoriaOperadorWs.class);

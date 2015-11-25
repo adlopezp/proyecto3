@@ -6,6 +6,8 @@
 package co.edu.uniandes.ecos.statusquo.operador.dao;
 
 import co.edu.uniandes.ecos.statusquo.operador.entity.FormatoArchivo;
+import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
@@ -20,5 +22,10 @@ public class FormatoArchivoDAO extends AbstractDAO<FormatoArchivo> {
     public FormatoArchivoDAO() {
         super(FormatoArchivo.class);
     }
-    
+
+    public FormatoArchivo buscarPorExtencion(final String extencion) {
+        List<Object> parametros = new ArrayList<>();
+        parametros.add(extencion);
+        return buscarNamedQuery("FormatoArchivo.findByExtencion", parametros);
+    }
 }

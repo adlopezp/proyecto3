@@ -30,25 +30,27 @@ public class CarpetaDAO extends AbstractDAO<Carpeta> {
         sb.append("from Usuario u ");
         sb.append("join u.carpetaPersonal cp ");
         sb.append("join cp.carpetas c ");
-        sb.append("where c.carpetaPadre is null and u.id=:id");
-        
+        sb.append("where c.carpetaPadre is null and u.id=:id ");
+        sb.append("order by c.tipo.id");
+
         Query query = em.createQuery(sb.toString());
         query.setParameter("id", usuario.getId());
-        
+
         final List<Long> idCarpetas = query.getResultList();
         List<Carpeta> carpetas = new ArrayList<>();
-        
-        for (Long l: idCarpetas) {
+
+        for (Long l : idCarpetas) {
             carpetas.add(this.buscar(l));
         }
-        
+
         return carpetas;
     }
 
     /**
      * Retorna la carpeta "papelera" de documentos de un usuario;
+     *
      * @param usuario
-     * @return 
+     * @return
      */
     public Carpeta traerPapelera(Usuario usuario) {
         StringBuilder sb = new StringBuilder("select new java.lang.Long(c.id) ");
@@ -63,5 +65,5 @@ public class CarpetaDAO extends AbstractDAO<Carpeta> {
         Long idCarpeta = (Long) query.getSingleResult();
         return buscar(idCarpeta);
     }
-    
+
 }
