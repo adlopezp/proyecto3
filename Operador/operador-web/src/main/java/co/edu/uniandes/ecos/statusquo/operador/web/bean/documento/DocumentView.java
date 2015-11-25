@@ -102,14 +102,12 @@ public class DocumentView implements Serializable {
 
     public StreamedContent getContenidoDescarga() {
         System.out.println("archivo a descargar");
-        if (idArchivoDescarga != null && !idArchivoDescarga.equals(selectedDocument.getId())) {
-            try {
-                idArchivoDescarga = selectedDocument.getId();
-                InputStream is = new FileInputStream(selectedDocument.getUrl());
-                contenidoDescarga = new DefaultStreamedContent(is, null, selectedDocument.getNombre() + "." + selectedDocument.getFormato().getExtencion());
-            } catch (FileNotFoundException ex) {
-                Logger.getLogger(DocumentView.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        try {
+            idArchivoDescarga = selectedDocument.getId();
+            InputStream is = new FileInputStream(selectedDocument.getUrl());
+            contenidoDescarga = new DefaultStreamedContent(is, null, selectedDocument.getNombre() + "." + selectedDocument.getFormato().getExtencion());
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(DocumentView.class.getName()).log(Level.SEVERE, null, ex);
         }
         return contenidoDescarga;
     }
