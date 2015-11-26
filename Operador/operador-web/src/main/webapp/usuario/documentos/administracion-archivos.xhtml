@@ -64,8 +64,10 @@
                                     </p:commandButton>
                                     <p:commandButton value="Compartir"
                                                      icon="fa fa-share-alt"
-                                                     disabled="true">
-                                    </p:commandButton>
+                                                     oncomplete="PF('compartir_dialog').show()"
+                                                     actionListener="#{documentView.nuevoCompartir}"
+                                                     disabled="#{empty documentView.selectedDocument}"
+                                                     update="compartir_dialog"/>
 
                                     <p:commandButton value="Firmar"
                                                      icon="fa fa-check"
@@ -83,7 +85,6 @@
                                           cancelLabel="Cancelar" label="Seleccionar"
                                           sizeLimit="5242880" allowTypes="/(\.|\/)(gif|jpe?g|png|pdf|txt|doc|docx)$/" />
                         </p:dialog>
-                        <p:growl id="messages" showDetail="true" />
                         <!-- Estado descarga -->
                         <p:dialog modal="true" widgetVar="statusDialog" header="Status" draggable="false" closable="false" resizable="false" showHeader="false">
                             <p:graphicImage url="/recursos/imagenes/ajaxloadingbar.gif" />
@@ -93,14 +94,88 @@
                             <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
                             <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
                         </p:confirmDialog>
-
+                        <!-- Mensajes -->
+                        <p:growl id="messages" showDetail="true" />
+                        <!-- Dialogo Compartir -->
+                        <p:dialog id="compartir_dialog" widgetVar="compartir_dialog" draggable="false" header="Compartir Archivo"
+                                  modal="true" resizable="false" closeOnEscape="true">
+                            <p:panelGrid id="compartir_tbl" styleClass="panelnoborder">
+                                <p:row rendered="#{!documentView.entidadPublicaRendered}">
+                                    <p:column style="width: 250px;">
+                                        <p:outputLabel value="Archivo" />
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText id="nombre_archivo_txt" value="#{documentView.selectedDocument.nombre}" disabled="true" styleClass="paneltotal"/>
+                                    </p:column>
+                                </p:row>
+                                <p:row>
+                                    <p:column>
+                                        <p:outputLabel value="Compartir A" />
+                                    </p:column>
+                                    <p:column>
+                                        <p:selectOneMenu id="compartir_cbo" value="#{documentView.compartirTo}" styleClass="paneltotal">
+                                            <f:selectItem itemLabel="---" itemValue="---"/>
+                                            <f:selectItem itemLabel="Entidad Pública" itemValue="EntidadPublica"/>
+                                            <f:selectItem itemLabel="Persona" itemValue="Persona"/>
+                                            <p:ajax event="change" process="compartir_dialog" update="compartir_tbl" listener="#{documentView.seleccionarCompartirTo}"/>
+                                        </p:selectOneMenu>
+                                    </p:column>
+                                </p:row>
+                                <p:row rendered="#{documentView.entidadPublicaRendered}">
+                                    <p:column>
+                                        <p:outputLabel value="Entidad Publica" />
+                                    </p:column>
+                                    <p:column>
+                                        <p:selectOneMenu id="entidad_cbo" value="#{documentView.entidadPublica}" styleClass="paneltotal">
+                                            <f:selectItem itemLabel="---" itemValue="---"/>
+                                            <f:selectItem itemLabel="DIAN" itemValue="100001"/>
+                                            <f:selectItem itemLabel="Fiscalia" itemValue="100002"/>
+                                            <f:selectItem itemLabel="Ministerio de Educación" itemValue="100003"/>
+                                            <f:selectItem itemLabel="Ministerio de Salud" itemValue="100004"/>
+                                            <f:selectItem itemLabel="Secretaria de Hacienda Bogotá" itemValue="100005"/>
+                                            <p:ajax event="change" process="compartir_dialog" update="compartir_tbl"/>
+                                        </p:selectOneMenu>
+                                    </p:column>
+                                </p:row>
+                                <p:row rendered="#{!documentView.entidadPublicaRendered}">
+                                    <p:column>
+                                        <p:outputLabel value="Indentificación" />
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText id="identificacion_txt" value="#{documentView.identificacionPersona}" styleClass="paneltotal">
+                                            <p:ajax event="blur"
+                                                    process="compartir_dialog"
+                                                    listener="#{documentView.seleccionarCompartirTo}"
+                                                    update="compartir_tbl"/>
+                                        </p:inputText>
+                                    </p:column>
+                                </p:row>
+                                <p:row rendered="#{!documentView.entidadPublicaRendered}">
+                                    <p:column>
+                                        <p:outputLabel value="Nombre Persona" />
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText id="nombre_txt" value="#{documentView.nombrePersona}" disabled="true" styleClass="paneltotal"/>
+                                    </p:column>
+                                </p:row>
+                                <p:row>
+                                    <p:column colspan="2" style="text-align: center;">
+                                        <br/>
+                                        <p:commandButton id="comp_compartir_btn"  value="Compartir" actionListener="#{documentView.seleccionarCompartirTo}"
+                                                         disabled="#{!documentView.compartirRendered}"/>
+                                        <p:commandButton id="comp_cancelar_btn"  value="Cancelar" onclick="PF('compartir_dialog').hide();"
+                                                         ajax="false" type="button"/>
+                                    </p:column>
+                                </p:row>
+                            </p:panelGrid>
+                        </p:dialog>
                     </h:form>
                     <div style="display: table;">
                         <div class="celdanopadding" style="display: table-cell; width: 15%;">
                             <div style="min-height: 400px;">
                                 <h:form id="formTree">
                                     <p:tree id="folderTree"
-                                        value="#{documentView.root}" var="carpeta" 
+                                            value="#{documentView.root}" var="carpeta"
                                             selectionMode="single"
                                             style="border: none; width: auto;">
 
@@ -117,15 +192,15 @@
                                         <p:menuitem value="Eliminar" icon="fa fa-remove" actionListener="#{documentView.borrarCarpeta()}">
                                             <p:confirm header="Confirmación" message="Se eliminará también el contenido de esta carpeta" icon="ui-icon-alert"/>
                                         </p:menuitem>
-                                        
+
                                     </p:contextMenu>
-                                    
+
                                     <p:dialog header="Crear nueva carpeta" modal="true" widgetVar="createFolder">
                                         <h:outputLabel for="folderName" value="Nombre: " />
                                         <h:inputText id="folderName" value="#{documentView.nombreCarpetaNueva}"/>
                                         <p:commandButton value="Crear" update="folderTree" actionListener="#{documentView.crearCarpeta}" oncomplete="PF('createFolder').hide()"/>
                                     </p:dialog>
-                                    
+
                                 </h:form>
                             </div>
                         </div>
@@ -144,6 +219,11 @@
                                         </div>
                                     </p:column>
 
+                                    <p:column headerText="Tipo">
+                                        <h:outputText value="#{file.tipo.nombre}"/>
+                                    </p:column>
+
+
                                     <p:column headerText="Tamaño">
                                         <h:outputText value="#{documentView.obtenerSizeKB(file.sizeArchivo)}"/>
                                     </p:column>
@@ -158,8 +238,12 @@
                                         <h:outputText value="#{file.firmado?'SI':'NO'}" />
                                     </p:column>
 
-                                    <p:column headerText="Formato" styleClass="col-derecha">
+                                    <p:column headerText="Formato">
                                         <h:outputText value="#{file.formato.nombre}" />
+                                    </p:column>
+
+                                    <p:column headerText="Propietario" styleClass="col-derecha">
+                                        <h:outputText value="#{empty file.identificacionPropietario?'yo':file.identificacionPropietario}" />
                                     </p:column>
 
                                     <p:ajax event="rowSelect"  update=":botones_frm" />
@@ -172,12 +256,12 @@
                                         <p:fileDownload value="#{documentView.contenidoDescarga}" />
                                     </p:menuitem>
                                     <p:menuitem value="Cambiar Nombre" ajax="false" disabled="true" icon="ui-icon-pencil"/>
-                                    <p:menuitem value="Compartir" disabled="true" ajax="false" icon="fa fa-share-alt"/>
+                                    <p:menuitem value="Compartir" icon="fa fa-share-alt" oncomplete="PF('compartir_dialog').show()"
+                                                actionListener="#{documentView.nuevoCompartir}" update="compartir_dialog"/>
                                     <p:menuitem value="Restaurar" actionListener="#{documentView.restaurarArchivo}" disabled="false" ajax="false" icon="fa fa-reply" update=":documentTable :botones_frm"/>
                                     <p:menuitem value="Eliminar" actionListener="#{documentView.borrarArchivo}" icon="fa fa-remove" update=":documentTable :botones_frm">
-                                            <p:confirm header="Confirmación" message="#{documentView.mensajeEliminacion}" icon="ui-icon-alert"/>
+                                        <p:confirm header="Confirmación" message="#{documentView.mensajeEliminacion}" icon="ui-icon-alert"/>
                                     </p:menuitem>
-                                    
                                     <p:menuitem value="Firmar" disabled="true" ajax="false" icon="fa fa-check"/>
                                     <p:menuitem value="Mover" disabled="true" ajax="false" icon="ui-icon-folder-open"/>
                                 </p:contextMenu>

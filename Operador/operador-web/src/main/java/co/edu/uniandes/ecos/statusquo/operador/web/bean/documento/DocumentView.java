@@ -2,6 +2,7 @@ package co.edu.uniandes.ecos.statusquo.operador.web.bean.documento;
 
 import co.edu.uniandes.ecos.statusquo.operador.ejb.DocumentoEJB;
 import co.edu.uniandes.ecos.statusquo.operador.ejb.PropertiesEJB;
+import co.edu.uniandes.ecos.statusquo.operador.ejb.UsuarioEJB;
 import co.edu.uniandes.ecos.statusquo.operador.entity.Archivo;
 import co.edu.uniandes.ecos.statusquo.operador.entity.Carpeta;
 import co.edu.uniandes.ecos.statusquo.operador.entity.EstadoArchivo;
@@ -9,6 +10,7 @@ import co.edu.uniandes.ecos.statusquo.operador.entity.FormatoArchivo;
 import co.edu.uniandes.ecos.statusquo.operador.entity.Usuario;
 import co.edu.uniandes.ecos.statusquo.operador.web.bean.UtilBean;
 import co.edu.uniandes.ecos.statusquo.operador.web.util.TreeNodeHelper;
+import co.edu.uniandes.ecos.statusquo.operador.ws.dto.UsuarioDTO;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -49,11 +51,27 @@ public class DocumentView implements Serializable {
 
     private Archivo nuevoDocumento;
 
+    // Compartir
+    private String compartirTo;
+
+    private String entidadPublica;
+
+    private boolean entidadPublicaRendered;
+
+    private String identificacionPersona;
+
+    private String nombrePersona;
+
+    private UsuarioDTO personaBuscada;
+
     @EJB
     private DocumentoEJB documentoEJB;
 
     @EJB
     private PropertiesEJB propertiesEJB;
+
+    @EJB
+    private UsuarioEJB usuarioEJB;
 
     @PostConstruct
     public void init() {
@@ -194,7 +212,7 @@ public class DocumentView implements Serializable {
             archivo.setContenido(event.getFile().getContents());
 
             archivo.setFirmado(false);//Por defecto no sube firmado
-            archivo.setIdentificacionPropietario(usuario.getDocumento());
+//            archivo.setIdentificacionPropietario(usuario.getDocumento());
 
             documentoEJB.crearArchivo(archivo);
 
@@ -228,14 +246,14 @@ public class DocumentView implements Serializable {
         documentoEJB.restaurarArchivo(selectedDocument);
         selectedDocument = null;
     }
-    
-    public void crearCarpeta(){
+
+    public void crearCarpeta() {
         System.out.println("Creando carpeta " + nombreCarpetaNueva);
         documentoEJB.crearCarpeta(carpetaSeleccionada, nombreCarpetaNueva);
         nombreCarpetaNueva = "";
     }
-    
-    public void borrarCarpeta(){
+
+    public void borrarCarpeta() {
         documentoEJB.borrarCarpeta(carpetaSeleccionada);
     }
 
@@ -251,6 +269,82 @@ public class DocumentView implements Serializable {
             }
         }
         return rsp;
+    }
+
+    // Metodos para compartir
+    public void nuevoCompartir() {
+        compartirTo = null;
+        entidadPublica = null;
+        entidadPublicaRendered = false;
+        identificacionPersona = null;
+        nombrePersona = null;
+    }
+
+    public void seleccionarCompartirTo() {
+        entidadPublicaRendered = compartirTo != null && compartirTo.equals("EntidadPublica");
+    }
+
+    public void buscarPersona() throws Exception {
+        System.out.println("Buscar Persona");
+        personaBuscada = usuarioEJB.buscarUsuario(identificacionPersona);
+        if (personaBuscada == null) {
+            nombrePersona = null;
+        } else {
+            nombrePersona = personaBuscada.getNombreCompleto();
+        }
+    }
+
+    public void compartirArchivo() {
+        System.out.println("Compartir");
+        if (isCompartirRendered()) {
+            UsuarioDTO usuarioCompartir;
+            if (personaBuscada != null) {
+                usuarioCompartir = personaBuscada;
+            } else {
+//                usuarioCompartir = usuarioEJB.buscarUsuario(entidadPublica);
+            }
+//            documentoEJB.compartirArchivo(usuarioCompartir, selectedDocument);
+        }
+    }
+
+    public boolean isCompartirRendered() {
+        return personaBuscada != null || (entidadPublica != null && entidadPublica.equals("---"));
+    }
+
+    public String getCompartirTo() {
+        return compartirTo;
+    }
+
+    public void setCompartirTo(String compartirTo) {
+        this.compartirTo = compartirTo;
+    }
+
+    public String getEntidadPublica() {
+        return entidadPublica;
+    }
+
+    public void setEntidadPublica(String entidadPublica) {
+        this.entidadPublica = entidadPublica;
+    }
+
+    public boolean isEntidadPublicaRendered() {
+        return entidadPublicaRendered;
+    }
+
+    public void setEntidadPublicaRendered(boolean entidadPublicaRendered) {
+        this.entidadPublicaRendered = entidadPublicaRendered;
+    }
+
+    public String getIdentificacionPersona() {
+        return identificacionPersona;
+    }
+
+    public void setIdentificacionPersona(String identificacionPersona) {
+        this.identificacionPersona = identificacionPersona;
+    }
+
+    public String getNombrePersona() {
+        return nombrePersona;
     }
 
 }
