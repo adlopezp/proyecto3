@@ -7,11 +7,9 @@ package co.edu.uniandes.ecos.statusquo.operador.ws.servicios;
 
 import co.edu.uniandes.ecos.statusquo.centralizador.ws.servicios.common.FalloTipo;
 import co.edu.uniandes.ecos.statusquo.centralizador.ws.servicios.common.Servicio;
-import co.edu.uniandes.ecos.statusquo.operador.ws.dto.ArchivoResultanteDTO;
+import co.edu.uniandes.ecos.statusquo.operador.ws.dto.SolicitudArchivoDTO;
 import co.edu.uniandes.ecos.statusquo.operador.ws.servicios.documento.RespuestaDocumento;
-import errortipo.servicio.ws.operador.statusquo.ecos.uniandes.edu.co.ErrorTipo;
 import java.util.ArrayList;
-import java.util.List;
 import javax.jws.HandlerChain;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
@@ -21,13 +19,13 @@ import javax.jws.WebService;
  *
  * @author Alvaro
  */
-@WebService(serviceName = "Documento")
+@WebService(serviceName = "DocumentoWS")
 @HandlerChain(file = "/LogHandler.xml")
-public class Documento extends Servicio{
+public class DocumentoWS extends Servicio {
 
     @WebMethod(operationName = "getDocumento")
-    public RespuestaDocumento getDocumento(@WebParam(name = "solicitudArchivo") List<ArchivoResultanteDTO> solicitudArchivo) throws FalloTipo {
-        errores = new ArrayList<ErrorTipo>();
+    public RespuestaDocumento getDocumento(@WebParam(name = "solicitudArchivo") SolicitudArchivoDTO solicitudArchivo) throws FalloTipo {
+        errores = new ArrayList<>();
         RespuestaDocumento resp = new RespuestaDocumento();
         try {
             //TODO logica de documento

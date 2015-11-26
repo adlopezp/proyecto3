@@ -11,5 +11,5 @@ package co.edu.uniandes.ecos.statusquo.operador.util;
  */
 public class DatosConstantes {
 
-    public static final String ADMINISTRADOR = "Administrador";
+    public final static String ADMINISTRADOR = "Administrador";
 }

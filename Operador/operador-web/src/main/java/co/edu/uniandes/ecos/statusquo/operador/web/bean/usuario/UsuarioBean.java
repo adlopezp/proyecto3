@@ -61,7 +61,7 @@ public class UsuarioBean implements Serializable {
         usuarios = usuarioService.buscarUsuarios(nombreBusqueda, documentoBusqueda);
     }
 
-    public void guardarUsuario() {
+    public void guardarUsuario() throws Exception {
         if (tipoUsuario == null) {
             UtilBean.printMensajeErrorSimple("Tipo Usuario Obligatorio");
         }

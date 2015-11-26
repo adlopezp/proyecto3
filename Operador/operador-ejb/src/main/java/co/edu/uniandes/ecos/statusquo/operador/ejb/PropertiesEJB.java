@@ -15,13 +15,19 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 
 /**
- *  EJB para manejar las propiedades de la aplicación del archivo app.properties
+ * EJB para manejar las propiedades de la aplicación del archivo app.properties
+ *
  * @author Zamir
  */
 @Singleton
 @Startup
 public class PropertiesEJB {
-    
+
+    public final static String CENTRALIZADOR_WSDL_KEY = "centralizador.wsdl";
+    public final static String DOCUMENTO_WSDL_SERVICE_KEY = "documento.wsdl.service";
+    public final static String NOTIFICACION_WSDL_SERVICE_KEY = "notificacion.wsdl.service";
+    public final static String ENTIDAD_WSDL_SERVICE_KEY = "entidad.wsdl.service";
+
     private Properties properties;
 
     public Properties getProperties() {
@@ -31,13 +37,13 @@ public class PropertiesEJB {
     public void setProperties(Properties properties) {
         this.properties = properties;
     }
-    
-    public String getProperty(String name){
+
+    public String getProperty(String name) {
         return properties.getProperty(name);
     }
-    
+
     @PostConstruct
-    public void init(){
+    public void init() {
         InputStream inputStream = getClass().getClassLoader()
                 .getResourceAsStream("app.properties");
         properties = new Properties();
@@ -47,5 +53,5 @@ public class PropertiesEJB {
             Logger.getLogger(PropertiesEJB.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
 }

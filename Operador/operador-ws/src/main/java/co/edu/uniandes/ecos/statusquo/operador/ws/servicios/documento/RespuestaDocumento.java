@@ -8,24 +8,22 @@ package co.edu.uniandes.ecos.statusquo.operador.ws.servicios.documento;
 import co.edu.uniandes.ecos.statusquo.operador.ws.dto.ArchivoResultanteDTO;
 import contextorespuestatipo.servicio.ws.operador.statusquo.ecos.uniandes.edu.co.ContextoRespuestaTipo;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
  * @author Dev
  */
-public class RespuestaDocumento implements Serializable{
-    
-    private List<ArchivoResultanteDTO> solicitudArchivo= new ArrayList<ArchivoResultanteDTO>();
-    private ContextoRespuestaTipo respuestaEstandar=new ContextoRespuestaTipo();
+public class RespuestaDocumento implements Serializable {
 
-    public List<ArchivoResultanteDTO> getSolicitudArchivo() {
-        return solicitudArchivo;
+    private ArchivoResultanteDTO archivo = new ArchivoResultanteDTO();
+    private ContextoRespuestaTipo respuestaEstandar = new ContextoRespuestaTipo();
+
+    public ArchivoResultanteDTO getArchivo() {
+        return archivo;
     }
 
-    public void setSolicitudArchivo(List<ArchivoResultanteDTO> solicitudArchivo) {
-        this.solicitudArchivo = solicitudArchivo;
+    public void setArchivo(final ArchivoResultanteDTO archivo) {
+        this.archivo = archivo;
     }
 
     public ContextoRespuestaTipo getRespuestaEstandar() {

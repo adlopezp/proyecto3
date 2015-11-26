@@ -116,7 +116,7 @@
                             <wsdlFiles>
                                 <wsdlFile>localhost_8080/centralizador-ws/UsuarioSW.wsdl</wsdlFile>
                             </wsdlFiles>
-                            <packageName>co.edu.uniandes.ecos.statusquo.operador.ejb</packageName>
+                            <packageName>co.edu.uniandes.ecos.statusquo.operador.ws.imp</packageName>
                             <vmArgs>
                                 <vmArg>-Djavax.xml.accessExternalSchema=all</vmArg>
                             </vmArgs>
@@ -136,16 +136,16 @@
                         </goals>
                         <configuration>
                             <wsdlFiles>
-                                <wsdlFile>localhost_8080/operador-ws/Documento.wsdl</wsdlFile>
+                                <wsdlFile>localhost_8080/operador-ws/DocumentoWS.wsdl</wsdlFile>
                             </wsdlFiles>
-                            <packageName>co.edu.uniandes.ecos.statusquo.operador.ejb</packageName>
+                            <packageName>co.edu.uniandes.ecos.statusquo.operador.ws.imp</packageName>
                             <vmArgs>
                                 <vmArg>-Djavax.xml.accessExternalSchema=all</vmArg>
                             </vmArgs>
-                            <wsdlLocation>http://localhost:8080/operador-ws/Documento?wsdl</wsdlLocation>
-                            <staleFile>${project.build.directory}/jaxws/stale/Documento.stale</staleFile>
+                            <wsdlLocation>http://localhost:8080/operador-ws/DocumentoWS?wsdl</wsdlLocation>
+                            <staleFile>${project.build.directory}/jaxws/stale/DocumentoWS.stale</staleFile>
                         </configuration>
-                        <id>wsimport-generate-Documento</id>
+                        <id>wsimport-generate-DocumentoWS</id>
                         <phase>generate-sources</phase>
                     </execution>
                     <execution>
@@ -156,7 +156,7 @@
                             <wsdlFiles>
                                 <wsdlFile>localhost_8080/operador-ws/NotificacionCompartidoWS.wsdl</wsdlFile>
                             </wsdlFiles>
-                            <packageName>co.edu.uniandes.ecos.statusquo.operador.ejb</packageName>
+                            <packageName>co.edu.uniandes.ecos.statusquo.operador.ws.imp</packageName>
                             <vmArgs>
                                 <vmArg>-Djavax.xml.accessExternalSchema=all</vmArg>
                             </vmArgs>
@@ -174,7 +174,7 @@
                             <wsdlFiles>
                                 <wsdlFile>localhost_8080/operador-ws/NotificacionEntidadWS.wsdl</wsdlFile>
                             </wsdlFiles>
-                            <packageName>co.edu.uniandes.ecos.statusquo.operador.ejb</packageName>
+                            <packageName>co.edu.uniandes.ecos.statusquo.operador.ws.imp</packageName>
                             <vmArgs>
                                 <vmArg>-Djavax.xml.accessExternalSchema=all</vmArg>
                             </vmArgs>
