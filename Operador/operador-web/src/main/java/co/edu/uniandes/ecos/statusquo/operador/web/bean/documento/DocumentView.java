@@ -43,8 +43,6 @@ public class DocumentView implements Serializable {
 
     private Archivo selectedDocument;
 
-    private Long idArchivoDescarga;
-
     private StreamedContent contenidoDescarga;
 
     private Archivo nuevoDocumento;
@@ -80,7 +78,7 @@ public class DocumentView implements Serializable {
     }
 
     public void setSelectedDocument(Archivo selectedDocument) {
-        
+
         this.selectedDocument = selectedDocument;
     }
 
@@ -103,7 +101,6 @@ public class DocumentView implements Serializable {
     public StreamedContent getContenidoDescarga() {
         System.out.println("archivo a descargar");
         try {
-            idArchivoDescarga = selectedDocument.getId();
             InputStream is = new FileInputStream(selectedDocument.getUrl());
             contenidoDescarga = new DefaultStreamedContent(is, null, selectedDocument.getNombre() + "." + selectedDocument.getFormato().getExtencion());
         } catch (FileNotFoundException ex) {
@@ -115,15 +112,16 @@ public class DocumentView implements Serializable {
     public Carpeta getCarpetaSeleccionada() {
         return carpetaSeleccionada;
     }
-    
+
     /**
      * Retorna la cadena con el mensaje de confirmación de eliminación de un
      * archivo
-     * @return 
+     *
+     * @return
      */
-    public String getMensajeEliminacion(){
-        String  mensaje = "¿Está seguro de mover el archivo a la papelera?";
-        if ( carpetaSeleccionada != null ) {
+    public String getMensajeEliminacion() {
+        String mensaje = "¿Está seguro de mover el archivo a la papelera?";
+        if (carpetaSeleccionada != null) {
             if (carpetaSeleccionada.getTipo().getId() == 3) {
                 mensaje = "¿Está seguro de eliminar el archivo definitivamente?";
             }
@@ -214,8 +212,8 @@ public class DocumentView implements Serializable {
         documentoEJB.borrarArchivo(selectedDocument);
         selectedDocument = null;
     }
-    
-    public void restaurarArchivo(){
+
+    public void restaurarArchivo() {
         archivosUsuario.remove(selectedDocument);
         documentoEJB.restaurarArchivo(selectedDocument);
         selectedDocument = null;
