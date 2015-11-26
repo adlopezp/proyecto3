@@ -104,13 +104,13 @@
                         <!-- Dialogo Compartir -->
                         <p:dialog id="compartir_dialog" widgetVar="compartir_dialog" draggable="false" header="Compartir Archivo"
                                   modal="true" resizable="false" closeOnEscape="true">
-                            <p:panelGrid id="compartir_tbl" style="border: none; ">
+                            <p:panelGrid id="compartir_tbl" styleClass="tablanoborder">
                                 <p:row>
                                     <p:column style="width: 250px;">
                                         <p:outputLabel value="Archivo" />
                                     </p:column>
                                     <p:column>
-                                        <p:inputText id="nombre_archivo_txt" value="#{documentView.selectedDocument.nombre}" disabled="true" styleClass="paneltotal"/>
+                                        <p:inputText id="nombre_archivo_txt" value="#{documentView.selectedDocument.nombre}" readonly="true" styleClass="paneltotal"/>
                                     </p:column>
                                 </p:row>
                                 <p:row>
@@ -150,7 +150,7 @@
                                         <p:inputText id="identificacion_txt" value="#{documentView.identificacionPersona}" styleClass="paneltotal">
                                             <p:ajax event="blur"
                                                     process="compartir_tbl"
-                                                    listener="#{documentView.seleccionarCompartirTo}"
+                                                    listener="#{documentView.buscarPersona}"
                                                     update="compartir_tbl"/>
                                         </p:inputText>
                                     </p:column>
@@ -160,14 +160,14 @@
                                         <p:outputLabel value="Nombre Persona" />
                                     </p:column>
                                     <p:column>
-                                        <p:inputText id="nombre_txt" value="#{documentView.nombrePersona}" disabled="true" styleClass="paneltotal"/>
+                                        <p:inputText id="nombre_txt" value="#{documentView.nombrePersona}" readonly="true" styleClass="paneltotal"/>
                                     </p:column>
                                 </p:row>
                                 <p:row>
                                     <p:column colspan="2" style="text-align: center;">
                                         <br/>
-                                        <p:commandButton id="comp_compartir_btn"  value="Compartir" actionListener="#{documentView.seleccionarCompartirTo}"
-                                                         disabled="#{!documentView.compartirRendered}"/>
+                                        <p:commandButton id="comp_compartir_btn"  value="Compartir" actionListener="#{documentView.compartirArchivo}"
+                                                         disabled="#{!documentView.compartirRendered}" oncomplete="PF('compartir_dialog').hide();"/>
                                         <p:commandButton id="comp_cancelar_btn"  value="Cancelar" onclick="PF('compartir_dialog').hide();"
                                                          ajax="false" type="button"/>
                                     </p:column>
@@ -266,7 +266,7 @@
                                     <p:menuitem value="Compartir" disabled="true" ajax="false" icon="fa fa-share-alt"/>
                                     <p:menuitem value="Compartir" icon="fa fa-share-alt" oncomplete="PF('compartir_dialog').show()"
                                                 actionListener="#{documentView.nuevoCompartir}" update=":#{p:component('compartir_dialog')}"/>
-                                    <p:menuitem value="Restaurar" actionListener="#{documentView.restaurarArchivo}" disabled="false" ajax="false" icon="fa fa-reply" update=":documentTable :botones_frm"/>
+                                    <!--<p:menuitem value="Restaurar" actionListener="#{documentView.restaurarArchivo}" disabled="false" ajax="false" icon="fa fa-reply" update=":documentTable :botones_frm"/>-->
                                     <p:menuitem value="Eliminar" actionListener="#{documentView.borrarArchivo}" icon="fa fa-remove" update=":documentTable :botones_frm">
                                         <p:confirm header="Confirmación" message="#{documentView.mensajeEliminacion}" icon="ui-icon-alert"/>
                                     </p:menuitem>

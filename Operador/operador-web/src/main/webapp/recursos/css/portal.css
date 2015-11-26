@@ -167,5 +167,9 @@ td.col-derecha{
     border-right: 0px !important;
 }
 
+.tablanoborder .ui-widget-content {
+    border: none !important;
+}
+
 
 

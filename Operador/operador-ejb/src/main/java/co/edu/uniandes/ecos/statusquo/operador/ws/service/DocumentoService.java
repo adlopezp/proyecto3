@@ -51,7 +51,7 @@ public class DocumentoService implements Serializable {
         }
     }
 
-    public void getDocumento(final String idArchivo, final String url) {
+    public byte[] getDocumento(final String idArchivo, final String url) throws Exception {
         try {
             DocumentoWS_Service service = getService(url);
             DocumentoWS port = service.getDocumentoWSPort();
@@ -62,8 +62,9 @@ public class DocumentoService implements Serializable {
             System.out.println("Result = " + result);
 
             ArchivoResultanteDTO respuesta = result.getArchivo();
+            return respuesta.getArchivo();
         } catch (Exception ex) {
-            // TODO handle custom exceptions here
+            throw new Exception(ex);
         }
     }
 }

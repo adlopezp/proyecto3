@@ -25,7 +25,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "tipo_archivo")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "TipoArchivo.findAll", query = "SELECT t FROM TipoArchivo t")})
+    @NamedQuery(name = "TipoArchivo.findAll", query = "SELECT t FROM TipoArchivo t"),
+    @NamedQuery(name = "TipoArchivo.findByNombre", query = "SELECT t FROM TipoArchivo t where t.nombre = ?1")})
 public class TipoArchivo implements Serializable {
 
     private static final long serialVersionUID = 1L;

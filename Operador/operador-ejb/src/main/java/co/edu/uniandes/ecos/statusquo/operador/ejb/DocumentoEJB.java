@@ -3,14 +3,21 @@ package co.edu.uniandes.ecos.statusquo.operador.ejb;
 import co.edu.uniandes.ecos.statusquo.operador.dao.ArchivoDAO;
 import co.edu.uniandes.ecos.statusquo.operador.dao.CarpetaDAO;
 import co.edu.uniandes.ecos.statusquo.operador.dao.FormatoArchivoDAO;
+import co.edu.uniandes.ecos.statusquo.operador.dao.TipoArchivoDAO;
 import co.edu.uniandes.ecos.statusquo.operador.entity.Archivo;
 import co.edu.uniandes.ecos.statusquo.operador.entity.Carpeta;
 import co.edu.uniandes.ecos.statusquo.operador.entity.EstadoArchivo;
 import co.edu.uniandes.ecos.statusquo.operador.entity.EstadoCarpeta;
 import co.edu.uniandes.ecos.statusquo.operador.entity.FormatoArchivo;
+import co.edu.uniandes.ecos.statusquo.operador.entity.TipoArchivo;
 import co.edu.uniandes.ecos.statusquo.operador.entity.Usuario;
+import co.edu.uniandes.ecos.statusquo.operador.ws.dto.UsuarioDTO;
+import co.edu.uniandes.ecos.statusquo.operador.ws.service.DocumentoService;
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
@@ -34,6 +41,15 @@ public class DocumentoEJB {
 
     @EJB
     private FormatoArchivoDAO formatoDAO;
+
+    @EJB
+    private TipoArchivoDAO tipoArchivoDAO;
+
+    @EJB
+    private UsuarioEJB usuarioEJB;
+
+    @EJB
+    private DocumentoService documentoService;
 
     public List<Carpeta> traerCarpetasDeUsuario(final Usuario usuario) {
         List<Carpeta> carpetas = carpetaDAO.consultarPorUsuario(usuario);
@@ -110,7 +126,7 @@ public class DocumentoEJB {
     public void restaurarArchivo(Archivo archivo) {
         EstadoArchivo estado = new EstadoArchivo(1L);
         archivo.setEstadoId(estado);
-        
+
         restaurarCarpeta(archivo.getCarpetaPadre());
         archivoDAO.actualizar(archivo);
     }
@@ -157,7 +173,6 @@ public class DocumentoEJB {
         formatoDAO.insertar(formato);
     }
 
-    
     public Carpeta crearCarpeta(Carpeta carpetaSeleccionada, String nombreCarpetaNueva) {
         Carpeta nuevaCarpeta = new Carpeta();
         nuevaCarpeta.setCarpetaPadre(carpetaSeleccionada);
@@ -172,7 +187,9 @@ public class DocumentoEJB {
     }
 
     public void borrarCarpeta(Carpeta carpeta) {
-        if (carpeta.getPrincipal()) return;
+        if (carpeta.getPrincipal()) {
+            return;
+        }
         carpeta.setEstado(new EstadoCarpeta(2L));
         for (Archivo archivo : carpeta.getArchivos()) {
             borrarArchivo(archivo);
@@ -186,6 +203,24 @@ public class DocumentoEJB {
         if (carpeta.getCarpetaPadre() != null) {
             restaurarCarpeta(carpeta.getCarpetaPadre());
         }
+    }
+
+    public TipoArchivo getTipoArchivoGenerico() {
+        return tipoArchivoDAO.buscar(7l);
+    }
+
+    public InputStream getArchivoRemoto(final String documentoUsuarioRemoto, final String idArchivo) throws Exception {
+        UsuarioDTO usuarioDestino = usuarioEJB.buscarUsuario(documentoUsuarioRemoto);
+        InputStream is;
+
+        if (usuarioDestino.isUsuarioLocal()) {
+            Archivo archivoLocal = archivoDAO.buscar(Long.parseLong(idArchivo));
+            is = new FileInputStream(archivoLocal.getUrl());
+        } else {
+            byte[] archivo = documentoService.getDocumento(idArchivo, usuarioDestino.getOperador().getUrl());
+            is = new ByteArrayInputStream(archivo);
+        }
+        return is;
     }
 
 }

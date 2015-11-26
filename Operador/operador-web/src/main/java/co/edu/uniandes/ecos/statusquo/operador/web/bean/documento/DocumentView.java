@@ -1,5 +1,6 @@
 package co.edu.uniandes.ecos.statusquo.operador.web.bean.documento;
 
+import co.edu.uniandes.ecos.statusquo.operador.ejb.CompartirEJB;
 import co.edu.uniandes.ecos.statusquo.operador.ejb.DocumentoEJB;
 import co.edu.uniandes.ecos.statusquo.operador.ejb.PropertiesEJB;
 import co.edu.uniandes.ecos.statusquo.operador.ejb.UsuarioEJB;
@@ -74,6 +75,9 @@ public class DocumentView implements Serializable {
     @EJB
     private UsuarioEJB usuarioEJB;
 
+    @EJB
+    private CompartirEJB compartirEJB;
+
     @PostConstruct
     public void init() {
         Usuario usuario = UtilBean.getUsuarioActual();
@@ -119,11 +123,16 @@ public class DocumentView implements Serializable {
         this.nuevoDocumento = nuevoDocumento;
     }
 
-    public StreamedContent getContenidoDescarga() {
+    public StreamedContent getContenidoDescarga() throws Exception {
         System.out.println("archivo a descargar");
         try {
-            InputStream is = new FileInputStream(selectedDocument.getUrl());
-            contenidoDescarga = new DefaultStreamedContent(is, null, selectedDocument.getNombre() + "." + selectedDocument.getFormato().getExtencion());
+            if (selectedDocument.isRemoto()) {
+                contenidoDescarga = new DefaultStreamedContent(documentoEJB.getArchivoRemoto(selectedDocument.getIdentificacionPropietario(), selectedDocument.getUrl()), null, selectedDocument.getNombre() + "." + selectedDocument.getFormato().getExtencion());
+            } else {
+                InputStream is = new FileInputStream(selectedDocument.getUrl());
+                contenidoDescarga = new DefaultStreamedContent(is, null, selectedDocument.getNombre() + "." + selectedDocument.getFormato().getExtencion());
+            }
+
         } catch (FileNotFoundException ex) {
             Logger.getLogger(DocumentView.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -170,7 +179,7 @@ public class DocumentView implements Serializable {
         archivosUsuario = documentoEJB.traerArchivosCarpeta(carpetaSeleccionada, usuario);
         selectedDocument = null;
     }
-    
+
     public void onNodeExpand(NodeExpandEvent event) {
         carpetaSeleccionada = (Carpeta) event.getTreeNode().getData();
         System.out.println("Expandida: " + carpetaSeleccionada.getNombre());
@@ -219,6 +228,7 @@ public class DocumentView implements Serializable {
 
             archivo.setFirmado(false);//Por defecto no sube firmado
 //            archivo.setIdentificacionPropietario(usuario.getDocumento());
+            archivo.setTipo(documentoEJB.getTipoArchivoGenerico());
 
             documentoEJB.crearArchivo(archivo);
 
@@ -252,8 +262,8 @@ public class DocumentView implements Serializable {
         documentoEJB.restaurarArchivo(selectedDocument);
         selectedDocument = null;
     }
-    
-    public void crearCarpeta(){
+
+    public void crearCarpeta() {
         documentoEJB.crearCarpeta(carpetaSeleccionada, nombreCarpetaNueva);
         nombreCarpetaNueva = "";
         root = TreeNodeHelper.toTreeNode(carpetasUsuario);
@@ -291,6 +301,8 @@ public class DocumentView implements Serializable {
 
     public void seleccionarCompartirTo() {
         entidadPublicaRendered = compartirTo != null && compartirTo.equals("EntidadPublica");
+        identificacionPersona = null;
+        entidadPublica = null;
     }
 
     public void buscarPersona() throws Exception {
@@ -303,21 +315,22 @@ public class DocumentView implements Serializable {
         }
     }
 
-    public void compartirArchivo() {
+    public void compartirArchivo() throws Exception {
         System.out.println("Compartir");
         if (isCompartirRendered()) {
             UsuarioDTO usuarioCompartir;
             if (personaBuscada != null) {
                 usuarioCompartir = personaBuscada;
             } else {
-//                usuarioCompartir = usuarioEJB.buscarUsuario(entidadPublica);
+                usuarioCompartir = usuarioEJB.buscarUsuario(entidadPublica);
             }
-//            documentoEJB.compartirArchivo(usuarioCompartir, selectedDocument);
+            Usuario usuario = UtilBean.getUsuarioActual();
+            compartirEJB.compartirArchivo(usuario, usuarioCompartir, selectedDocument);
         }
     }
 
     public boolean isCompartirRendered() {
-        return personaBuscada != null || (entidadPublica != null && entidadPublica.equals("---"));
+        return personaBuscada != null || (entidadPublica != null && !entidadPublica.equals("---"));
     }
 
     public String getCompartirTo() {

@@ -7,16 +7,19 @@ package co.edu.uniandes.ecos.statusquo.operador.ws.servicios;
 
 import co.edu.uniandes.ecos.statusquo.centralizador.ws.servicios.common.FalloTipo;
 import co.edu.uniandes.ecos.statusquo.centralizador.ws.servicios.common.Servicio;
+import co.edu.uniandes.ecos.statusquo.operador.ejb.CompartirEJB;
+import co.edu.uniandes.ecos.statusquo.operador.entity.Archivo;
 import co.edu.uniandes.ecos.statusquo.operador.ws.dto.NotificacionCompartidoDTO;
 import co.edu.uniandes.ecos.statusquo.operador.ws.dto.SolicitudCompartirDTO;
 import contextorespuestatipo.servicio.ws.operador.statusquo.ecos.uniandes.edu.co.ContextoRespuestaTipo;
 import errortipo.servicio.ws.operador.statusquo.ecos.uniandes.edu.co.ErrorTipo;
 import java.util.ArrayList;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.jws.HandlerChain;
-import javax.jws.WebService;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
+import javax.jws.WebService;
 
 /**
  *
@@ -26,12 +29,24 @@ import javax.jws.WebParam;
 @HandlerChain(file = "/LogHandler.xml")
 public class NotificacionCompartidoWS extends Servicio {
 
+    @EJB
+    private CompartirEJB compartirEJB;
+
     @WebMethod(operationName = "recepcionNotificaciones")
-    public ContextoRespuestaTipo recepcionNotificaciones(@WebParam(name = "notificacion") List<NotificacionCompartidoDTO> notificacion) throws FalloTipo {
+    public ContextoRespuestaTipo recepcionNotificaciones(@WebParam(name = "notificacion") List<NotificacionCompartidoDTO> notificaciones) throws FalloTipo {
         errores = new ArrayList<ErrorTipo>();
         ContextoRespuestaTipo resp = new ContextoRespuestaTipo();
         try {
-            //TODO logica de notificacion
+
+            NotificacionCompartidoDTO notificacion = notificaciones.get(0);
+            Archivo archivo = new Archivo();
+            archivo.setNombre(notificacion.getNombreArchivo());
+            archivo.setFormato(compartirEJB.getFormato(notificacion.getFormato()));
+            archivo.setSizeArchivo(Long.parseLong(notificacion.getSizeArchivo()));
+            archivo.setTipo(compartirEJB.getTipoArchivo(notificacion.getNombreTipoArchivo()));
+            archivo.setId(Long.parseLong(notificacion.getIdArchivo()));
+            compartirEJB.recibirNotificacionCompartir(notificacion.getIdentificacionRemitente(), notificacion.getIdentificacionDestinatario(), archivo, notificacion.getTextoMensaje());
+
             resp.setCodEstadoTx("1");
             resp.setFechaTx(getFecha());
         } catch (Exception ex) {
@@ -43,7 +58,7 @@ public class NotificacionCompartidoWS extends Servicio {
         }
         return resp;
     }
-    
+
     @WebMethod(operationName = "recepcionSolicitudes")
     public ContextoRespuestaTipo recepcionSolicitudes(@WebParam(name = "solicitud") List<SolicitudCompartirDTO> solicitud) throws FalloTipo {
         errores = new ArrayList<ErrorTipo>();
