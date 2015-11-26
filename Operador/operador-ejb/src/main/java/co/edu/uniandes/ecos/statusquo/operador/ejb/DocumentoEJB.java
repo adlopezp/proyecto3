@@ -6,6 +6,7 @@ import co.edu.uniandes.ecos.statusquo.operador.dao.FormatoArchivoDAO;
 import co.edu.uniandes.ecos.statusquo.operador.entity.Archivo;
 import co.edu.uniandes.ecos.statusquo.operador.entity.Carpeta;
 import co.edu.uniandes.ecos.statusquo.operador.entity.EstadoArchivo;
+import co.edu.uniandes.ecos.statusquo.operador.entity.EstadoCarpeta;
 import co.edu.uniandes.ecos.statusquo.operador.entity.FormatoArchivo;
 import co.edu.uniandes.ecos.statusquo.operador.entity.Usuario;
 import java.io.File;
@@ -152,6 +153,26 @@ public class DocumentoEJB {
 
     public void crearFormato(final FormatoArchivo formato) {
         formatoDAO.insertar(formato);
+    }
+
+    
+    public void crearCarpeta(Carpeta carpetaSeleccionada, String nombreCarpetaNueva) {
+        Carpeta nuevaCarpeta = new Carpeta();
+        nuevaCarpeta.setCarpetaPadre(carpetaSeleccionada);
+        nuevaCarpeta.setNombre(nombreCarpetaNueva);
+        nuevaCarpeta.setCarpetaPersonal(carpetaSeleccionada.getCarpetaPersonal());
+        nuevaCarpeta.setEstado(carpetaSeleccionada.getEstado());
+        nuevaCarpeta.setPrincipal(false);
+        nuevaCarpeta.setTipo(carpetaSeleccionada.getTipo());
+        carpetaDAO.insertar(nuevaCarpeta);
+    }
+    
+    public void borrarCarpeta(Carpeta carpeta) {
+        carpeta.setEstado(new EstadoCarpeta(2L));
+        for (Archivo archivo: carpeta.getArchivos()) {
+            borrarArchivo(archivo);
+        }
+        carpetaDAO.actualizar(carpeta);
     }
 
 }

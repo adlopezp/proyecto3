@@ -98,17 +98,35 @@
                     <div style="display: table;">
                         <div class="celdanopadding" style="display: table-cell; width: 15%;">
                             <div style="min-height: 400px;">
-                                <p:tree value="#{documentView.root}" var="carpeta" selectionMode="single"
-                                        style="border: none; width: auto;">
+                                <h:form id="formTree">
+                                    <p:tree id="folderTree"
+                                        value="#{documentView.root}" var="carpeta" 
+                                            selectionMode="single"
+                                            style="border: none; width: auto;">
 
-                                    <p:ajax event="select"  update="documentTable botones_frm"
-                                            listener="#{documentView.onNodeSelect}" />
+                                        <p:ajax event="select"  update="documentTable botones_frm"
+                                                listener="#{documentView.onNodeSelect}" />
 
-                                    <p:treeNode expandedIcon="ui-icon-folder-open" collapsedIcon="ui-icon-folder-collapsed">
-                                        <h:outputText value="#{carpeta.nombre}" />
-                                    </p:treeNode>
+                                        <p:treeNode expandedIcon="ui-icon-folder-open" collapsedIcon="ui-icon-folder-collapsed">
+                                            <h:outputText value="#{carpeta.nombre}" />
+                                        </p:treeNode>
 
-                                </p:tree>
+                                    </p:tree>
+                                    <p:contextMenu for="folderTree">
+                                        <p:menuitem value="Nueva carpeta" icon="fa fa-folderl-o" oncomplete="PF('createFolder').show()"/>
+                                        <p:menuitem value="Eliminar" icon="fa fa-remove" actionListener="#{documentView.borrarCarpeta()}">
+                                            <p:confirm header="Confirmación" message="Se eliminará también el contenido de esta carpeta" icon="ui-icon-alert"/>
+                                        </p:menuitem>
+                                        
+                                    </p:contextMenu>
+                                    
+                                    <p:dialog header="Crear nueva carpeta" modal="true" widgetVar="createFolder">
+                                        <h:outputLabel for="folderName" value="Nombre: " />
+                                        <h:inputText id="folderName" value="#{documentView.nombreCarpetaNueva}"/>
+                                        <p:commandButton value="Crear" update="folderTree" actionListener="#{documentView.crearCarpeta}" oncomplete="PF('createFolder').hide()"/>
+                                    </p:dialog>
+                                    
+                                </h:form>
                             </div>
                         </div>
                         <div style="vertical-align: top; display: table-cell; width: 8px;"/>
