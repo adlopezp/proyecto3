@@ -188,4 +188,18 @@ public class DocumentoEJB {
         }
     }
 
+    public void moverCarpeta(Carpeta origen, Carpeta destino) {
+        //Eliminar del padre anterior la referencia
+        Carpeta padre = origen.getCarpetaPadre();
+        padre.getCarpetasHijas().remove(origen);
+        
+        //Establecer padre
+        origen.setCarpetaPadre(destino);
+        
+        //Agregar el origen al destino
+        destino.getCarpetasHijas().add(origen);
+        
+        carpetaDAO.actualizar(origen);
+    }
+
 }
