@@ -72,6 +72,10 @@ public class UsuarioDTO {
         this.apellido2 = apellido2;
     }
 
+    public String getNombreCompleto() {
+        return nombre1 + " " + nombre2 + " " + apellido1 + " " + apellido2;
+    }
+
     public String getTipoDocumento() {
         return tipoDocumento;
     }

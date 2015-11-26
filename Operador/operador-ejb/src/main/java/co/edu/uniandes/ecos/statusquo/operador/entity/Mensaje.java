@@ -68,6 +68,10 @@ public class Mensaje implements Serializable {
     @ManyToOne(optional = true)
     private TipoArchivo tipoArchivo;
 
+    @JoinColumn(name = "carpeta_personal_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private CarpetaPersonal carpetaPersonal;
+
     public Mensaje() {
     }
 
@@ -142,5 +146,13 @@ public class Mensaje implements Serializable {
 
     public void setArchivo(Archivo archivo) {
         this.archivo = archivo;
+    }
+
+    public CarpetaPersonal getCarpetaPersonal() {
+        return carpetaPersonal;
+    }
+
+    public void setCarpetaPersonal(CarpetaPersonal carpetaPersonal) {
+        this.carpetaPersonal = carpetaPersonal;
     }
 }

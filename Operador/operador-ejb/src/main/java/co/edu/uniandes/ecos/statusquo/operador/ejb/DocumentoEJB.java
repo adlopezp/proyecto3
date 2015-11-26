@@ -138,8 +138,8 @@ public class DocumentoEJB {
      */
     public void addFiles(Carpeta carpeta, List<Archivo> archivos, long state) {
         for (Archivo archivo : carpeta.getArchivos()) {
-            if (archivo.getEstado().getId() == state ) {
-                    archivos.add(archivo);
+            if (archivo.getEstado().getId() == state) {
+                archivos.add(archivo);
             }
             if (carpeta.getCarpetasHijas() != null && !carpeta.getCarpetasHijas().isEmpty()) {
                 archivos.addAll(traerArchivosPapelera(carpeta.getCarpetasHijas()));
@@ -155,7 +155,6 @@ public class DocumentoEJB {
         formatoDAO.insertar(formato);
     }
 
-    
     public void crearCarpeta(Carpeta carpetaSeleccionada, String nombreCarpetaNueva) {
         Carpeta nuevaCarpeta = new Carpeta();
         nuevaCarpeta.setCarpetaPadre(carpetaSeleccionada);
@@ -166,13 +165,12 @@ public class DocumentoEJB {
         nuevaCarpeta.setTipo(carpetaSeleccionada.getTipo());
         carpetaDAO.insertar(nuevaCarpeta);
     }
-    
+
     public void borrarCarpeta(Carpeta carpeta) {
         carpeta.setEstado(new EstadoCarpeta(2L));
-        for (Archivo archivo: carpeta.getArchivos()) {
+        for (Archivo archivo : carpeta.getArchivos()) {
             borrarArchivo(archivo);
         }
         carpetaDAO.actualizar(carpeta);
     }
-
 }
