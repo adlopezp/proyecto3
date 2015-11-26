@@ -36,7 +36,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "mensaje")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Mensaje.findAll", query = "SELECT m FROM Mensaje m")})
+    @NamedQuery(name = "Mensaje.findAll", query = "SELECT m FROM Mensaje m"),
+    @NamedQuery(name = "Mensaje.findByTipo", query = "SELECT m FROM Mensaje m where m.tipo.id = ?1 and m.carpetaPersonal.usuario.id = ?2")})
 public class Mensaje implements Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -182,12 +182,15 @@
                                     <p:tree id="folderTree"
                                             value="#{documentView.root}" var="carpeta"
                                             selectionMode="single"
-                                            style="border: none; width: auto;">
+                                            style="border: none; width: auto;"
+                                            draggable="true" droppable="true">
 
                                         <p:ajax event="select"  update="documentTable botones_frm"
                                                 listener="#{documentView.onNodeSelect}" />
                                         <p:ajax event="expand"  update="documentTable botones_frm"
                                                 listener="#{documentView.onNodeExpand}" />
+                                        
+                                        <p:ajax event="dragdrop" listener="#{documentView.onTreeDragDrop}" update="formTree, :#{p:component('messages')}" />
 
                                         <p:treeNode expandedIcon="ui-icon-folder-open" collapsedIcon="ui-icon-folder-collapsed">
                                             <h:outputText value="#{carpeta.nombre}" />

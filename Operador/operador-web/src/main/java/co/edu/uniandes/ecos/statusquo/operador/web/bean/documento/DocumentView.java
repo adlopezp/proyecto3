@@ -29,6 +29,7 @@ import javax.faces.context.FacesContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.NodeExpandEvent;
 import org.primefaces.event.NodeSelectEvent;
+import org.primefaces.event.TreeDragDropEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.primefaces.model.TreeNode;
@@ -183,6 +184,27 @@ public class DocumentView implements Serializable {
     public void onNodeExpand(NodeExpandEvent event) {
         carpetaSeleccionada = (Carpeta) event.getTreeNode().getData();
         System.out.println("Expandida: " + carpetaSeleccionada.getNombre());
+    }
+    
+    public void onTreeDragDrop(TreeDragDropEvent event) {
+        TreeNode dragNode = event.getDragNode();
+        TreeNode dropNode = event.getDropNode();
+        Carpeta origen = (Carpeta) dragNode.getData();
+        Carpeta destino = (Carpeta) dropNode.getData();
+        
+        System.out.println("Desde: " + origen.getNombre() + " hasta: " + destino.getNombre());
+        if (origen.getPrincipal()) {
+            FacesMessage message = new FacesMessage();
+            message.setSummary("Error");
+            message.setDetail("No puede mover esta carpeta");
+            message.setSeverity(FacesMessage.SEVERITY_ERROR);
+            FacesContext.getCurrentInstance().addMessage(null, message);
+        } else {
+            documentoEJB.moverCarpeta(origen, destino);
+        }
+        
+        root = TreeNodeHelper.toTreeNode(carpetasUsuario);
+        
     }
 
     /**
