@@ -233,14 +233,14 @@ public class DocumentView implements Serializable {
         Carpeta nueva = 
                 documentoEJB.crearCarpeta(carpetaSeleccionada, nombreCarpetaNueva);
         nombreCarpetaNueva = "";
-        System.out.println("id: " + nueva.getId() + " nombre: " + nueva.getNombre() + " padre: " + nueva.getCarpetaPadre().getNombre());
         root = TreeNodeHelper.toTreeNode(carpetasUsuario);
-        //carpetaSeleccionada.getCarpetasHijas().add(nueva);
     }
     
     public void borrarCarpeta(){
         documentoEJB.borrarCarpeta(carpetaSeleccionada);
-        init();
+        Carpeta padre = carpetaSeleccionada.getCarpetaPadre();
+        padre.getCarpetasHijas().remove(carpetaSeleccionada);
+        root = TreeNodeHelper.toTreeNode(carpetasUsuario);
     }
 
     public String obtenerSizeKB(final Long size) {
