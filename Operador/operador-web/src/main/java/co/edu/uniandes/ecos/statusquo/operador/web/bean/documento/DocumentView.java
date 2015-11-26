@@ -24,6 +24,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import org.primefaces.event.FileUploadEvent;
+import org.primefaces.event.NodeExpandEvent;
 import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
@@ -151,6 +152,11 @@ public class DocumentView implements Serializable {
         archivosUsuario = documentoEJB.traerArchivosCarpeta(carpetaSeleccionada, usuario);
         selectedDocument = null;
     }
+    
+    public void onNodeExpand(NodeExpandEvent event) {
+        carpetaSeleccionada = (Carpeta) event.getTreeNode().getData();
+        System.out.println("Expandida: " + carpetaSeleccionada.getNombre());
+    }
 
     /**
      * Método invocado para subir un archivo
@@ -230,8 +236,7 @@ public class DocumentView implements Serializable {
     }
     
     public void crearCarpeta(){
-        Carpeta nueva = 
-                documentoEJB.crearCarpeta(carpetaSeleccionada, nombreCarpetaNueva);
+        documentoEJB.crearCarpeta(carpetaSeleccionada, nombreCarpetaNueva);
         nombreCarpetaNueva = "";
         root = TreeNodeHelper.toTreeNode(carpetasUsuario);
     }

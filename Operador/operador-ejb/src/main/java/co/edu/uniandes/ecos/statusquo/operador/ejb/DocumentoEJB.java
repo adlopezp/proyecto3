@@ -110,6 +110,8 @@ public class DocumentoEJB {
     public void restaurarArchivo(Archivo archivo) {
         EstadoArchivo estado = new EstadoArchivo(1L);
         archivo.setEstadoId(estado);
+        
+        restaurarCarpeta(archivo.getCarpetaPadre());
         archivoDAO.actualizar(archivo);
     }
 
@@ -176,6 +178,14 @@ public class DocumentoEJB {
             borrarArchivo(archivo);
         }
         carpetaDAO.actualizar(carpeta);
+    }
+
+    private void restaurarCarpeta(Carpeta carpeta) {
+        carpeta.setEstado(new EstadoCarpeta(1L));
+        carpetaDAO.actualizar(carpeta);
+        if (carpeta.getCarpetaPadre() != null) {
+            restaurarCarpeta(carpeta.getCarpetaPadre());
+        }
     }
 
 }
