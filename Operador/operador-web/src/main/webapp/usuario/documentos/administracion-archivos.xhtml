@@ -62,6 +62,11 @@
                                                      disabled="#{empty documentView.selectedDocument}">
                                         <p:confirm header="Confirmación" message="#{documentView.mensajeEliminacion}" icon="ui-icon-alert"/>
                                     </p:commandButton>
+                                    <p:commandButton value="Restaurar" 
+                                                     icon="fa fa-reply"
+                                                     actionListener="#{documentView.restaurarArchivo}" 
+                                                     update=":documentTable :botones_frm"
+                                                     disabled="#{!(documentView.selectedDocument.estado.id == 2)}" ajax="false"/>
                                     <p:commandButton value="Compartir"
                                                      icon="fa fa-share-alt"
                                                      oncomplete="PF('compartir_dialog').show()"
@@ -181,6 +186,8 @@
 
                                         <p:ajax event="select"  update="documentTable botones_frm"
                                                 listener="#{documentView.onNodeSelect}" />
+                                        <p:ajax event="expand"  update="documentTable botones_frm"
+                                                listener="#{documentView.onNodeExpand}" />
 
                                         <p:treeNode expandedIcon="ui-icon-folder-open" collapsedIcon="ui-icon-folder-collapsed">
                                             <h:outputText value="#{carpeta.nombre}" />
@@ -188,8 +195,8 @@
 
                                     </p:tree>
                                     <p:contextMenu for="folderTree">
-                                        <p:menuitem value="Nueva carpeta" icon="fa fa-folderl-o" oncomplete="PF('createFolder').show()"/>
-                                        <p:menuitem value="Eliminar" icon="fa fa-remove" actionListener="#{documentView.borrarCarpeta()}">
+                                        <p:menuitem value="Nueva carpeta" update="folderTree" icon="fa fa-folderl-o" oncomplete="PF('createFolder').show()"/>
+                                        <p:menuitem value="Eliminar" update="folderTree" icon="fa fa-remove" actionListener="#{documentView.borrarCarpeta()}">
                                             <p:confirm header="Confirmación" message="Se eliminará también el contenido de esta carpeta" icon="ui-icon-alert"/>
                                         </p:menuitem>
 
@@ -256,6 +263,7 @@
                                         <p:fileDownload value="#{documentView.contenidoDescarga}" />
                                     </p:menuitem>
                                     <p:menuitem value="Cambiar Nombre" ajax="false" disabled="true" icon="ui-icon-pencil"/>
+                                    <p:menuitem value="Compartir" disabled="true" ajax="false" icon="fa fa-share-alt"/>
                                     <p:menuitem value="Compartir" icon="fa fa-share-alt" oncomplete="PF('compartir_dialog').show()"
                                                 actionListener="#{documentView.nuevoCompartir}" update="compartir_dialog"/>
                                     <p:menuitem value="Restaurar" actionListener="#{documentView.restaurarArchivo}" disabled="false" ajax="false" icon="fa fa-reply" update=":documentTable :botones_frm"/>
