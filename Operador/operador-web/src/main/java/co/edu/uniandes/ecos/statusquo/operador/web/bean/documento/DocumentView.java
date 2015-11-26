@@ -80,7 +80,7 @@ public class DocumentView implements Serializable {
     }
 
     public void setSelectedDocument(Archivo selectedDocument) {
-        System.out.println("Seleccionado");
+        
         this.selectedDocument = selectedDocument;
     }
 
@@ -112,6 +112,26 @@ public class DocumentView implements Serializable {
         return contenidoDescarga;
     }
 
+    public Carpeta getCarpetaSeleccionada() {
+        return carpetaSeleccionada;
+    }
+    
+    /**
+     * Retorna la cadena con el mensaje de confirmación de eliminación de un
+     * archivo
+     * @return 
+     */
+    public String getMensajeEliminacion(){
+        String  mensaje = "¿Está seguro de mover el archivo a la papelera?";
+        if ( carpetaSeleccionada != null ) {
+            System.out.println(
+                carpetaSeleccionada.getNombre() + " - Tipo: "  + carpetaSeleccionada.getTipo().getNombre());
+            if (carpetaSeleccionada.getTipo().getId() == 3) {
+                mensaje = "¿Está seguro de eliminar el archivo definitivamente?";
+            }
+        }
+        return mensaje;
+    }
 
     /* Métodos basados en eventos */
     /**
@@ -192,9 +212,13 @@ public class DocumentView implements Serializable {
     }
 
     public void borrarArchivo() {
-        System.out.println("SEL " + selectedDocument);
         archivosUsuario.remove(selectedDocument);
-        documentoEJB.moverAPapelera(selectedDocument);
+        documentoEJB.borrarArchivo(selectedDocument);
+        selectedDocument = null;
+    }
+    
+    public void restaurarArchivo(){
+        documentoEJB.restaurarArchivo(selectedDocument);
         selectedDocument = null;
     }
 
