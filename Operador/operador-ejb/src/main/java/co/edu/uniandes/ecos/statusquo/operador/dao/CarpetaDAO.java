@@ -66,4 +66,13 @@ public class CarpetaDAO extends AbstractDAO<Carpeta> {
         return buscar(idCarpeta);
     }
 
+    public Carpeta getCarpetaPrincipal(final Long carpetaPersonalId) {
+        List<Object> parametros = new ArrayList<>();
+        String q = "Carpeta.findPrincipalNombre";
+        parametros.add(carpetaPersonalId);
+        parametros.add("Carpeta Personal");
+        List<Carpeta> carpetas = consultarNamedQuery(q, parametros);
+        return carpetas == null || carpetas.isEmpty() ? null : carpetas.get(0);
+    }
+
 }

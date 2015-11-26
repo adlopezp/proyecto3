@@ -6,6 +6,7 @@
 package co.edu.uniandes.ecos.statusquo.operador.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,6 +19,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -53,6 +55,11 @@ public class Mensaje implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "texto")
     private String texto;
+
+    @Basic(optional = true)
+    @Column(name = "fecha")
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date fecha;
 
     @Basic(optional = false)
     @Column(name = "identificacion_remitente")
@@ -154,5 +161,13 @@ public class Mensaje implements Serializable {
 
     public void setCarpetaPersonal(CarpetaPersonal carpetaPersonal) {
         this.carpetaPersonal = carpetaPersonal;
+    }
+
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
     }
 }

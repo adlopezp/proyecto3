@@ -20,5 +20,9 @@ public class EstadoArchivoDAO extends AbstractDAO<EstadoArchivo> {
     public EstadoArchivoDAO() {
         super(EstadoArchivo.class);
     }
-    
+
+    public EstadoArchivo getEstadoActivo() {
+        return buscar(1l);
+    }
+
 }

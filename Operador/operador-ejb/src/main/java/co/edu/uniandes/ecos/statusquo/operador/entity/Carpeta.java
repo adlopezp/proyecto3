@@ -6,6 +6,7 @@
 package co.edu.uniandes.ecos.statusquo.operador.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -34,7 +35,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "carpeta")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Carpeta.findAll", query = "SELECT c FROM Carpeta c")})
+    @NamedQuery(name = "Carpeta.findAll", query = "SELECT c FROM Carpeta c"),
+    @NamedQuery(name = "Carpeta.findPrincipalNombre", query = "SELECT c FROM Carpeta c where c.carpetaPadre is null and c.carpetaPersonal.id = ?1 and c.nombre = ?2 ")})
 public class Carpeta implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -112,8 +114,15 @@ public class Carpeta implements Serializable {
         return archivos;
     }
 
-    public void setArchivoList(List<Archivo> archivos) {
+    public void setArchivo(List<Archivo> archivos) {
         this.archivos = archivos;
+    }
+
+    public void addArchivo(Archivo archivo) {
+        if (archivos == null) {
+            archivos = new ArrayList<>();
+        }
+        archivos.add(archivo);
     }
 
     public TipoCarpeta getTipo() {

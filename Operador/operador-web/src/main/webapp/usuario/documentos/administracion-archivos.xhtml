@@ -62,9 +62,9 @@
                                                      disabled="#{empty documentView.selectedDocument}">
                                         <p:confirm header="Confirmación" message="#{documentView.mensajeEliminacion}" icon="ui-icon-alert"/>
                                     </p:commandButton>
-                                    <p:commandButton value="Restaurar" 
+                                    <p:commandButton value="Restaurar"
                                                      icon="fa fa-reply"
-                                                     actionListener="#{documentView.restaurarArchivo}" 
+                                                     actionListener="#{documentView.restaurarArchivo}"
                                                      update=":documentTable :botones_frm"
                                                      disabled="#{!(documentView.selectedDocument.estado.id == 2)}" ajax="false"/>
                                     <p:commandButton value="Compartir"
@@ -242,7 +242,7 @@
                                     </p:column>
 
                                     <p:column headerText="Firmado">
-                                        <h:outputText value="#{file.firmado?'SI':'NO'}" />
+                                        <h:outputText value="#{empty file.identificacionPropietario?(file.firmado?'SI':'NO'):''}" />
                                     </p:column>
 
                                     <p:column headerText="Formato">
