@@ -113,8 +113,8 @@
 
                                     </p:tree>
                                     <p:contextMenu for="folderTree">
-                                        <p:menuitem value="Nueva carpeta" icon="fa fa-folderl-o" oncomplete="PF('createFolder').show()"/>
-                                        <p:menuitem value="Eliminar" icon="fa fa-remove" actionListener="#{documentView.borrarCarpeta()}">
+                                        <p:menuitem value="Nueva carpeta" update="folderTree" icon="fa fa-folderl-o" oncomplete="PF('createFolder').show()"/>
+                                        <p:menuitem value="Eliminar" update="folderTree" icon="fa fa-remove" actionListener="#{documentView.borrarCarpeta()}">
                                             <p:confirm header="Confirmación" message="Se eliminará también el contenido de esta carpeta" icon="ui-icon-alert"/>
                                         </p:menuitem>
                                         
