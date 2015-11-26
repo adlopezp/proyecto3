@@ -92,6 +92,36 @@ public class UsuarioEJB implements Serializable {
             RespuestaGetDocumentoUsuarioWS result = port.getUsuario(identificacion);
             System.out.println("Result = " + result);
             if (result.getUsuario() != null) {
+                Usuario usuarioSeleccionado = new Usuario();
+                usuarioSeleccionado.setApellido1(result.getUsuario().getApellido1());
+                usuarioSeleccionado.setApellido2(result.getUsuario().getApellido2());
+                usuarioSeleccionado.setCorreo(result.getUsuario().getCorreo());
+                usuarioSeleccionado.setNombre1(result.getUsuario().getNombre1());
+                usuarioSeleccionado.setNombre2(result.getUsuario().getNombre2());
+                usuarioSeleccionado.setDocumento(result.getUsuario().getNumeroIdentificacion());
+                usuarioSeleccionado.setTelefono(result.getUsuario().getTelefono());
+                usuarioSeleccionado.setTipoDocumento(TipoDocumento.valueOf(result.getUsuario().getTipoIdentificacion()));
+                usuarioSeleccionado.setTipo(new TipoUsuario(new Long(2)));
+                return usuarioSeleccionado;
+            }
+        } catch (Exception ex) {
+            // TODO handle custom exceptions here
+        }
+        List<Object> parametros = new ArrayList<>();
+        String q = "Usuario.findByDocumentoExacto";
+        parametros.add(documento);
+        return usuarioDao.buscarNamedQuery(q, parametros);
+    }
+
+    public void transpasarUsuario(final String documento) {
+        try { // Call Web Service Operation
+            UsuarioSW port = service.getUsuarioSWPort();
+            // TODO initialize WS operation arguments here
+            String identificacion = documento;
+            // TODO process result here
+            RespuestaGetDocumentoUsuarioWS result = port.getUsuario(identificacion);
+            System.out.println("Result = " + result);
+            if (result.getUsuario() != null) {
                 List<Object> parametros = new ArrayList<>();
                 String q = "Usuario.findByDocumentoExacto";
                 parametros.add(documento);
@@ -119,10 +149,6 @@ public class UsuarioEJB implements Serializable {
         } catch (Exception ex) {
             // TODO handle custom exceptions here
         }
-        List<Object> parametros = new ArrayList<>();
-        String q = "Usuario.findByDocumentoExacto";
-        parametros.add(documento);
-        return usuarioDao.buscarNamedQuery(q, parametros);
     }
 
     public Autenticacion obtenerAutenticacion(final String login) {
