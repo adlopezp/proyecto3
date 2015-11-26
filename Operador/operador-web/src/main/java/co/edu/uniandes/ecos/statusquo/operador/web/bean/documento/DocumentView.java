@@ -43,6 +43,8 @@ public class DocumentView implements Serializable {
 
     private Archivo selectedDocument;
 
+    private String nombreCarpetaNueva;
+
     private StreamedContent contenidoDescarga;
 
     private Archivo nuevoDocumento;
@@ -61,7 +63,7 @@ public class DocumentView implements Serializable {
             root = TreeNodeHelper.toTreeNode(carpetasUsuario);
             if (root != null && root.getChildren() != null && !root.getChildren().isEmpty()) {
                 TreeNode primera = root.getChildren().get(0);
-                //primera.setSelected(true);
+                primera.setSelected(true);
                 primera.setExpanded(true);
                 carpetaSeleccionada = (Carpeta) primera.getData();
                 archivosUsuario = documentoEJB.traerArchivosCarpeta(carpetaSeleccionada, usuario);
@@ -111,6 +113,14 @@ public class DocumentView implements Serializable {
 
     public Carpeta getCarpetaSeleccionada() {
         return carpetaSeleccionada;
+    }
+
+    public String getNombreCarpetaNueva() {
+        return nombreCarpetaNueva;
+    }
+
+    public void setNombreCarpetaNueva(String nombreCarpetaNueva) {
+        this.nombreCarpetaNueva = nombreCarpetaNueva;
     }
 
     /**
@@ -217,6 +227,16 @@ public class DocumentView implements Serializable {
         archivosUsuario.remove(selectedDocument);
         documentoEJB.restaurarArchivo(selectedDocument);
         selectedDocument = null;
+    }
+    
+    public void crearCarpeta(){
+        System.out.println("Creando carpeta " + nombreCarpetaNueva);
+        documentoEJB.crearCarpeta(carpetaSeleccionada, nombreCarpetaNueva);
+        nombreCarpetaNueva = "";
+    }
+    
+    public void borrarCarpeta(){
+        documentoEJB.borrarCarpeta(carpetaSeleccionada);
     }
 
     public String obtenerSizeKB(final Long size) {

@@ -11,4 +11,19 @@
     <system systemId="http://localhost:8080/centralizador-ws/UsuarioSW?xsd=2" uri="wsdl/localhost_8080/centralizador-ws/UsuarioSW.xsd_2.xsd"/>
     <system systemId="http://localhost:8080/centralizador-ws/UsuarioSW?xsd=3" uri="wsdl/localhost_8080/centralizador-ws/UsuarioSW.xsd_3.xsd"/>
     <system systemId="http://localhost:8080/centralizador-ws/UsuarioSW?xsd=4" uri="wsdl/localhost_8080/centralizador-ws/UsuarioSW.xsd_4.xsd"/>
+    <system systemId="http://localhost:8080/operador-ws/Documento?wsdl" uri="wsdl/localhost_8080/operador-ws/Documento.wsdl"/>
+    <system systemId="http://localhost:8080/operador-ws/Documento?xsd=1" uri="wsdl/localhost_8080/operador-ws/Documento.xsd_1.xsd"/>
+    <system systemId="http://localhost:8080/operador-ws/Documento?xsd=2" uri="wsdl/localhost_8080/operador-ws/Documento.xsd_2.xsd"/>
+    <system systemId="http://localhost:8080/operador-ws/Documento?xsd=3" uri="wsdl/localhost_8080/operador-ws/Documento.xsd_3.xsd"/>
+    <system systemId="http://localhost:8080/operador-ws/Documento?xsd=4" uri="wsdl/localhost_8080/operador-ws/Documento.xsd_4.xsd"/>
+    <system systemId="http://localhost:8080/operador-ws/NotificacionCompartidoWS?wsdl" uri="wsdl/localhost_8080/operador-ws/NotificacionCompartidoWS.wsdl"/>
+    <system systemId="http://localhost:8080/operador-ws/NotificacionCompartidoWS?xsd=1" uri="wsdl/localhost_8080/operador-ws/NotificacionCompartidoWS.xsd_1.xsd"/>
+    <system systemId="http://localhost:8080/operador-ws/NotificacionCompartidoWS?xsd=2" uri="wsdl/localhost_8080/operador-ws/NotificacionCompartidoWS.xsd_2.xsd"/>
+    <system systemId="http://localhost:8080/operador-ws/NotificacionCompartidoWS?xsd=3" uri="wsdl/localhost_8080/operador-ws/NotificacionCompartidoWS.xsd_3.xsd"/>
+    <system systemId="http://localhost:8080/operador-ws/NotificacionCompartidoWS?xsd=4" uri="wsdl/localhost_8080/operador-ws/NotificacionCompartidoWS.xsd_4.xsd"/>
+    <system systemId="http://localhost:8080/operador-ws/NotificacionEntidadWS?wsdl" uri="wsdl/localhost_8080/operador-ws/NotificacionEntidadWS.wsdl"/>
+    <system systemId="http://localhost:8080/operador-ws/NotificacionEntidadWS?xsd=1" uri="wsdl/localhost_8080/operador-ws/NotificacionEntidadWS.xsd_1.xsd"/>
+    <system systemId="http://localhost:8080/operador-ws/NotificacionEntidadWS?xsd=2" uri="wsdl/localhost_8080/operador-ws/NotificacionEntidadWS.xsd_2.xsd"/>
+    <system systemId="http://localhost:8080/operador-ws/NotificacionEntidadWS?xsd=3" uri="wsdl/localhost_8080/operador-ws/NotificacionEntidadWS.xsd_3.xsd"/>
+    <system systemId="http://localhost:8080/operador-ws/NotificacionEntidadWS?xsd=4" uri="wsdl/localhost_8080/operador-ws/NotificacionEntidadWS.xsd_4.xsd"/>
 </catalog>

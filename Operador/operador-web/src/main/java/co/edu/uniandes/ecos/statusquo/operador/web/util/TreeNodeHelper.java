@@ -31,6 +31,7 @@ public class TreeNodeHelper {
     }
 
     private static void addFolderToTree(TreeNode root, Carpeta carpeta) {
+        if (carpeta.getEstado().getId() != 1) return;
         TreeNode nodoCarpeta = new DefaultTreeNode(carpeta, root);
         List<Carpeta> subcarpetas = carpeta.getCarpetasHijas();
         

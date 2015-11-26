@@ -1,0 +1,25 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://co.edu.uniandes.ecos.statusquo.operador.ws.servicio.ErrorTipo/"
+            elementFormDefault="qualified"
+            version="1.0">
+	
+	
+    <!--Encapsula la informaci�n del error-->
+    <xsd:complexType name="ErrorTipo">
+        <xsd:sequence>
+            <!--Hace referencia al código de error generado por el proveedor o el BUS-->
+            <xsd:element name="codError" type="xsd:string" maxOccurs="1" minOccurs="1"></xsd:element>
+
+            <!--Hace referencia a la descripción de negocio del código de error-->
+            <xsd:element name="valDescError" type="xsd:string" maxOccurs="1" minOccurs="1"></xsd:element>
+
+
+            <!--Hace referencia a la descripción técnica (excepción original del error) del código de error-->
+
+            <xsd:element name="valDescErrorTecnico" type="xsd:string" maxOccurs="1" minOccurs="1"></xsd:element>
+
+		
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>
+	

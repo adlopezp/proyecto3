@@ -34,6 +34,7 @@ public class UsuarioSW extends Servicio implements Serializable {
     
     @WebMethod(operationName = "setUsuario")
     public ContextoRespuestaTipo setUsuario(@WebParam(name = "usuario") Usuario user) throws FalloTipo {
+        errores = new ArrayList<ErrorTipo>();
         ContextoRespuestaTipo resp = new ContextoRespuestaTipo();
         try {
             usuarioEJB.createUsuario(user);
