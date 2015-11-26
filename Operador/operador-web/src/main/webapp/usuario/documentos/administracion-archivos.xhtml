@@ -72,7 +72,7 @@
                                                      oncomplete="PF('compartir_dialog').show()"
                                                      actionListener="#{documentView.nuevoCompartir}"
                                                      disabled="#{empty documentView.selectedDocument}"
-                                                     update="compartir_dialog"/>
+                                                     update=":#{p:component('compartir_dialog')}"/>
 
                                     <p:commandButton value="Firmar"
                                                      icon="fa fa-check"
@@ -104,8 +104,8 @@
                         <!-- Dialogo Compartir -->
                         <p:dialog id="compartir_dialog" widgetVar="compartir_dialog" draggable="false" header="Compartir Archivo"
                                   modal="true" resizable="false" closeOnEscape="true">
-                            <p:panelGrid id="compartir_tbl" styleClass="panelnoborder">
-                                <p:row rendered="#{!documentView.entidadPublicaRendered}">
+                            <p:panelGrid id="compartir_tbl" style="border: none; ">
+                                <p:row>
                                     <p:column style="width: 250px;">
                                         <p:outputLabel value="Archivo" />
                                     </p:column>
@@ -122,7 +122,7 @@
                                             <f:selectItem itemLabel="---" itemValue="---"/>
                                             <f:selectItem itemLabel="Entidad Pública" itemValue="EntidadPublica"/>
                                             <f:selectItem itemLabel="Persona" itemValue="Persona"/>
-                                            <p:ajax event="change" process="compartir_dialog" update="compartir_tbl" listener="#{documentView.seleccionarCompartirTo}"/>
+                                            <p:ajax event="change" process="compartir_tbl" update="compartir_tbl" listener="#{documentView.seleccionarCompartirTo}"/>
                                         </p:selectOneMenu>
                                     </p:column>
                                 </p:row>
@@ -138,7 +138,7 @@
                                             <f:selectItem itemLabel="Ministerio de Educación" itemValue="100003"/>
                                             <f:selectItem itemLabel="Ministerio de Salud" itemValue="100004"/>
                                             <f:selectItem itemLabel="Secretaria de Hacienda Bogotá" itemValue="100005"/>
-                                            <p:ajax event="change" process="compartir_dialog" update="compartir_tbl"/>
+                                            <p:ajax event="change" process="compartir_tbl" update="compartir_tbl"/>
                                         </p:selectOneMenu>
                                     </p:column>
                                 </p:row>
@@ -149,7 +149,7 @@
                                     <p:column>
                                         <p:inputText id="identificacion_txt" value="#{documentView.identificacionPersona}" styleClass="paneltotal">
                                             <p:ajax event="blur"
-                                                    process="compartir_dialog"
+                                                    process="compartir_tbl"
                                                     listener="#{documentView.seleccionarCompartirTo}"
                                                     update="compartir_tbl"/>
                                         </p:inputText>
@@ -265,7 +265,7 @@
                                     <p:menuitem value="Cambiar Nombre" ajax="false" disabled="true" icon="ui-icon-pencil"/>
                                     <p:menuitem value="Compartir" disabled="true" ajax="false" icon="fa fa-share-alt"/>
                                     <p:menuitem value="Compartir" icon="fa fa-share-alt" oncomplete="PF('compartir_dialog').show()"
-                                                actionListener="#{documentView.nuevoCompartir}" update="compartir_dialog"/>
+                                                actionListener="#{documentView.nuevoCompartir}" update=":#{p:component('compartir_dialog')}"/>
                                     <p:menuitem value="Restaurar" actionListener="#{documentView.restaurarArchivo}" disabled="false" ajax="false" icon="fa fa-reply" update=":documentTable :botones_frm"/>
                                     <p:menuitem value="Eliminar" actionListener="#{documentView.borrarArchivo}" icon="fa fa-remove" update=":documentTable :botones_frm">
                                         <p:confirm header="Confirmación" message="#{documentView.mensajeEliminacion}" icon="ui-icon-alert"/>
